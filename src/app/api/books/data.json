@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "username": "alice",
+    "name": "Alice Martin",
+    "email": "alice.martin@example.com",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "username": "bob",
+    "name": "Bob Dupont",
+    "email": "bob.dupont@example.com",
+    "role": "editor"
+  },
+  {
+    "id": 3,
+    "username": "charlie",
+    "name": "Charlie Bernard",
+    "email": "charlie.bernard@example.com",
+    "role": "viewer"
+  }
+]

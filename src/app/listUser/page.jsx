@@ -1,19 +1,28 @@
 
-import Link from "next/link";
-const fectchGithubUsers = async()=>{
- const response = await fetch("https://api.github.com/search/users?q=greg")
- const json = await response.json();
- return json.items;
-}
+// import Link from "next/link";
+import Books from "../components/Books"
+
+// const fectchGithubUsers = async()=>{
+//  const response = await fetch("https://api.github.com/search/users?q=greg",{
+//     next:{
+//         revalidate:60
+//     }
+//  })
+//  await new Promise((resolve)=>setTimeout(resolve,2000));
+//  const json = await response.json();
+//  return json.items;
+// }
 
 const ListUser = async()=>{
-   const users = await fectchGithubUsers()
+//    const users = await fectchGithubUsers()
   return (
     <div>
       <h1>List User</h1>
-      <div className="overflow-x-auto">
+      <Books />
+      <hr />
+      {/* <div className="overflow-x-auto">
   <table className="table">
-    {/* head */}
+   
     <thead>
       <tr>
         <th>
@@ -48,8 +57,9 @@ const ListUser = async()=>{
           <br />
           <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
         </td>
-        <td>
+        <td className="flex gap-5">
           <Link  href={user.html_url}>View On Github</Link>
+          <Link href={`/listUser/${user.login}`}>Details User</Link>
         </td>
       </tr>
         ))
@@ -58,7 +68,7 @@ const ListUser = async()=>{
    
     </tbody>
   </table>
-</div>
+</div> */}
     </div>
   )
 }
