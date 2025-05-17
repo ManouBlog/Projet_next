@@ -3,9 +3,7 @@ async function fetchRepos(user){
     await new Promise((resolve)=>setTimeout(resolve,2000));
     const json = await reponse.json()
     return json;
-
 }
-
 const DetailsUser = async ({user})=>{
     const respos = await fetchRepos(user)
     // console.log("respos",respos)

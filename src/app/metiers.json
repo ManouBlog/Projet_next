@@ -1,0 +1,244 @@
+{
+  "metiers": [
+    {
+      "nom": "Électricien",
+      "categorie": "Bâtiment",
+      "icone": "🔌"
+    },
+    {
+      "nom": "Plombier",
+      "categorie": "Bâtiment",
+      "icone": "🚰"
+    },
+    {
+      "nom": "Peintre en bâtiment",
+      "categorie": "Bâtiment",
+      "icone": "🎨"
+    },
+    {
+      "nom": "Mécanicien",
+      "categorie": "Automobile",
+      "icone": "🛠️"
+    },
+    {
+      "nom": "Soudeur",
+      "categorie": "Bâtiment",
+      "icone": "⚙️"
+    },
+    {
+      "nom": "Carreleur",
+      "categorie": "Bâtiment",
+      "icone": "🧱"
+    },
+    {
+      "nom": "Maçon",
+      "categorie": "Bâtiment",
+      "icone": "🏗️"
+    },
+    {
+      "nom": "Menuisier",
+      "categorie": "Bâtiment",
+      "icone": "🪚"
+    },
+    {
+      "nom": "Cuisiniste",
+      "categorie": "Bâtiment",
+      "icone": "🍳"
+    },
+    {
+      "nom": "Chauffagiste",
+      "categorie": "Bâtiment",
+      "icone": "🔥"
+    },
+    {
+      "nom": "Frigoriste",
+      "categorie": "Bâtiment",
+      "icone": "❄️"
+    },
+    {
+      "nom": "Serrurier",
+      "categorie": "Bâtiment",
+      "icone": "🔐"
+    },
+    {
+      "nom": "Jardinier",
+      "categorie": "Extérieur",
+      "icone": "🌿"
+    },
+    {
+      "nom": "Paysagiste",
+      "categorie": "Extérieur",
+      "icone": "🌳"
+    },
+    {
+      "nom": "Technicien informatique",
+      "categorie": "Informatique",
+      "icone": "💻"
+    },
+    {
+      "nom": "Réparateur d’électroménager",
+      "categorie": "Électronique",
+      "icone": "🔧"
+    },
+    {
+      "nom": "Cordonnier",
+      "categorie": "Artisanat",
+      "icone": "👞"
+    },
+    {
+      "nom": "Tailleur / Couturier",
+      "categorie": "Artisanat",
+      "icone": "🧵"
+    },
+    {
+      "nom": "Coiffeur à domicile",
+      "categorie": "Bien-être",
+      "icone": "💇"
+    },
+    {
+      "nom": "Esthéticienne",
+      "categorie": "Bien-être",
+      "icone": "💅"
+    },
+    {
+      "nom": "Déménageur",
+      "categorie": "Logistique",
+      "icone": "📦"
+    },
+    {
+      "nom": "Agent d'entretien",
+      "categorie": "Services à domicile",
+      "icone": "🧹"
+    },
+    {
+      "nom": "Bricoleur",
+      "categorie": "Multi-services",
+      "icone": "🔨"
+    },
+    {
+      "nom": "Factotum (homme à tout faire)",
+      "categorie": "Multi-services",
+      "icone": "🧰"
+    },
+    {
+      "nom": "Installateur de panneaux solaires",
+      "categorie": "Énergie",
+      "icone": "☀️"
+    },
+    {
+      "nom": "Poseur de fenêtres",
+      "categorie": "Bâtiment",
+      "icone": "🪟"
+    },
+    {
+      "nom": "Vitrier",
+      "categorie": "Bâtiment",
+      "icone": "🔳"
+    },
+    {
+      "nom": "Tapissier",
+      "categorie": "Décoration",
+      "icone": "🛋️"
+    },
+    {
+      "nom": "Toiturier / Couvreur",
+      "categorie": "Bâtiment",
+      "icone": "🏠"
+    },
+    {
+      "nom": "Ramoneur",
+      "categorie": "Bâtiment",
+      "icone": "🧼"
+    },
+    {
+      "nom": "Technicien fibre optique",
+      "categorie": "Télécom",
+      "icone": "📡"
+    },
+    {
+      "nom": "Réparateur de smartphones",
+      "categorie": "Électronique",
+      "icone": "📱"
+    },
+    {
+      "nom": "Monte-meubles",
+      "categorie": "Logistique",
+      "icone": "🏗️"
+    },
+    {
+      "nom": "Livreur à domicile",
+      "categorie": "Logistique",
+      "icone": "🚚"
+    },
+    {
+      "nom": "Déboucheur de canalisation",
+      "categorie": "Bâtiment",
+      "icone": "🪠"
+    },
+    {
+      "nom": "Entretien piscine",
+      "categorie": "Extérieur",
+      "icone": "🏊"
+    },
+    {
+      "nom": "Poseur de parquet",
+      "categorie": "Bâtiment",
+      "icone": "🪵"
+    },
+    {
+      "nom": "Installateur d’alarmes",
+      "categorie": "Sécurité",
+      "icone": "🚨"
+    },
+    {
+      "nom": "Antenniste",
+      "categorie": "Télécom",
+      "icone": "📺"
+    },
+    {
+      "nom": "Nettoyeur de vitres",
+      "categorie": "Services à domicile",
+      "icone": "🧼"
+    },
+    {
+      "nom": "Ébéniste",
+      "categorie": "Artisanat",
+      "icone": "🪑"
+    },
+    {
+      "nom": "Garde d'enfants",
+      "categorie": "Services à la personne",
+      "icone": "👶"
+    },
+    {
+      "nom": "Aide aux personnes âgées",
+      "categorie": "Services à la personne",
+      "icone": "🧓"
+    },
+    {
+      "nom": "Dog-sitter / Pet-sitter",
+      "categorie": "Animaux",
+      "icone": "🐕"
+    },
+    {
+      "nom": "Repassage à domicile",
+      "categorie": "Services à domicile",
+      "icone": "🧺"
+    },
+    {
+      "nom": "Agent de maintenance",
+      "categorie": "Multi-services",
+      "icone": "🛠️"
+    },
+    {
+      "nom": "Installateur de climatisation",
+      "categorie": "Bâtiment",
+      "icone": "🌬️"
+    },
+    {
+      "nom": "Poseur de papier peint",
+      "categorie": "Décoration",
+      "icone": "🖼️"
+    }
+  ]
+}
