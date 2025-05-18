@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@firebase/auth": "^1.10.4",
+    "@firebase/firestore": "^4.7.14",
     "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.25.1",
+    "firebase": "^11.7.3",
     "jsonwebtoken": "^9.0.2",
     "next": "15.3.2",
     "react": "^19.0.0",

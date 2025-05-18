@@ -1,8 +1,8 @@
 'use client'
 import * as React from 'react';
-// import MyInputLabel from "../components/MyInputLabel"
 import EmailCode from '../components/register/EmailCode';
 import SaveInfoRegister from '../components/register/SaveInfoRegister';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {changeIsRegisterVisible,changeCode,changeIsArtisanOrClients,changeModalOpen} from "../store/slice/AuthSlice"
 

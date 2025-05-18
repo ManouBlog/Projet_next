@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import {changeIsAuth} from "../store/slice/AuthSlice";
 import {changeIsLoading} from '../store/slice/loadingSlice';
+import { facebookProvider,signInWithSocial,googleProvider} from "../lib/firebase";
 import Link from 'next/link'
 export default function ConnexionPage() {
 
@@ -71,13 +72,54 @@ export default function ConnexionPage() {
       onHandleValue={(e)=>setPassword(e.target.value)}
       />
       <div className='text-end'>
-   <Link className='text-sm' href="/forgotPassword">Mot de passe Oublié</Link>
+   <Link className='text-sm font-bold' href="/forgotPassword">Mot de passe Oublié</Link>
+      </div>
+      <div className='text-end'>
+   <Link className='text-sm text-green-800 font-bold' href="/inscription">Pas encore de compte</Link>
       </div>
       <div className='flex justify-center'>
         <button className='btn'
         onClick={handleConnexion}
         >Se connecter</button>
       </div>
+       <div className='text-center'>
+        -Ou-
+       </div>
+      <SocialeAuth /> 
     </div>
+  )
+}
+
+function SocialeAuth() {
+ 
+  const handleFacebookLogin = async () => {
+    const user = await signInWithSocial(facebookProvider);
+    if (user) {
+      console.log("Connecté avec Facebook :", user.displayName);
+    }
+  };
+
+   const handleGoogleLogin = async () => {
+    const user = await signInWithSocial(googleProvider);
+    if (user) {
+      console.log("Connecté avec Google :", user.reloadUserInfo);
+    }
+  };
+  return(
+    <div className='flex justify-center gap-3'>
+       <button 
+      onClick={handleGoogleLogin}
+      className="bg-red-500 text-white p-2 rounded"
+    >
+      Se connecter avec Google
+    </button>
+      <button 
+      onClick={handleFacebookLogin}
+      className="bg-blue-600 text-white p-2 rounded"
+    >
+      Se connecter avec Facebook
+    </button>
+    </div>
+   
   )
 }
