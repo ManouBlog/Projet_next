@@ -28,7 +28,8 @@ export default function ConnexionPage() {
   }
 
    async function handleConnexion() {
-    dispatch(changeIsLoading(true))
+    if(email && password){
+ dispatch(changeIsLoading(true))
     try{
  const response = await fetch("http://192.168.1.66:3000/api/connexion",{
     method:"POST",
@@ -48,7 +49,9 @@ export default function ConnexionPage() {
     }catch(error){
    console.log(error)
     }
-   
+    }else{
+    alert("veuillez renseigner tous les champs")
+    }
    }
   return (
     <div>

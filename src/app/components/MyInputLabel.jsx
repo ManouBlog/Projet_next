@@ -6,6 +6,7 @@ export default function MyInputLabel({labelName,typeInput,onHandleValue,value,pl
     <label htmlFor={labelName} className='font-semibold'>{labelName}</label>
     <input 
     type={typeInput} 
+    required
     onChange={onHandleValue}
     value={value}
     className="input input-bordered w-full my-3" 
