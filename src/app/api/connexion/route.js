@@ -1,5 +1,6 @@
 import { generateToken } from '../../lib/auth';
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers'
 
 export async function POST(request) {
   const { email, password } = await request.json();
@@ -31,4 +32,12 @@ export async function POST(request) {
   });
 
   return response;
+}
+
+export async function DELETE() {
+  (await cookies()).delete('authToken')
+   return NextResponse.json(
+    { success: true },
+    { status: 200 }
+  );
 }

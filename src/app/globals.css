@@ -29,3 +29,6 @@ body {
   color:green;
   font-weight: bold;
 }
+.loading_client{
+  background-color: #0a0a0ab5;
+}

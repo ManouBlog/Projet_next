@@ -2,6 +2,9 @@
 import * as React from 'react'
 import MyInputLabel from "../components/MyInputLabel"
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import {changeIsAuth} from "../store/slice/AuthSlice";
+import {changeIsLoading} from '../store/slice/loadingSlice';
 import Link from 'next/link'
 export default function ConnexionPage() {
 
@@ -11,8 +14,21 @@ export default function ConnexionPage() {
    const [password,setPassword] = React.useState("")
 
    const redirectUrl = searchParams.get('redirect') || '/';
+   const dispatch = useDispatch()
+   const checkAuthStatus = async () => {
+    try {
+      const response = await fetch('http://192.168.1.66:3000/api/auth');
+      const info = await response.json();
+      // setInfoUser(info.userId)
+      dispatch(changeIsAuth(info.userId))
+      // console.log("infoUser",infoUser)
+    } catch (error) {
+    console.log(error)
+    }
+  }
 
    async function handleConnexion() {
+    dispatch(changeIsLoading(true))
     try{
  const response = await fetch("http://192.168.1.66:3000/api/connexion",{
     method:"POST",
@@ -25,8 +41,9 @@ export default function ConnexionPage() {
     })
     })
     if(response.ok){
-      alert("success")
+      checkAuthStatus()
       router.push(redirectUrl);
+      dispatch(changeIsLoading(false))
     }
     }catch(error){
    console.log(error)
