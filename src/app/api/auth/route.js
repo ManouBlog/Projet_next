@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers'
-
+import {verifyToken} from '../../lib/auth';
+import { NextResponse } from "next/server";
 export async function GET() {
-      const cookieStore = await cookies()
-  const token = cookieStore.get('authToken')
-
-  return new Response(null, {
-    status: token?.value ? 200 : 401
-  })
+  const tokenAwait = await cookies();
+  const token = tokenAwait.get('authToken')?.value;
+  console.log("MYTOKEN",token)
+  const user = verifyToken(token)
+  return NextResponse.json(user);
 }

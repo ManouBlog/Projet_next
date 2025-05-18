@@ -7,5 +7,6 @@ export function generateToken(userId) {
 }
 
 export function verifyToken(token) {
+   console.log("VERIFTOKEN",token)
   return jwt.verify(token, SECRET_KEY);
 }

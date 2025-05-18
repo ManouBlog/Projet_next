@@ -6,10 +6,12 @@ export default function ProfilInfo({isBtnVisible}) {
 
    const router = useRouter()
  
+
   const handleClick = async () => {
-  router.push('/DetailPerson')
+    router.push('/DetailPerson')
   }
 
+ 
    
 
    return(
