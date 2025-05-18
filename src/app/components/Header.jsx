@@ -58,9 +58,9 @@ if(response.ok){
    }
   }
   return(
-    <div className="dropdown dropdown-hover">
+    <div className="dropdown dropdown-hover -mx-30">
   <div tabIndex={0} role="button" className="btn m-1">{infoUser}</div>
-  <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-full p-2 shadow-sm">
+  <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 p-2 shadow-sm">
     <li><a>Item 1</a></li>
     <li
     onClick={handleDeconnexion}
