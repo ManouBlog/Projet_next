@@ -5,7 +5,7 @@ import LoadingPage from '../loading';
 import AddBooks from './AddBooks'
 async function getBooks() {
   try {
-    const response = await fetch('http://192.168.1.66:3000/api/books');
+    const response = await fetch('http://localhost:3000/api/books');
 
     if (!response.ok) {
       throw new Error(`Erreur HTTP ${response.status}`);
@@ -38,7 +38,7 @@ const Books =()=>{
     const handleSubmit = async(e)=>{
       e.preventDefault();
       setIsLoading(true)
-      const res = await fetch('http://192.168.1.66:3000/api/books/search?query='+myQuery)
+      const res = await fetch('http://localhost:3000/api/books/search?query='+myQuery)
       const books = await res.json();
       console.log("booksSEARCH",books)
       setBooks(books)
@@ -47,7 +47,7 @@ const Books =()=>{
 
     const handleDelete = async(id)=>{
      try{
-      const res = await fetch("http://192.168.1.66:3000/api/books/"+id,{
+      const res = await fetch("http://localhost:3000/api/books/"+id,{
       method:"DELETE",
      })
      console.log("handleDeleteRES",res)

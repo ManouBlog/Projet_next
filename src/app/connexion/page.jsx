@@ -7,6 +7,8 @@ import {changeIsAuth} from "../store/slice/AuthSlice";
 import {changeIsLoading} from '../store/slice/loadingSlice';
 import { facebookProvider,signInWithSocial,googleProvider} from "../lib/firebase";
 import Link from 'next/link'
+import {signInWithEmailAndPassword} from 'firebase/auth'
+import { auth } from '../lib/firebase';
 export default function ConnexionPage() {
 
    const router = useRouter();
@@ -18,7 +20,7 @@ export default function ConnexionPage() {
    const dispatch = useDispatch()
    const checkAuthStatus = async () => {
     try {
-      const response = await fetch('http://192.168.1.66:3000/api/auth');
+      const response = await fetch('http://localhost:3000/api/auth');
       const info = await response.json();
       // setInfoUser(info.userId)
       dispatch(changeIsAuth(info.userId))
@@ -28,11 +30,9 @@ export default function ConnexionPage() {
     }
   }
 
-   async function handleConnexion() {
-    if(email && password){
- dispatch(changeIsLoading(true))
-    try{
- const response = await fetch("http://192.168.1.66:3000/api/connexion",{
+  async function signWithCookies(){
+try{
+const response = await fetch("http://localhost:3000/api/connexion",{
     method:"POST",
     headers:{
         'Content-type':'application/json'
@@ -47,8 +47,30 @@ export default function ConnexionPage() {
       router.push(redirectUrl);
       dispatch(changeIsLoading(false))
     }
+}catch(error){
+  console.log(error)
+}
+  }
+
+   async function handleConnexion() {
+    if(email && password){
+ dispatch(changeIsLoading(true))
+    try{
+      signInWithEmailAndPassword(auth,email,password)
+            .then(async (response)=>{
+                console.log(response)
+                const user = response.user;
+                console.log("User logged in:", user.uid);
+                signWithCookies()
+            })
+            .catch(error=>{
+                alert(error.message)
+                dispatch(changeIsLoading(false))
+            })
+ 
     }catch(error){
    console.log(error)
+   dispatch(changeIsLoading(false))
     }
     }else{
     alert("veuillez renseigner tous les champs")
@@ -82,7 +104,7 @@ export default function ConnexionPage() {
         onClick={handleConnexion}
         >Se connecter</button>
       </div>
-       <div className='text-center'>
+       <div className='text-center texte-avec-traits'>
         -Ou-
        </div>
       <SocialeAuth /> 

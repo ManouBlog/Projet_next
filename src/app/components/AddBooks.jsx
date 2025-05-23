@@ -10,7 +10,7 @@ export default function AddBooks({refreshBooks}) {
     async function handleAdd(e){
        try{
    e.preventDefault()
-   const res = await fetch("http://192.168.1.66:3000/api/books",{
+   const res = await fetch("http://localhost:3000/api/books",{
     method:"POST",
     headers:{
         'Content-type':'application/json'
