@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers'
 
 export async function POST(request) {
-  const { email, password } = await request.json();
+  const { email } = await request.json();
 
   if (!email) {
     return new Response('Invalid credentials', { status: 401 });

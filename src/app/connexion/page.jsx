@@ -1,5 +1,6 @@
 "use client";
-import * as React from 'react'
+import * as React from 'react';
+
 import MyInputLabel from "../components/MyInputLabel"
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
@@ -8,19 +9,22 @@ import {changeIsLoading} from '../store/slice/loadingSlice';
 import { facebookProvider,signInWithSocial,googleProvider} from "../lib/firebase";
 import Link from 'next/link'
 import {signInWithEmailAndPassword,onAuthStateChanged} from 'firebase/auth'
-import { auth } from '../lib/firebase';
+import { auth,db } from '../lib/firebase';
+import { setDoc,doc} from 'firebase/firestore';
 export default function ConnexionPage() {
 
    const router = useRouter();
   const searchParams = useSearchParams();
-   const [email,setEmail] = React.useState("")
-   const [password,setPassword] = React.useState("")
+   const [email,setEmail] = React.useState("");
+   const [password,setPassword] = React.useState("");
 
    const redirectUrl = searchParams.get('redirect') || '/';
-   const dispatch = useDispatch()
+   const dispatch = useDispatch();
+
+   
    const checkAuthStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/auth');
+      const response = await fetch('http://192.168.1.10:3000/api/auth');
       const info = await response.json();
       // setInfoUser(info.userId)
       dispatch(changeIsAuth(info.userId))
@@ -30,16 +34,15 @@ export default function ConnexionPage() {
     }
   }
 
-  async function signWithCookies(myEmail,myPassword){
+  async function signWithCookies(myEmail){
 try{
-const response = await fetch("http://localhost:3000/api/connexion",{
+const response = await fetch("http://192.168.1.10:3000/api/connexion",{
     method:"POST",
     headers:{
         'Content-type':'application/json'
     },
     body:JSON.stringify({
         email:myEmail,
-        password:myPassword
     })
     })
     if(response.ok){
@@ -52,6 +55,21 @@ const response = await fetch("http://localhost:3000/api/connexion",{
 }
   }
 
+  async function integrateInfoIntoDb(idUser,email,nom,phone,prenoms){
+    try{
+     await setDoc(doc(db, "users", idUser), {
+        email:email,
+        nom:nom,
+        phone:phone,
+        prenoms:prenoms,
+        id:idUser,
+        createdAt: new Date()
+      });
+    }catch(error){
+      console.log(error)
+    }
+  }
+
    async function handleConnexion() {
     if(email && password){
  dispatch(changeIsLoading(true))
@@ -61,7 +79,7 @@ const response = await fetch("http://localhost:3000/api/connexion",{
                 console.log(response)
                 const user = response.user;
                 console.log("User logged in:", user.uid);
-                signWithCookies(email,password)
+                signWithCookies(email)
             })
             .catch(error=>{
                 alert(error.message)
@@ -80,14 +98,15 @@ const response = await fetch("http://localhost:3000/api/connexion",{
       React.useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     console.log("USER", user);
-    
+    dispatch(changeIsLoading(true))
     if (user) {
       console.log("ROOTNAVIGATOR_USER", user);
-      signWithCookies(user.email,'000000')
+      integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
+      signWithCookies(user.email)
     } else {
       console.log("User is not authenticated");
     }
-    setIsLoading(false);
+    dispatch(changeIsLoading(false))
   });
 
   return () => unsubscribe(); // Nettoyage pour éviter les fuites mémoire
@@ -109,19 +128,19 @@ const response = await fetch("http://localhost:3000/api/connexion",{
       placeholder="Votre mot de passe"
       onHandleValue={(e)=>setPassword(e.target.value)}
       />
-      <div className='text-end'>
-   <Link className='text-sm font-bold' href="/forgotPassword">Mot de passe Oublié</Link>
+      <div className='text-end my-5'>
+   <Link className='text-xl font-bold my-5' href="/forgotPassword">Mot de passe Oublié</Link>
       </div>
-      <div className='text-end'>
-   <Link className='text-sm text-green-800 font-bold' href="/inscription">Pas encore de compte</Link>
+      <div className='text-end my-5'>
+   <Link className='text-xl text-green-800 my-5 font-bold' href="/inscription">Pas encore de compte</Link>
       </div>
       <div className='flex justify-center'>
-        <button className='btn'
+        <button className='btn w-80 bg-black font-bold text-white px-5 rounded my-10'
         onClick={handleConnexion}
         >Se connecter</button>
       </div>
-       <div className='text-center texte-avec-traits'>
-        -Ou-
+       <div className='text-center texte-avec-traits my-5 text-2xl font-bold'>
+        - Ou -
        </div>
       <SocialeAuth /> 
     </div>
@@ -132,12 +151,12 @@ function SocialeAuth() {
 
 
  
-  const handleFacebookLogin = async () => {
-    const user = await signInWithSocial(facebookProvider);
-    if (user) {
-      console.log("Connecté avec Facebook :", user.displayName);
-    }
-  };
+  // const handleFacebookLogin = async () => {
+  //   const user = await signInWithSocial(facebookProvider);
+  //   if (user) {
+  //     console.log("Connecté avec Facebook :", user.displayName);
+  //   }
+  // };
 
    const handleGoogleLogin = async () => {
     const user = await signInWithSocial(googleProvider);
@@ -146,19 +165,20 @@ function SocialeAuth() {
     }
   };
   return(
-    <div className='flex justify-center gap-3'>
+    <div className='flex justify-center gap-3 my-5'>
+      
        <button 
       onClick={handleGoogleLogin}
-      className="bg-red-500 text-white p-2 rounded"
+      className="bg-red-500  text-white p-2 rounded cursor-pointer text-center"
     >
-      Se connecter avec Google
+    <img src="/logoGoogle.png" alt="logoGoogle" style={{width:'50px',height:'50px'}} />
     </button>
-      <button 
+      {/* <button 
       onClick={handleFacebookLogin}
-      className="bg-blue-600 text-white p-2 rounded"
+      className="bg-blue-600 text-white p-2 rounded cursor-pointer"
     >
       Se connecter avec Facebook
-    </button>
+    </button> */}
     </div>
    
   )

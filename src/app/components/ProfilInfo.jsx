@@ -11,11 +11,10 @@ export default function ProfilInfo({isBtnVisible}) {
     router.push('/DetailPerson')
   }
 
- 
-   
-
    return(
-<div className='flex gap-3 items-center justify-between w-full flex-wrap'>
+<div className='flex gap-3 items-center cursor-pointer justify-between w-full flex-wrap'
+onClick={handleClick}
+>
  <section>
   <h1 className='text-xl font-bold'>Adjobi Kadjo Pierre</h1>
   <p className='text-md badge badge-xs badge-warning font-bold'>Développeur</p>

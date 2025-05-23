@@ -5,6 +5,8 @@ import { usePathname,useRouter } from 'next/navigation'
 import { useSelector ,useDispatch} from 'react-redux'
 import {changeIsAuth} from "../store/slice/AuthSlice"
 import {changeIsLoading} from '../store/slice/loadingSlice';
+import { signOut as SignOutFirebase } from 'firebase/auth';
+import {auth} from "../lib/firebase"
   
 export default function Header() {
   const dispatch = useDispatch();
@@ -12,7 +14,7 @@ export default function Header() {
   const pathname = usePathname()
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/auth');
+      const response = await fetch('http://192.168.1.10:3000/api/auth');
       const info = await response.json();
        dispatch(changeIsAuth(info.userId))
       // console.log("infoUser",infoUser)
@@ -45,11 +47,12 @@ function NameWithMenu({infoUser,checkAuthStatus}) {
   const handleDeconnexion = async()=>{
      dispatch(changeIsLoading(true))
    try{
-const response = await fetch('http://localhost:3000/api/connexion',{
+const response = await fetch('http://192.168.1.10:3000/api/connexion',{
   method:"DELETE"
 });
 if(response.ok){
   checkAuthStatus()
+  SignOutFirebase(auth).catch(error=>alert(error))
   router.push("/")
   dispatch(changeIsLoading(false))
  }
