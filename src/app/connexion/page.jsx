@@ -7,7 +7,7 @@ import {changeIsAuth} from "../store/slice/AuthSlice";
 import {changeIsLoading} from '../store/slice/loadingSlice';
 import { facebookProvider,signInWithSocial,googleProvider} from "../lib/firebase";
 import Link from 'next/link'
-import {signInWithEmailAndPassword} from 'firebase/auth'
+import {signInWithEmailAndPassword,onAuthStateChanged} from 'firebase/auth'
 import { auth } from '../lib/firebase';
 export default function ConnexionPage() {
 
@@ -30,7 +30,7 @@ export default function ConnexionPage() {
     }
   }
 
-  async function signWithCookies(){
+  async function signWithCookies(myEmail,myPassword){
 try{
 const response = await fetch("http://localhost:3000/api/connexion",{
     method:"POST",
@@ -38,8 +38,8 @@ const response = await fetch("http://localhost:3000/api/connexion",{
         'Content-type':'application/json'
     },
     body:JSON.stringify({
-        email:email,
-        password:password
+        email:myEmail,
+        password:myPassword
     })
     })
     if(response.ok){
@@ -61,7 +61,7 @@ const response = await fetch("http://localhost:3000/api/connexion",{
                 console.log(response)
                 const user = response.user;
                 console.log("User logged in:", user.uid);
-                signWithCookies()
+                signWithCookies(email,password)
             })
             .catch(error=>{
                 alert(error.message)
@@ -76,6 +76,22 @@ const response = await fetch("http://localhost:3000/api/connexion",{
     alert("veuillez renseigner tous les champs")
     }
    }
+
+      React.useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    console.log("USER", user);
+    
+    if (user) {
+      console.log("ROOTNAVIGATOR_USER", user);
+      signWithCookies(user.email,'000000')
+    } else {
+      console.log("User is not authenticated");
+    }
+    setIsLoading(false);
+  });
+
+  return () => unsubscribe(); // Nettoyage pour éviter les fuites mémoire
+}, []);
   return (
     <div>
       <h1 className='text-center font-bold text-3xl'>Connexion</h1>
@@ -113,6 +129,8 @@ const response = await fetch("http://localhost:3000/api/connexion",{
 }
 
 function SocialeAuth() {
+
+
  
   const handleFacebookLogin = async () => {
     const user = await signInWithSocial(facebookProvider);
