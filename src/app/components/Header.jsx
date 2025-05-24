@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname()
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch('http://192.168.1.10:3000/api/auth');
+      const response = await fetch('http://192.168.1.66:3000/api/auth');
       const info = await response.json();
        dispatch(changeIsAuth(info.userId))
       // console.log("infoUser",infoUser)
@@ -47,7 +47,7 @@ function NameWithMenu({infoUser,checkAuthStatus}) {
   const handleDeconnexion = async()=>{
      dispatch(changeIsLoading(true))
    try{
-const response = await fetch('http://192.168.1.10:3000/api/connexion',{
+const response = await fetch('http://192.168.1.66:3000/api/connexion',{
   method:"DELETE"
 });
 if(response.ok){
@@ -60,11 +60,16 @@ if(response.ok){
     console.log(error)
    }
   }
+  const seeProfil = ()=>{
+    router.push("/Profile")
+  }
   return(
-    <div className="dropdown dropdown-hover -mx-30">
+    <div className="dropdown dropdown-hover -mx-48">
   <div tabIndex={0} role="button" className="btn m-1">{infoUser}</div>
   <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 p-2 shadow-sm">
-    <li><a>Item 1</a></li>
+    <li
+    onClick={seeProfil}
+    ><a>Profil</a></li>
     <li
     onClick={handleDeconnexion}
     ><a>Déconnexion</a></li>

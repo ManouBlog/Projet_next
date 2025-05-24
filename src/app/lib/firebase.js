@@ -5,7 +5,6 @@ import { getAuth,GoogleAuthProvider,
 import { getFirestore } from "firebase/firestore";
 
 
-
 const app = initializeApp(firebaseConfig);
 export const signInWithSocial = async (provider) => {
   try {

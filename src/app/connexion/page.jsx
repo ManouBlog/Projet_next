@@ -24,7 +24,7 @@ export default function ConnexionPage() {
    
    const checkAuthStatus = async () => {
     try {
-      const response = await fetch('http://192.168.1.10:3000/api/auth');
+      const response = await fetch('http://192.168.1.66:3000/api/auth');
       const info = await response.json();
       // setInfoUser(info.userId)
       dispatch(changeIsAuth(info.userId))
@@ -36,7 +36,7 @@ export default function ConnexionPage() {
 
   async function signWithCookies(myEmail){
 try{
-const response = await fetch("http://192.168.1.10:3000/api/connexion",{
+const response = await fetch("http://192.168.1.66:3000/api/connexion",{
     method:"POST",
     headers:{
         'Content-type':'application/json'
