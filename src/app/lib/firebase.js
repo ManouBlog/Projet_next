@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth,GoogleAuthProvider, 
   FacebookAuthProvider,signInWithPopup } from "firebase/auth";
+  import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -26,5 +27,6 @@ export const signInWithSocial = async (provider) => {
 };
 export const googleProvider = new GoogleAuthProvider();
 export const facebookProvider = new FacebookAuthProvider();
+export const storage = getStorage(app);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
