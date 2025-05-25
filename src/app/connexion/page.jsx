@@ -63,6 +63,7 @@ const response = await fetch("http://localhost:3000/api/connexion",{
         phone:phone,
         prenoms:prenoms,
         id:idUser,
+        artisan:0,
         createdAt: new Date()
       });
     }catch(error){

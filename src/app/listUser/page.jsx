@@ -1,17 +1,6 @@
-
-// import Link from "next/link";
 import Books from "../components/Books"
 
-// const fectchGithubUsers = async()=>{
-//  const response = await fetch("https://api.github.com/search/users?q=greg",{
-//     next:{
-//         revalidate:60
-//     }
-//  })
-//  await new Promise((resolve)=>setTimeout(resolve,2000));
-//  const json = await response.json();
-//  return json.items;
-// }
+
 
 const ListUser = async()=>{
 //    const users = await fectchGithubUsers()
