@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react';
-import EmailCode from '../components/register/EmailCode';
+// import EmailCode from '../components/register/EmailCode';
 import SaveInfoRegister from '../components/register/SaveInfoRegister';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ export default function Connexionpage() {
 
 function RegisterArtisan() {
      
-      const isRegisterVisible = useSelector((state)=>state.auth.isRegisterVisible)
+      // const isRegisterVisible = useSelector((state)=>state.auth.isRegisterVisible)
       const modalOpen = useSelector((state)=>state.auth.modalOpen)
       const dispatch = useDispatch()
     return(
@@ -25,7 +25,7 @@ function RegisterArtisan() {
 <dialog id="my_modal_2" className={`modal ${modalOpen ? "modal-open":""}`}>
   {
     modalOpen &&  <div className="modal-box">
-    {isRegisterVisible  ? <SaveInfoRegister />:<EmailCode />}
+    <SaveInfoRegister />
   </div>
   }
  

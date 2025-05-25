@@ -15,13 +15,7 @@ export default function EmailCode() {
      }
   return (
     <>
-       <MyInputLabel 
-    labelName="Email"
-    typeInput="email"
-    placeholder="Entrer votre email"
-    onHandleValue={e=>setEmail(e.target.value)}
-     value={email}
-    />
+    
     {
         isAuthCode !== 0 && <MyInputLabel 
     labelName="Code"
