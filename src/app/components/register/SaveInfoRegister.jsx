@@ -5,12 +5,12 @@ import City from "../../city.json"
 import { useSelector,useDispatch } from 'react-redux';
 import {changeIsRegisterVisible,changeCode,changeModalOpen} from "../../store/slice/AuthSlice"
 import { createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
-import { setDoc,doc} from 'firebase/firestore';
+import { setDoc,doc,getDoc} from 'firebase/firestore';
 import { useRouter,useSearchParams } from 'next/navigation';
 import {changeIsAuth} from "../../store/slice/AuthSlice";
 import {changeIsLoading} from '../../store/slice/loadingSlice';
 import { facebookProvider,signInWithSocial,googleProvider} from "../../lib/firebase";
-// import { collection, addDoc } from "firebase/firestore";
+
 import { auth, db  } from "../../lib/firebase";
 export default function SaveInfoRegister() {
     const isArtisanOrClients = useSelector((state)=>state.auth.isArtisanOrClients);
@@ -40,6 +40,7 @@ export default function SaveInfoRegister() {
         phone:phone,
         prenoms:prenoms,
         id:idUser,
+        artisan:0,
         createdAt: new Date()
       });
     }catch(error){
@@ -70,15 +71,34 @@ export default function SaveInfoRegister() {
   }
     }
 
+    async function checkUserExists(uid) {
+      try{
+      const userDocRef = doc(db, "users", uid); // "users" est le nom de votre collection
+      const userDoc = await getDoc(userDocRef);
+      
+      return userDoc.exists();
+      }catch(error){
+     console.log(error)
+      }
+     
+    }
+
     React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log("USER", user);
       dispatch(changeIsLoading(true))
       if (user) {
         console.log("ROOTNAVIGATOR_USER", user);
-        integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
-        signWithCookies(user.email)
-      } else {
+         checkUserExists(user.uid).then(exists => {
+  if (exists) {
+    signWithCookies(user.displayName)
+  } else {
+ integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
+  signWithCookies(user.displayName)
+  }
+});
+     
+   } else {
         console.log("User is not authenticated");
       }
       dispatch(changeIsLoading(false))
@@ -103,24 +123,87 @@ export default function SaveInfoRegister() {
 }
 
 function RegisterProfessionnel() {
+  const dispatch = useDispatch()
     const [valueMetiers,setValueMetiers] = React.useState("");
+    const [nom,setNom] = React.useState("");
+    const [prenoms,setPrenoms] = React.useState("");
+    const [email,setEmail] = React.useState("");
+    const [phone,setPhone] = React.useState("");
+     const [lieu,setLieu] = React.useState("");
+     const [quiSuis,setQuiSuis] = React.useState("");
+
+     async function onHandleSubmit(e) {
+       e.preventDefault()
+       dispatch(changeIsLoading(true))
+      try{
+         const userCredential = await createUserWithEmailAndPassword(auth,email,"000000");
+    const user = userCredential.user;
+    console.log("User created:", user.uid);
+    if(user){
+    await setDoc(doc(db, "users", user.uid), {
+        email:email,
+        nom:nom,
+        phone:phone,
+        prenoms:prenoms,
+        id:user.uid,
+        metier:valueMetiers,
+        lieu:lieu,
+        quiSuis:quiSuis,
+        artisan:1,
+        createdAt: new Date()
+      });
+    }
+    alert("Compte créé")
+   dispatch(changeModalOpen(false))
+            dispatch(changeIsRegisterVisible(false))
+             dispatch(changeIsLoading(false))
+    }catch(error){
+      console.log(error)
+      alert(error.message)
+       dispatch(changeIsLoading(false))
+    }
+     }
     return(
-        <form className="overflow-y-auto h-95">
-            <label className='my-4'>Nom</label>
-            <input type="text"  className="input w-full my-4 validator" required placeholder="Nom" 
-  pattern="[A-Za-z][A-Za-z0-9\-]*" minLength="3" maxLength="30" title="Only letters, numbers or dash" />
-<label className='my-4'>Prénoms</label>
+        <form className="overflow-y-auto h-95"
+        onSubmit={onHandleSubmit}
+        >
+          <h1 className='text-center font-semibold text-red'>Les champs suivis d'un * sont obligatoires</h1>
+            <label className='my-4'>Nom *</label>
+            <input 
+            type="text"  
+            className="input w-full my-4 validator" 
+            required 
+            placeholder="Nom" 
+            pattern="[A-Za-z][A-Za-z0-9\-]*" 
+            minLength="3" 
+            maxLength="30" 
+            title="Only letters, numbers or dash"
+            value={nom}
+            onChange={e=>setNom(e.target.value)}
+            />
+<label className='my-4'>Prénoms *</label>
  <input type="text" className="input w-full my-4 validator" required placeholder="Prénoms" 
-  pattern="[A-Za-z][A-Za-z0-9\-]*" minLength="3" maxLength="30" title="Only letters, numbers or dash" />
-<label className='my-4'>Email</label>
-<input className="input w-full my-4 validator" type="email" required placeholder="email@gmail.com" />
-<label className='my-4'>Numéro de téléphone</label>
-<input type="tel" className="input w-full my-4 validator tabular-nums" required placeholder="Numéro de téléphone" 
+  pattern="[A-Za-z][A-Za-z0-9\-]*" minLength="3"
+   maxLength="30" title="Only letters, numbers or dash"
+   value={prenoms}
+   onChange={e=>setPrenoms(e.target.value)}
+   />
+<label className='my-4'>Email *</label>
+<input className="input w-full my-4 validator"
+value={email}
+   onChange={e=>setEmail(e.target.value)}
+type="email"  placeholder="email@gmail.com" />
+<label className='my-4'>Numéro de téléphone *</label>
+<input type="tel" 
+value={phone}
+   onChange={e=>setPhone(e.target.value)}
+className="input w-full my-4 validator tabular-nums" required placeholder="Numéro de téléphone" 
   pattern="[0-9]*" minLength="10" maxLength="10" title="Must be 10 digits" />
-  <label className='my-4'>Votre Métier</label>
+  <label className='my-4'>Votre Métier *</label>
   <select className="select validator my-4 w-full" 
-  defaultValue={valueMetiers}
-  required>
+     value={valueMetiers}
+      onChange={e=>setValueMetiers(e.target.value)}
+      required>
     <option disabled value="">Choisir ton métier:</option>
     {
         Metiers.metiers.map((item,index)=>(
@@ -128,9 +211,10 @@ function RegisterProfessionnel() {
         ))
     }
   </select>
-  <label className='my-4'>Lieu de Travail</label>
+  <label className='my-4'>Lieu de Travail *</label>
    <select className="select validator my-4 w-full" 
-  defaultValue={valueMetiers}
+  value={lieu}
+      onChange={e=>setLieu(e.target.value)}
   required>
     <option disabled value="">Lieu de Travail :</option>
     {
@@ -141,21 +225,26 @@ function RegisterProfessionnel() {
   </select>
    <label className='my-4'>Qui suis je ?</label>
 <fieldset className="fieldset w-full">
-  <textarea className="textarea h-24 w-full" placeholder="Qui suis je ?"></textarea>
+  <textarea className="textarea h-24 w-full" 
+  value={quiSuis}
+      onChange={e=>setQuiSuis(e.target.value)}
+  placeholder="Qui suis je ?"></textarea>
 </fieldset>
-<label className='my-4'>Ajouter 2 images de votre oeuvre</label>
+{/* <label className='my-4'>Ajouter 2 images de votre oeuvre</label>
 <input type="file" className='border w-full my-4 p-3' multiple onChange={(e) => {
     const files = e.target.files;
     if (files.length > 2) {
       alert("Vous ne pouvez sélectionner que 2 fichiers maximum.");
       e.target.value = null; // Reset input
     }
-  }} />
-  <label className='my-4'>Photo de profil</label>
-<input type="file" className='border w-full my-4 p-3' />
+  }} /> */}
+  {/* <label className='my-4'>Photo de profil</label>
+<input type="file" className='border w-full my-4 p-3' /> */}
 
   <div className='my-4'>
-    <button className='btn' type='submit'>Enregistrer</button>
+    <button className='btn' type='submit'
+    
+    >Enregistrer</button>
   </div>
         </form>
     )
@@ -208,7 +297,7 @@ function RegisterClients() {
      onClick={handleGoogleLogin}
      className="btn bg-white text-black border-[#e5e5e5]">
   <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-  Login with Google
+  S'inscrire avec Google
 </button>
       </div>
 //         <form className="overflow-y-auto h-95">

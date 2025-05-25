@@ -7,7 +7,7 @@ export default function LoadingClient() {
     console.log('isLoading',isLoading)
   return (
     isLoading ? <div className='fixed flex justify-center place-items-center
-     place-content-center w-full h-full loading_client z-999'>
+     place-content-center w-full h-full loading_client z-999999999'>
       <h1 className='font-bold text-white'>Chargement...</h1>
     </div>:<div></div>
   )

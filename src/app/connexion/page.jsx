@@ -10,7 +10,7 @@ import { facebookProvider,signInWithSocial,googleProvider} from "../lib/firebase
 import Link from 'next/link'
 import {signInWithEmailAndPassword,onAuthStateChanged} from 'firebase/auth'
 import { auth,db } from '../lib/firebase';
-import { setDoc,doc} from 'firebase/firestore';
+import { setDoc,doc,getDoc} from 'firebase/firestore';
 export default function ConnexionPage() {
 
    const router = useRouter();
@@ -94,15 +94,38 @@ const response = await fetch("http://localhost:3000/api/connexion",{
     alert("veuillez renseigner tous les champs")
     }
    }
-
+async function checkUserExists(uid) {
+  const userDocRef = doc(db, "users", uid); // "users" est le nom de votre collection
+  const userDoc = await getDoc(userDocRef);
+  
+  return userDoc.exists();
+}
       React.useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     console.log("USER", user);
     dispatch(changeIsLoading(true))
     if (user) {
       console.log("ROOTNAVIGATOR_USER", user);
-      integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
-      signWithCookies(user.email)
+        checkUserExists(user.uid).then(exists => {
+  if (exists) {
+    signWithCookies(user.displayName)
+  } else {
+ integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
+  signWithCookies(user.displayName)
+  }
+});
+    //   const element = checkUserExists(user.uid)
+    //   console.log("ELEMENT",element)
+    //   if(element){
+     
+    //  signWithCookies(user.email)
+    //  console.log("USER NOT EXIST")
+    //   }else{
+    //     integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
+    //       signWithCookies(user.email)
+    //       console.log("USER EXIST")
+    //   }
+      
     } else {
       console.log("User is not authenticated");
     }
