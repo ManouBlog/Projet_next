@@ -4,6 +4,14 @@ import { getAuth,GoogleAuthProvider,
   FacebookAuthProvider,signInWithPopup } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDLyLuz3QizJ9iI7bHRs25SGNmcJczc69M",
+  authDomain: "fir-connect-547da.firebaseapp.com",
+  projectId: "fir-connect-547da",
+  storageBucket: "fir-connect-547da.firebasestorage.app",
+  messagingSenderId: "894057349076",
+  appId: "1:894057349076:web:c125c55205116b9eec2041"
+};
 
 const app = initializeApp(firebaseConfig);
 export const signInWithSocial = async (provider) => {
