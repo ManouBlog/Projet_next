@@ -5,19 +5,21 @@ import ProfilInfo from "../../components/ProfilInfo"
 import DescriptionAndPhoto from "../../components/DescriptionAndPhoto"
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { useRouter } from "next/router";
+import { usePathname, useSearchParams } from 'next/navigation';
+import {changeIsLoading} from '../../store/slice/loadingSlice';
 import { useDispatch } from 'react-redux';
 export default function DetailPerson() {
   const dispatch = useDispatch();
-    const router = useRouter();
-    console.log(router)
-  const { id } = router.query;
+    const pathname = usePathname()
+  const searchParams = useSearchParams()
+    console.log("searchParams",searchParams)
+    console.log("pathname",pathname)
+  const id = pathname.split('/DetailPerson/')[1];
   const [item, setItem] = React.useState(null);
-  React.useEffect(() => {
-    const fetchItem = async () => {
-        dispatch(changeIsLoading(true))
+  const fetchItem = async () => {
       if (!id) return;
       try {
+        dispatch(changeIsLoading(true))
         const docRef = doc(db, "users", id);
         const docSnap = await getDoc(docRef);
         
@@ -28,13 +30,13 @@ export default function DetailPerson() {
         }
       } catch (error) {
         console.error("Erreur:", error);
-      } finally {
-        dispatch(changeIsLoading(true))
+      } finally{
+        dispatch(changeIsLoading(false))
       }
     };
-
+  React.useEffect(() => {
     fetchItem();
-  }, [id,dispatch]);
+  }, []);
   return (
     <div>
       <PhotoProfil nom={item?.nom} />
