@@ -15,7 +15,7 @@ export default function DetailPerson() {
     console.log("searchParams",searchParams)
     console.log("pathname",pathname)
   const id = pathname.split('/DetailPerson/')[1];
-  const [item, setItem] = React.useState(null);
+  const [item, setItem] = React.useState("");
   const fetchItem = async () => {
       if (!id) return;
       try {
@@ -25,6 +25,7 @@ export default function DetailPerson() {
         
         if (docSnap.exists()) {
           setItem({ id: docSnap.id, ...docSnap.data() });
+          console.log("ITEMSET",item)
         } else {
           console.log("Document non trouvé!");
         }
@@ -37,13 +38,18 @@ export default function DetailPerson() {
   React.useEffect(() => {
     fetchItem();
   }, []);
-  return (
+  if(item){
+return (
     <div>
       <PhotoProfil nom={item?.nom} />
       <ProfilInfo item={item} />
-      <DescriptionAndPhoto />
+      <DescriptionAndPhoto 
+      phone={item?.phone} 
+      email={item?.email} 
+      quiSuis={item?.quiSuis} />
     </div>
   )
+  }
 }
 
 
