@@ -30,6 +30,7 @@ export default function ListPerson() {
   },[])
   return (
     <>
+    <h1 className='text-right font-semibold my-3'>Nous avons {allArtisan.length} artisans disponibles</h1>
     {allArtisan.map((item,index)=>(
      <div key={index} className='flex gap-5 my-5 shadow-md p-3'>
       <PhotoProfil nom={item?.nom}/>
