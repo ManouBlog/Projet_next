@@ -2,32 +2,19 @@
 import * as React from 'react'
 import PhotoProfil from './PhotoProfil'
 import ProfilInfo from "./ProfilInfo"
-import { collection, getDocs } from "firebase/firestore";
-import {db} from "../lib/firebase";
-import { useDispatch } from 'react-redux';
-import {changeIsLoading} from "../store/slice/loadingSlice"
+// import { collection, getDocs } from "firebase/firestore";
+// import {db} from "../lib/firebase";
+import { useDispatch, useSelector } from 'react-redux';
+import {fectchListUser} from '../store/slice/userSlice'
 
 export default function ListPerson() {
-  const [allArtisan,setAllArtisan] = React.useState([]);
+
+  const allArtisan = useSelector((state)=>state.user.listUser);
   const dispatch = useDispatch();
-   
-  async function getUsers() {
-    dispatch(changeIsLoading(true))
-    const usersCol = collection(db, 'users');
-    const snapshot = await getDocs(usersCol);
-    const users = [];
-    snapshot.forEach((doc) => {
-      users.push({ id: doc.id, ...doc.data() });
-    });
-  
-    console.log("Liste des utilisateurs:", users);
-    const userFilterByArtisan = users.filter(item=>item.artisan === 1)
-    setAllArtisan(userFilterByArtisan)
-    dispatch(changeIsLoading(false))
-  }
+
    React.useEffect(()=>{
-   getUsers()
-  },[])
+   dispatch(fectchListUser())
+  },[dispatch])
   return (
     <>
     <h1 className='text-right font-semibold my-3'>Nous avons {allArtisan.length} artisans disponibles</h1>
