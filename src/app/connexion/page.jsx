@@ -152,9 +152,9 @@ async function checkUserExists(uid) {
       placeholder="Votre mot de passe"
       onHandleValue={(e)=>setPassword(e.target.value)}
       />
-      <div className='text-end my-5'>
-   <Link className='text-xl font-bold my-5' href="/forgotPassword">Mot de passe Oublié</Link>
-      </div>
+      {/* <div className='my-5 tooltip' data-tip="Pas encore disponible">
+      <Link className='text-xl font-bold my-5' href="/forgotPassword">Mot de passe Oublié</Link>
+      </div> */}
       <div className='text-end my-5'>
    <Link className='text-xl text-green-800 my-5 font-bold' href="/inscription">Pas encore de compte</Link>
       </div>
