@@ -18,7 +18,7 @@ onClick={handleClick}
  <section>
   <h1 className='text-xl font-bold'>{item?.nom} {item?.prenoms}</h1>
   <p className='text-md badge badge-xs badge-warning font-bold'>{item?.metier}</p>
-  <p className='text-sm'>{item?.lieu}</p>
+  <p className='text-sm my-3'>Lieu de travail : {item?.lieu}</p>
  </section>
  {isBtnVisible && <section>
     <button onClick={handleClick} className='btn'>Voir plus</button>

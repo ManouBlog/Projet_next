@@ -18,7 +18,7 @@ export default function SearchPerson() {
     <div>
       <input 
       type="search" 
-      placeholder="Faire une recherche" 
+      placeholder="Recherche par nom , métier ou lieu de travail" 
       className='w-full border p-5'
       value={querySearch}
       onChange={(e)=>{

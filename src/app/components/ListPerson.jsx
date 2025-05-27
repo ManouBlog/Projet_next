@@ -24,6 +24,7 @@ export default function ListPerson() {
       <ProfilInfo item={item} />
     </div>
     ))}
+    {!allArtisan.length && <h1 className='text-center font-bold'>Désole , pas d'artisans trouvé</h1>}
     </>
    
   )
