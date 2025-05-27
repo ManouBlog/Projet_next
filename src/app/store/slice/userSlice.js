@@ -37,7 +37,7 @@ const usersSlice = createSlice({
     },
     filterListUserReducer:(state,action)=>{
       state.listUser = state.listForFilterUser.filter(book=>{
-        return book.nom.toLowerCase().includes(action.payload.toLowerCase()) || book.metier.toLowerCase().includes(action.payload.toLowerCase()) ;
+        return book.nom.toLowerCase().includes(action.payload.toLowerCase()) || book.metier.toLowerCase().includes(action.payload.toLowerCase()) || book.lieu.toLowerCase().includes(action.payload.toLowerCase()) ;
     })
     }
   },
