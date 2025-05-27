@@ -33,5 +33,9 @@ body {
 .loading_client{
   background-color: #0a0a0ab5;
 }
+li{
+  font-weight: bold;
+  margin: 1em 0;
+}
 
 
