@@ -5,7 +5,6 @@ import {db} from "../../lib/firebase";
 import {changeIsLoading} from "./loadingSlice";
 
 export const fectchListUser = () => async (dispatch) => {
-
   try {
     dispatch(changeIsLoading(true))
         const usersCol = collection(db, 'users');
@@ -28,14 +27,21 @@ const usersSlice = createSlice({
   name: 'users',
   initialState: { 
     listUser: [],
+    listForFilterUser:[]
   },
   reducers: {
     getListUserReducer: (state,action) => { 
       console.log("getListUserReducer",action.payload)
       state.listUser = JSON.parse(action.payload) 
+      state.listForFilterUser = JSON.parse(action.payload)
     },
+    filterListUserReducer:(state,action)=>{
+      state.listUser = state.listForFilterUser.filter(book=>{
+        return book.nom.toLowerCase().includes(action.payload.toLowerCase()) || book.metier.toLowerCase().includes(action.payload.toLowerCase()) ;
+    })
+    }
   },
 })
 
-export const { getListUserReducer} = usersSlice.actions
+export const { getListUserReducer,filterListUserReducer} = usersSlice.actions
 export default usersSlice.reducer
