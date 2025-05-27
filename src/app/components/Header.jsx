@@ -27,7 +27,7 @@ export default function Header() {
 },[])
   return (
      <div className="flex justify-between shadow-sm p-2">
-      <Link className='text-2xl' href="/">Bonoua Online</Link>
+      <Link className='text-2xl' href="/">ChoisisTonPro</Link>
       <section className='flex gap-3'>
         {isAuth ? <NameWithMenu infoUser={isAuth} checkAuthStatus={checkAuthStatus}/> : 
         <>

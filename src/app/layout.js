@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Bonoua",
-  description: "Bonoua online",
+  title: "ChoisisTonPro",
+  description: "ChoisisTonPro",
 };
 
 export default function RootLayout({ children }) {
