@@ -1,7 +1,7 @@
 "use client";
 import * as React from 'react';
-
-import MyInputLabel from "../components/MyInputLabel"
+import styles from './connexion.module.css';
+// import MyInputLabel from "../components/MyInputLabel"
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import {changeIsAuth} from "../store/slice/AuthSlice";
@@ -15,8 +15,8 @@ export default function ConnexionPage() {
 
    const router = useRouter();
   const searchParams = useSearchParams();
-   const [email,setEmail] = React.useState("");
-   const [password,setPassword] = React.useState("");
+  //  const [email,setEmail] = React.useState("");
+  //  const [password,setPassword] = React.useState("");
 
    const redirectUrl = searchParams.get('redirect') || '/';
    const dispatch = useDispatch();
@@ -71,30 +71,30 @@ const response = await fetch("http://localhost:3000/api/connexion",{
     }
   }
 
-   async function handleConnexion() {
-    if(email && password){
- dispatch(changeIsLoading(true))
-    try{
-      signInWithEmailAndPassword(auth,email,password)
-            .then(async (response)=>{
-                console.log(response)
-                const user = response.user;
-                console.log("User logged in:", user.uid);
-                signWithCookies(email)
-            })
-            .catch(error=>{
-                alert(error.message)
-                dispatch(changeIsLoading(false))
-            })
+//    async function handleConnexion() {
+//     if(email && password){
+//  dispatch(changeIsLoading(true))
+//     try{
+//       signInWithEmailAndPassword(auth,email,password)
+//             .then(async (response)=>{
+//                 console.log(response)
+//                 const user = response.user;
+//                 console.log("User logged in:", user.uid);
+//                 signWithCookies(email)
+//             })
+//             .catch(error=>{
+//                 alert(error.message)
+//                 dispatch(changeIsLoading(false))
+//             })
  
-    }catch(error){
-   console.log(error)
-   dispatch(changeIsLoading(false))
-    }
-    }else{
-    alert("veuillez renseigner tous les champs")
-    }
-   }
+//     }catch(error){
+//    console.log(error)
+//    dispatch(changeIsLoading(false))
+//     }
+//     }else{
+//     alert("veuillez renseigner tous les champs")
+//     }
+//    }
 async function checkUserExists(uid) {
   const userDocRef = doc(db, "users", uid); // "users" est le nom de votre collection
   const userDoc = await getDoc(userDocRef);
@@ -137,8 +137,8 @@ async function checkUserExists(uid) {
 }, []);
   return (
     <div>
-      <h1 className='text-center font-bold text-3xl'>Connexion</h1>
-      <MyInputLabel 
+      <h1 className='font-bold text-3xl mb-10'>Connexion</h1>
+      {/* <MyInputLabel 
       labelName="Email"
       typeInput="email"
       value={email}
@@ -151,19 +151,19 @@ async function checkUserExists(uid) {
       value={password}
       placeholder="Votre mot de passe"
       onHandleValue={(e)=>setPassword(e.target.value)}
-      />
+      /> */}
       {/* <div className='my-5 tooltip' data-tip="Pas encore disponible">
       <Link className='text-xl font-bold my-5' href="/forgotPassword">Mot de passe Oublié</Link>
       </div> */}
-      <div className='text-end my-5'>
-   <Link className='text-xl text-green-800 my-5 font-bold' href="/inscription">Pas encore de compte</Link>
+      <div className={styles.title}>
+   <Link className='text-1xl my-5 text-green-400 font-semibold' href="/inscription">Pas encore de compte</Link>
       </div>
-      <div className='flex justify-center'>
+      {/* <div className='flex justify-center'>
         <button className='btn w-80 bg-black font-bold text-white px-5 rounded my-10'
         onClick={handleConnexion}
         >Se connecter</button>
-      </div>
-       <div className='text-center texte-avec-traits my-5 text-2xl font-bold'>
+      </div> */}
+       <div className='text-center texte-avec-traits my-5 text-xl font-semibold'>
         - Ou -
        </div>
       <SocialeAuth /> 
