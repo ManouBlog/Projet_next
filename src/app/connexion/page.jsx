@@ -67,7 +67,7 @@ const router = useRouter();
       const info = await response.json();
       // setInfoUser(info.userId)
       dispatch(changeIsAuth(info.userId))
-      console.log("infoUser",infoUser)
+      console.log("infoUser",info)
     } catch (error) {
     console.log(error)
     }
