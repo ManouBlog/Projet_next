@@ -13,13 +13,52 @@ import { auth,db } from '../lib/firebase';
 import { setDoc,doc,getDoc} from 'firebase/firestore';
 export default function ConnexionPage() {
 
-   const router = useRouter();
+   
+  return (
+    <div>
+      <h1 className='font-bold text-3xl mb-10'>Connexion</h1>
+      {/* <MyInputLabel 
+      labelName="Email"
+      typeInput="email"
+      value={email}
+      placeholder="adresse email"
+      onHandleValue={(e)=>setEmail(e.target.value)}
+      />
+      <MyInputLabel 
+      labelName="Mot de passe"
+      typeInput="password"
+      value={password}
+      placeholder="Votre mot de passe"
+      onHandleValue={(e)=>setPassword(e.target.value)}
+      /> */}
+      {/* <div className='my-5 tooltip' data-tip="Pas encore disponible">
+      <Link className='text-xl font-bold my-5' href="/forgotPassword">Mot de passe Oublié</Link>
+      </div> */}
+      <div className={styles.title}>
+   <Link className='text-1xl my-5 text-green-400 font-semibold' href="/inscription">Pas encore de compte</Link>
+      </div>
+      {/* <div className='flex justify-center'>
+        <button className='btn w-80 bg-black font-bold text-white px-5 rounded my-10'
+        onClick={handleConnexion}
+        >Se connecter</button>
+      </div> */}
+       <div className='text-center texte-avec-traits my-5 text-xl font-semibold'>
+        - Ou -
+       </div>
+      <SocialeAuth /> 
+    </div>
+  )
+}
+
+function SocialeAuth() {
+const router = useRouter();
   const searchParams = useSearchParams();
   //  const [email,setEmail] = React.useState("");
   //  const [password,setPassword] = React.useState("");
 
    const redirectUrl = searchParams.get('redirect') || '/';
    const dispatch = useDispatch();
+   const [userInfo,setUserInfo] = React.useState(false);
 
    
    const checkAuthStatus = async () => {
@@ -104,7 +143,8 @@ async function checkUserExists(uid) {
   return userDoc.exists();
 }
       React.useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if(userInfo){
+ const unsubscribe = onAuthStateChanged(auth, (user) => {
     console.log("USER", user);
     dispatch(changeIsLoading(true))
     if (user) {
@@ -136,57 +176,16 @@ async function checkUserExists(uid) {
   });
 
   return () => unsubscribe(); // Nettoyage pour éviter les fuites mémoire
-}, []);
-  return (
-    <div>
-      <h1 className='font-bold text-3xl mb-10'>Connexion</h1>
-      {/* <MyInputLabel 
-      labelName="Email"
-      typeInput="email"
-      value={email}
-      placeholder="adresse email"
-      onHandleValue={(e)=>setEmail(e.target.value)}
-      />
-      <MyInputLabel 
-      labelName="Mot de passe"
-      typeInput="password"
-      value={password}
-      placeholder="Votre mot de passe"
-      onHandleValue={(e)=>setPassword(e.target.value)}
-      /> */}
-      {/* <div className='my-5 tooltip' data-tip="Pas encore disponible">
-      <Link className='text-xl font-bold my-5' href="/forgotPassword">Mot de passe Oublié</Link>
-      </div> */}
-      <div className={styles.title}>
-   <Link className='text-1xl my-5 text-green-400 font-semibold' href="/inscription">Pas encore de compte</Link>
-      </div>
-      {/* <div className='flex justify-center'>
-        <button className='btn w-80 bg-black font-bold text-white px-5 rounded my-10'
-        onClick={handleConnexion}
-        >Se connecter</button>
-      </div> */}
-       <div className='text-center texte-avec-traits my-5 text-xl font-semibold'>
-        - Ou -
-       </div>
-      <SocialeAuth /> 
-    </div>
-  )
-}
-
-function SocialeAuth() {
-
-
+        }else{
+          return;
+        }
  
-  // const handleFacebookLogin = async () => {
-  //   const user = await signInWithSocial(facebookProvider);
-  //   if (user) {
-  //     console.log("Connecté avec Facebook :", user.displayName);
-  //   }
-  // };
+}, [userInfo,dispatch]);
 
    const handleGoogleLogin = async () => {
     const user = await signInWithSocial(googleProvider);
     if (user) {
+      setUserInfo(true);
       console.log("Connecté avec Google :", user.reloadUserInfo);
     }
   };
