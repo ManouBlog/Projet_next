@@ -87,7 +87,7 @@ const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion
     })
     console.log("REDIRECT WITH COOKIES",response)
     if(response.ok){
-      checkAuthStatus()
+      // checkAuthStatus()
       router.push(redirectUrl);
       dispatch(changeIsLoading(false))
     }
