@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname()
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/auth');
+      const response = await fetch('https://projet-next-sandy.vercel.app/api/auth');
       const info = await response.json();
        dispatch(changeIsAuth(info.userId))
       // console.log("infoUser",infoUser)
@@ -47,7 +47,7 @@ function NameWithMenu({infoUser,checkAuthStatus}) {
   const handleDeconnexion = async()=>{
      dispatch(changeIsLoading(true))
    try{
-const response = await fetch('http://localhost:3000/api/connexion',{
+const response = await fetch('https://projet-next-sandy.vercel.app/api/connexion',{
   method:"DELETE"
 });
 if(response.ok){
