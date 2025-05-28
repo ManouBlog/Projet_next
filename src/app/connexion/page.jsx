@@ -35,6 +35,7 @@ export default function ConnexionPage() {
   }
 
   async function signWithCookies(myEmail){
+    console.log("COOKIES EMAIL",myEmail)
 try{
 const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion",{
     method:"POST",
@@ -45,6 +46,7 @@ const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion
         email:myEmail,
     })
     })
+    console.log("REDIRECT WITH COOKIES",response)
     if(response.ok){
       checkAuthStatus()
       router.push(redirectUrl);
