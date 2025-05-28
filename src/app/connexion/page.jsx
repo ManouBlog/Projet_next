@@ -67,7 +67,7 @@ const router = useRouter();
       const info = await response.json();
       // setInfoUser(info.userId)
       dispatch(changeIsAuth(info.userId))
-      // console.log("infoUser",infoUser)
+      console.log("infoUser",infoUser)
     } catch (error) {
     console.log(error)
     }
@@ -87,7 +87,8 @@ const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion
     })
     console.log("REDIRECT WITH COOKIES",response)
     if(response.ok){
-      // checkAuthStatus()
+      checkAuthStatus()
+      console.log("redirectUrl",redirectUrl)
       router.push(redirectUrl);
       dispatch(changeIsLoading(false))
     }
