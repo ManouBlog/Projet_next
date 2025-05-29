@@ -45,11 +45,9 @@ function AllBtnPro(){
     }}>Afficher tous</p>}
    
     <div className='flex gap-2 my-8' style={{
-  width: '100%',
+  width: '90%',
   height:'auto',
-  overflowX: 'scroll',
-  overflowY:'none',
-  WebkitOverflowScrolling: 'touch',
+  overflow: 'auto',
 }}>
 
        {
