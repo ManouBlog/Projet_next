@@ -15,6 +15,7 @@ export default function SearchPerson() {
   }
   return (
     <div>
+      {/* <span className='font-semibold text-sm'>ChoissisTonPro_beta_v1</span> */}
       <input 
       type="search" 
       placeholder="Recherche par nom , métier ou lieu de travail" 
