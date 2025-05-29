@@ -22,11 +22,11 @@ export async function POST(request) {
     name: 'authToken',
     value: token,
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NEXT_PUBLIC_NODE_ENV === 'production',
     sameSite: 'strict',
     path: '/',
     maxAge: 60 * 60,
-    ...(process.env.NODE_ENV === 'production' && { 
+    ...(process.env.NEXT_PUBLIC_NODE_ENV === 'production' && { 
       domain: '.votresite.com' 
     })
   });
