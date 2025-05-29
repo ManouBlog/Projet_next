@@ -20,7 +20,7 @@ export default function SearchPerson() {
       type="search" 
       placeholder="Recherche par nom , métier ou lieu de travail" 
       className='w-full border p-5'
-      value={querySearch ? querySearch:""}
+      value={querySearch ? querySearch:null}
       onChange={(e)=>{
         dispatch(addSearchQuery(e.target.value))
         rechercheByNom()
