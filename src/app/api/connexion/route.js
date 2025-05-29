@@ -25,10 +25,7 @@ export async function POST(request) {
     secure: process.env.NEXT_PUBLIC_NODE_ENV === 'production',
     sameSite: 'strict',
     path: '/',
-    maxAge: 60 * 60,
-    ...(process.env.NEXT_PUBLIC_NODE_ENV === 'production' && { 
-      domain: 'https://projet-next-sandy.vercel.app' 
-    })
+    maxAge: 60 * 60
   });
   console.log("responseCONEXION",response)
 
