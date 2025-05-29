@@ -2,6 +2,7 @@
 import * as React from 'react'
 import PhotoProfil from './PhotoProfil'
 import ProfilInfo from "./ProfilInfo"
+import { useRouter } from 'next/navigation';
 // import { collection, getDocs } from "firebase/firestore";
 // import {db} from "../lib/firebase";
 import Metiers  from '../metiers.json'
@@ -9,10 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import {fectchListUser,addSearchQuery,filterByBtnClickTableau} from '../store/slice/userSlice'
 
 export default function ListPerson() {
-
+const [isClick,setIsClick] = React.useState("");
   const allArtisan = useSelector((state)=>state.user.listUser);
   const dispatch = useDispatch();
-
+  const router = useRouter()
+const handleClick = (idArtisan) => {
+   setIsClick(idArtisan)
+    router.push('/DetailPerson/'+idArtisan)
+  }
    React.useEffect(()=>{
    dispatch(fectchListUser())
   },[dispatch])
@@ -21,7 +26,10 @@ export default function ListPerson() {
     <h1 className='text-right font-semibold my-3'>Nous avons {allArtisan.length} artisans disponibles</h1>
     <AllBtnPro />
     {allArtisan.map((item,index)=>(
-     <div key={index} className='flex gap-5 my-5 shadow-md p-3'>
+     <div key={index} 
+     onClick={()=>handleClick(item.id)}
+     style={{background:isClick == item.id ? 'teal':null}}
+     className='flex gap-5 my-5 cursor-pointer shadow-md p-3'>
       <PhotoProfil nom={item?.nom}/>
       <ProfilInfo item={item} />
     </div>
