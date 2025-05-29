@@ -33,7 +33,7 @@ export default function ListPerson() {
 }
 
 function AllBtnPro(){
-  const [chooseBtn,setChooseBtn] = React.useState("")
+  const [chooseBtn,setChooseBtn] = React.useState([])
   return(  
     <div className='flex gap-2 my-8' style={{
   width: '100%',
@@ -45,13 +45,17 @@ function AllBtnPro(){
        {
               Metiers.metiers.map((item,index)=>(
                <button
-               style={{background:chooseBtn.includes(item.nom) ? 'black':null,color:chooseBtn.includes(item.nom) ? 'white':null}} 
+               style={{background:chooseBtn.some(el=>el.includes(item.nom)) ? 'black':null,color:chooseBtn.some(el=>el.includes(item.nom)) ? 'white':null}} 
                key={index}
                 className='btn'
                value={item.nom}
                onClick={e=>{
-                console.log(e.target.value)
-                setChooseBtn(e.target.value)
+             setChooseBtn(prev => 
+  prev.includes(e.target.value)
+    ? prev.filter(item => item !== e.target.value) // Retire si déjà présent
+    : [...prev, e.target.value]                   // Ajoute si absent
+);
+              console.log("setChooseBtn",chooseBtn)
               }}
                >{item.nom} {item.icone}</button>
               ))
