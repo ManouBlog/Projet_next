@@ -36,6 +36,7 @@ function AllBtnPro(){
   return(  
     <div className='flex gap-2' style={{
   width: '100%',
+  height:'auto',
   overflowX: 'auto',
   WebkitOverflowScrolling: 'touch',
   whiteSpace: 'nowrap',
