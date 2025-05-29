@@ -37,6 +37,13 @@ function AllBtnPro(){
   const [chooseBtn,setChooseBtn] = React.useState([]);
     const dispatch = useDispatch();
   return(  
+    <>
+    {element.length > 0 && <p className='cursor-pointer' onClick={()=>{
+      element = []
+      setChooseBtn(element);
+      dispatch(filterByBtnClickTableau([]))
+    }}>Afficher tous</p>}
+   
     <div className='flex gap-2 my-8' style={{
   width: '100%',
   height:'auto',
@@ -44,6 +51,7 @@ function AllBtnPro(){
   overflowY:'none',
   WebkitOverflowScrolling: 'touch',
 }}>
+
        {
               Metiers.metiers.map((item,index)=>(
                <button
@@ -65,6 +73,7 @@ function AllBtnPro(){
           }
       
     </div>
+    </>
 
   );
 }
