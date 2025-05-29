@@ -6,12 +6,12 @@ import { getAuth,GoogleAuthProvider,
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDLyLuz3QizJ9iI7bHRs25SGNmcJczc69M",
-  authDomain: "fir-connect-547da.firebaseapp.com",
-  projectId: "fir-connect-547da",
-  storageBucket: "fir-connect-547da.firebasestorage.app",
-  messagingSenderId: "894057349076",
-  appId: "1:894057349076:web:c125c55205116b9eec2041"
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
