@@ -38,8 +38,8 @@ function AllBtnPro(){
     <div className='flex gap-2 my-8' style={{
   width: '100%',
   height:'auto',
-  padding:'1em',
   overflowX: 'scroll',
+  overflowY:'none',
   WebkitOverflowScrolling: 'touch',
 }}>
        {
