@@ -17,8 +17,6 @@ const router = useRouter();
 
    const redirectUrl = searchParams.get('redirect') || '/';
    const dispatch = useDispatch();
-  
-
    
    const checkAuthStatus = async () => {
     try {
@@ -48,11 +46,12 @@ const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion
     if(response.ok){
       checkAuthStatus()
       console.log("redirectUrl",redirectUrl)
-      router.push(redirectUrl);
       dispatch(changeIsLoading(false))
     }
 }catch(error){
   console.log(error)
+}finally{
+  router.push(redirectUrl);
 }
   }
 
