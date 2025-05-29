@@ -27,7 +27,7 @@ export async function POST(request) {
     path: '/',
     maxAge: 60 * 60,
     ...(process.env.NEXT_PUBLIC_NODE_ENV === 'production' && { 
-      domain: '.votresite.com' 
+      domain: 'https://projet-next-sandy.vercel.app' 
     })
   });
 
