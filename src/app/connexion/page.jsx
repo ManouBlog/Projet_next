@@ -119,8 +119,11 @@ async function checkUserExists(uid) {
       console.log("User is not authenticated");
     }
   });
-dispatch(changeIsLoading(false))
-  return () => unsubscribe();
+
+  return () =>{
+    dispatch(changeIsLoading(false));
+    unsubscribe();
+  }
  
 }, [dispatch]);
 
