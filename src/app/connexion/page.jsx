@@ -47,6 +47,7 @@ const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion
       checkAuthStatus()
       console.log("redirectUrl",redirectUrl)
       router.push(redirectUrl);
+      window.location.reload()
       dispatch(changeIsLoading(false))
     }
 }catch(error){
