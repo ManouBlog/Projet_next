@@ -101,25 +101,24 @@ async function checkUserExists(uid) {
   return userDoc.exists();
 }
       React.useEffect(() => {
+        dispatch(changeIsLoading(true))
        const unsubscribe = onAuthStateChanged(auth, (user) => {
     console.log("USER", user);
-    dispatch(changeIsLoading(true))
     if (user) {
       console.log("ROOTNAVIGATOR_USER", user);
         checkUserExists(user.uid).then(exists => {
   if (exists) {
     signWithCookies(user.displayName)
+    dispatch(changeIsLoading(false))
   } else {
  integrateInfoIntoDb(user.uid,user.email,user.displayName,user.phoneNumber,null)
   signWithCookies(user.displayName)
+  dispatch(changeIsLoading(false))
   }
-});
-    
-      
+});  
     } else {
       console.log("User is not authenticated");
     }
-    dispatch(changeIsLoading(false))
   });
 
   return () => unsubscribe();
