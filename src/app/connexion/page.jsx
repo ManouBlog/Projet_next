@@ -106,7 +106,7 @@ async function checkUserExists(uid) {
        const unsubscribe = onAuthStateChanged(auth, (user) => {
     console.log("USER", user);
     dispatch(changeIsLoading(true))
-    if (user) {
+    if (user.email) {
       console.log("ROOTNAVIGATOR_USER", user);
         checkUserExists(user.uid).then(exists => {
   if (exists) {
