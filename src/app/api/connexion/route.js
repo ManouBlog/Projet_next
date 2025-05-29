@@ -30,6 +30,7 @@ export async function POST(request) {
       domain: 'https://projet-next-sandy.vercel.app' 
     })
   });
+  console.log("responseCONEXION",response)
 
   return response;
 }
