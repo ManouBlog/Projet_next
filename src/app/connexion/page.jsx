@@ -15,7 +15,7 @@ export default function ConnexionPage() {
 const router = useRouter();
   const searchParams = useSearchParams();
 
-   const redirectUrl = searchParams.get('redirect') || '/';
+  //  const redirectUrl = searchParams.get('redirect') || '/';
    const dispatch = useDispatch();
    
    const checkAuthStatus = async () => {
@@ -45,9 +45,8 @@ const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion
     console.log("REDIRECT WITH COOKIES",response)
     if(response.ok){
       checkAuthStatus()
-      console.log("redirectUrl",redirectUrl)
-      router.push(redirectUrl);
-      window.location.reload()
+      // console.log("redirectUrl",redirectUrl)
+      router.push("/");
       dispatch(changeIsLoading(false))
     }
 }catch(error){
