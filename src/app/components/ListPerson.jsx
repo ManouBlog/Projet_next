@@ -33,6 +33,7 @@ export default function ListPerson() {
 }
 
 function AllBtnPro(){
+  const [chooseBtn,setChooseBtn] = React.useState("")
   return(  
     <div className='flex gap-2 my-8' style={{
   width: '100%',
@@ -42,7 +43,16 @@ function AllBtnPro(){
 }}>
        {
               Metiers.metiers.map((item,index)=>(
-               <button key={index} className='btn'>{item.nom} {item.icone}</button>
+               <button
+               style={{background:chooseBtn.includes(item.nom) ? 'black':null,color:chooseBtn.includes(item.nom) ? 'white':null}} 
+               key={index}
+                className='btn'
+               value={item.nom}
+               onClick={e=>{
+                console.log(e.target.value)
+                setChooseBtn(e.target.value)
+              }}
+               >{item.nom} {item.icone}</button>
               ))
           }
       
