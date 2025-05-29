@@ -174,6 +174,7 @@ function SocialeAuth() {
     const user = await signInWithSocial(googleProvider);
     if (user) {
       console.log("Connecté avec Google :", user.reloadUserInfo);
+      window.location.reload()
     }
   };
   
