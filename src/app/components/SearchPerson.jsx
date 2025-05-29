@@ -1,15 +1,14 @@
 import * as React from 'react'
-import { useDispatch } from 'react-redux';
-import {filterListUserReducer} from "../store/slice/userSlice"
+import { useDispatch, useSelector } from 'react-redux';
+import {filterListUserReducer,addSearchQuery} from "../store/slice/userSlice"
 
 export default function SearchPerson() {
   const dispatch = useDispatch();
-  const [querySearch,setQuerySearch] = React.useState("");
-
-  async function rechercheByNom(searchName){
+  const querySearch = useSelector(state=>state.user.querySearch);
+  async function rechercheByNom(){
     try{
-    console.log("searchName",searchName)
-    dispatch(filterListUserReducer(searchName))
+  
+    dispatch(filterListUserReducer(querySearch))
     }catch(error){
       console.log(error)
     }
@@ -20,10 +19,10 @@ export default function SearchPerson() {
       type="search" 
       placeholder="Recherche par nom , métier ou lieu de travail" 
       className='w-full border p-5'
-      value={querySearch}
+      value={querySearch ? querySearch:""}
       onChange={(e)=>{
-        setQuerySearch(e.target.value)
-        rechercheByNom(e.target.value)
+        dispatch(addSearchQuery(e.target.value))
+        rechercheByNom()
       }}
       />
     </div>

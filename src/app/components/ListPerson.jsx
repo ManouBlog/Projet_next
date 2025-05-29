@@ -6,7 +6,7 @@ import ProfilInfo from "./ProfilInfo"
 // import {db} from "../lib/firebase";
 import Metiers  from '../metiers.json'
 import { useDispatch, useSelector } from 'react-redux';
-import {fectchListUser} from '../store/slice/userSlice'
+import {fectchListUser,addSearchQuery,filterByBtnClickTableau} from '../store/slice/userSlice'
 
 export default function ListPerson() {
 
@@ -31,9 +31,11 @@ export default function ListPerson() {
    
   )
 }
+let element = [];
 
 function AllBtnPro(){
-  const [chooseBtn,setChooseBtn] = React.useState([])
+  const [chooseBtn,setChooseBtn] = React.useState([]);
+    const dispatch = useDispatch();
   return(  
     <div className='flex gap-2 my-8' style={{
   width: '100%',
@@ -50,12 +52,13 @@ function AllBtnPro(){
                 className='btn'
                value={item.nom}
                onClick={e=>{
-             setChooseBtn(prev => 
-  prev.includes(e.target.value)
-    ? prev.filter(item => item !== e.target.value) // Retire si déjà présent
-    : [...prev, e.target.value]                   // Ajoute si absent
-);
-              console.log("setChooseBtn",chooseBtn)
+               dispatch(addSearchQuery(null))
+              element = element.includes(e.target.value)
+? element.filter(item => item !== e.target.value) // Retire si déjà présent
+    : [...element, e.target.value] 
+             setChooseBtn(element);
+    dispatch(filterByBtnClickTableau(element))
+              console.log("setChooseBtn",element)
               }}
                >{item.nom} {item.icone}</button>
               ))

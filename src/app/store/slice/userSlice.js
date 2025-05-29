@@ -27,7 +27,8 @@ const usersSlice = createSlice({
   name: 'users',
   initialState: { 
     listUser: [],
-    listForFilterUser:[]
+    listForFilterUser:[],
+    querySearch:null
   },
   reducers: {
     getListUserReducer: (state,action) => { 
@@ -37,11 +38,26 @@ const usersSlice = createSlice({
     },
     filterListUserReducer:(state,action)=>{
       state.listUser = state.listForFilterUser.filter(book=>{
-        return book.nom.toLowerCase().includes(action.payload.toLowerCase()) || book.metier.toLowerCase().includes(action.payload.toLowerCase()) || book.lieu.toLowerCase().includes(action.payload.toLowerCase()) ;
+        return book?.nom?.toLowerCase().includes(action?.payload?.toLowerCase()) || book.metier.toLowerCase().includes(action?.payload?.toLowerCase()) || book.lieu.toLowerCase().includes(action?.payload?.toLowerCase()) ;
     })
+    },
+    filterByBtnClickTableau:(state,action)=>{
+      if(action.payload.length){
+ state.listUser = state.listForFilterUser.filter(book=>{
+        if(action.payload?.some(metierChoose=>book.metier.includes(metierChoose))){
+          return book;
+        }
+    })
+      }else{
+        state.listUser = state.listForFilterUser
+      }
+  
+    },
+    addSearchQuery:(state,action)=>{
+      state.querySearch = action.payload
     }
   },
 })
 
-export const { getListUserReducer,filterListUserReducer} = usersSlice.actions
+export const { getListUserReducer,filterListUserReducer,addSearchQuery,filterByBtnClickTableau} = usersSlice.actions
 export default usersSlice.reducer
