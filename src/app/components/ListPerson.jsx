@@ -34,12 +34,11 @@ export default function ListPerson() {
 
 function AllBtnPro(){
   return(  
-    <div className='flex gap-2' style={{
+    <div className='flex gap-2 my-8' style={{
   width: '100%',
   height:'auto',
   overflowX: 'auto',
   WebkitOverflowScrolling: 'touch',
-  whiteSpace: 'nowrap',
 }}>
        {
               Metiers.metiers.map((item,index)=>(
