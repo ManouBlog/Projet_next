@@ -5,7 +5,7 @@ import { COLORS } from '../../__design/colors'
 
 function CardVisuel() {
     return (
-  <div className="card rounded-3xl text-white image-full w-96 shadow-sm">
+  <div className="card rounded-3xl text-white image-full w-96 shadow-sm cursor-pointer">
   <figure>
     <img
       src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
