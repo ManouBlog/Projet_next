@@ -1,5 +1,6 @@
 import React from 'react'
-import { COLORS } from '@/app/__design/colors'
+import { COLORS } from '@/app/__design/colors';
+import Link from 'next/link'
 
 function HeroPage() {
     return (
@@ -10,7 +11,10 @@ function HeroPage() {
       <p className="text-3xl my-2">
        l'application indispensable pour chaque coiffeur
       </p>
-      <button className="btn border-0 text-black p-8 mt-8 rounded-xl font-bold text-xl" style={{background:COLORS.light_green}} >Se connecter</button>
+      <Link 
+      className="btn border-0 text-black p-8 mt-8 rounded-xl 
+      font-bold text-xl" 
+      style={{background:COLORS.light_green}} href="/auth/login">Se connecter</Link>
     </div>
   </div>
 </div>
