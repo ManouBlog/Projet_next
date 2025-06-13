@@ -9,7 +9,7 @@ function LoginPage() {
       <div className="card-body">
         <fieldset className="fieldset">
           <label className="label">Email</label>
-          <input type="email" className="input border-gray-600 border-2" placeholder="Email" />
+          <input type="email" className="input border-gray-600 border-2 mb-8" placeholder="Email" />
           <label className="label">Mot de passe</label>
           <input type="password" className="input border-gray-600 border-2" placeholder="Password" />
           <div><a className="link link-hover">Mot de passe oublié?</a></div>
@@ -21,7 +21,7 @@ function LoginPage() {
       </div>
     </div>
   </div>
-</div>
+        </div>
     )
 }
 
