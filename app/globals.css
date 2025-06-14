@@ -24,7 +24,7 @@
 }
 
 body {
-  background: var(--background);
+  background: black;
   color: var(--foreground);
   font-weight: bold;
 }

@@ -14,11 +14,14 @@ function Header() {
   const [longitude, setLongitude] = React.useState("");
   const [latitude, setLatitude] = React.useState("");
   const [adress,setAdress] = React.useState("");
+  const [isLoading,setIsLoading] = React.useState(false);
   const [allAdresse,setAllAdresse] = React.useState([]);
   const [cityOrAdresse,setCityOrAdresse] = React.useState("");
   const reverseGeocode = (coords) => {
+    setIsLoading(true)
     const key = "";
-    opencage.geocode({ key, q: coords,abbrv:1 })
+    setTimeout(()=>{
+ opencage.geocode({ key, q: coords})
       .then((response) => {
         const africanResults = response.results.filter(result => 
       result.components.continent === "Africa" && result.components.state === "Abidjan"
@@ -29,12 +32,15 @@ function Header() {
       console.log("africanResults",africanResults)
       console.log("Résultat géocodage (Afrique) :", result);
       setAdress(result.formatted);
+      setCityOrAdresse(result.formatted)
       setAllAdresse(africanResults)
     } else {
       console.error("Aucun résultat trouvé en Afrique.");
-    }
-      
+    } 
+     setIsLoading(false)
     });
+    },250)
+  
   };
 function success(pos) {
    const crd = pos.coords;
@@ -56,8 +62,7 @@ function error(err) {
   }
 
   function writeCityOrAddressForGeolocation(cityOrAddress) {
-    console.log(cityOrAddress)
-    if(cityOrAddress.trim().length >= 4){
+    if(cityOrAddress.trim().length >= 3){
    reverseGeocode(cityOrAddress.trim());
     }else{
       return;
@@ -73,8 +78,8 @@ function error(err) {
   <div className='relative'>
 <input type="search" 
 value={cityOrAdresse}
-className="input border-2 w-full rounded p-6 border-gray-600"
-placeholder="Ville,adresse" 
+className="input border-2 w-full rounded p-6 border-gray-600 bg-white"
+placeholder="Ville,commune" 
 onChange={(e)=>{
   setCityOrAdresse(e.target.value)
   writeCityOrAddressForGeolocation(e.target.value)
@@ -107,6 +112,8 @@ setAllAdresse([])
 onClick={getGeolocationCurrently}
  style={{color:COLORS.light_green}}> <FaLocationArrow  size={15}/>
 <span>Localisation actuelle</span>
+{isLoading && <span className="loading loading-spinner loading-xs"></span>}
+
 </button>
 </div>
 

@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { StoreProvider } from "./StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +19,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <StoreProvider>
     <html lang="en"
     data-lt-installed="true"
     >
@@ -27,5 +29,6 @@ export default function RootLayout({ children }) {
         {children}
       </body>
     </html>
+    </StoreProvider>
   );
 }
