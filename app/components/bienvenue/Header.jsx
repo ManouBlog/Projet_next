@@ -14,14 +14,26 @@ function Header() {
   const [longitude, setLongitude] = React.useState("");
   const [latitude, setLatitude] = React.useState("");
   const [adress,setAdress] = React.useState("");
+  const [allAdresse,setAllAdresse] = React.useState([]);
+  const [cityOrAdresse,setCityOrAdresse] = React.useState("");
   const reverseGeocode = (coords) => {
     const key = "";
-     let result;
-    opencage.geocode({ key, q: coords })
+    opencage.geocode({ key, q: coords,abbrv:1 })
       .then((response) => {
-      result = response.results[0];
-        console.log("RESULTAT GEO CODE NAME : ", result);
-        setAdress(result.formatted)
+        const africanResults = response.results.filter(result => 
+      result.components.continent === "Africa" && result.components.state === "Abidjan"
+    );
+    
+    if (africanResults.length > 0) {
+      const result = africanResults[0];
+      console.log("africanResults",africanResults)
+      console.log("Résultat géocodage (Afrique) :", result);
+      setAdress(result.formatted);
+      setAllAdresse(africanResults)
+    } else {
+      console.error("Aucun résultat trouvé en Afrique.");
+    }
+      
     });
   };
 function success(pos) {
@@ -42,6 +54,15 @@ function error(err) {
   function getGeolocationCurrently(){
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
+
+  function writeCityOrAddressForGeolocation(cityOrAddress) {
+    console.log(cityOrAddress)
+    if(cityOrAddress.trim().length >= 4){
+   reverseGeocode(cityOrAddress.trim());
+    }else{
+      return;
+    }
+  }
    
     return (
         <>
@@ -49,20 +70,44 @@ function error(err) {
         <div className='flex justify-end gap-2 p-5 flex-wrap'>
         
 <div className='mt-20 md:mx-8'>
-<input type="text" className="input border-2 w-full rounded p-6 border-gray-600" placeholder="Choisir une commune" list="browsers" />
-<datalist id="browsers">
-  <option value="Yopougon"></option>
-  <option value="Marcory"></option>
-  <option value="Koumassi"></option>
-  <option value="Abobo"></option>
-  <option value="Port-bouet"></option>
-</datalist>
+  <div className='relative'>
+<input type="search" 
+value={cityOrAdresse}
+className="input border-2 w-full rounded p-6 border-gray-600"
+placeholder="Ville,adresse" 
+onChange={(e)=>{
+  setCityOrAdresse(e.target.value)
+  writeCityOrAddressForGeolocation(e.target.value)
+  if(e.target.value === ''){
+setAllAdresse([])
+  }
+  }}
+/>
+{allAdresse.length > 0 &&  <div className='absolute left-0 right-0 bottom-0
+ top-13 h-35 rounded z-9 p-2 overflow-y-auto w-full bg-white
+  shadow-2xs border-1 border-black'>
+ <ul>
+ {allAdresse.map((item,index)=>(
+  <li key={index} className='cursor-pointer my-2 text-sm font-semibold'
+  onClick={()=>{
+    setCityOrAdresse(item.formatted)
+    setAllAdresse([])
+  }}
+  >{item.formatted}</li>
+))}
+ </ul>
+
+</div>}
+
+  </div>
+
+
+
 <button className='flex items-center gap-1 cursor-pointer font-bold text-sm mt-3'
 onClick={getGeolocationCurrently}
  style={{color:COLORS.light_green}}> <FaLocationArrow  size={15}/>
 <span>Localisation actuelle</span>
 </button>
-<span>{adress}</span>
 </div>
 
         </div>
