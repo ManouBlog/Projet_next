@@ -35,16 +35,74 @@ function RegisterPage() {
 
 
 function CoiffeurPro() {
+  const [entreprise,setEntreprise] = React.useState('');
+  const [nom,setNom] = React.useState('');
+  const [prenoms,setPrenoms] = React.useState('');
+  const [email,setEmail] = React.useState('');
+  const [contact,setContact] = React.useState('');
+  const [password,setPassword] = React.useState('');
+  const [profil,setProfil] = React.useState(null);
+
+  function registerCoiffeurPro() {
+     const data = {
+      entreprise:entreprise,
+      nom:nom,
+      prenoms:prenoms,
+      email:email,
+      contact:contact,
+      password:password,
+      profil:profil
+     }
+     console.log(data)
+  }
     return(
    <div className="card-body w-full">
         <fieldset className="fieldset">
-            <Input label={"Email"}  placeholder={"Email"} type={"email"}/>
-         <Input label={"Mot de passe"}  placeholder={"Mot de passe"} type={"password"}/>
+          <Input label={"Entreprise"} 
+          valueInput={entreprise}
+          onChange={setEntreprise}
+          placeholder={"Le nom de l'entreprise"} 
+          type={"text"} isRequired/>
+          <Input label={"Nom du coiffeur"}  
+          valueInput={nom}
+          onChange={setNom}
+          placeholder={"Nom du coiffeur"} 
+          type={"text"} isRequired/>
+          <Input label={"Prénoms du coiffeur"} 
+           valueInput={prenoms}
+          onChange={setPrenoms}
+          placeholder={"Prénoms du coiffeur"} type={"text"} isRequired/>
+            <Input label={"Email de l'entreprise"}  
+            valueInput={email}
+          onChange={setEmail}
+            placeholder={"Email"} type={"email"} isRequired/>
+            <Input label={"Contact de l'entreprise"} 
+            valueInput={contact}
+          onChange={setContact}
+            placeholder={"Contact"} type={"text"} isRequired/>
+           <label className="label">Photo de profil
+        <span style={{color:'red'}}>*</span>
+         </label>
+          <input 
+          onChange={(e)=>{
+            const image = e.target.files[0];
+            console.log(image)
+            setProfil(image)
+          }}
+          type="file"
+          className="input border-gray-600 rounded py-4 border-2 mb-8 w-full" 
+         />
+         <Input label={"Mot de passe"}
+         valueInput={password}
+          onChange={setPassword}
+         placeholder={"Mot de passe"} type={"password"} isRequired/>
           <div><a className="link link-hover">Mot de passe oublié?</a></div>
-          <button className="btn border-0 text-black p-5 mt-5 rounded-xl 
+          <button 
+          onClick={registerCoiffeurPro}
+          className="btn border-0 text-black p-5 mt-5 rounded-xl 
       font-semibold text-xl" 
       style={{background:COLORS.light_green}}
-      >Enregsitrer</button>
+      >Enregistrer</button>
         </fieldset>
       </div>
     )
@@ -56,14 +114,16 @@ function Clients() {
         <fieldset className="fieldset">
             <Input label={"Nom"}  placeholder={"Nom"} type={"text"} isRequired/>
                      <Input label={"Prénoms"}  placeholder={"Prénoms"} type={"text"} isRequired/>
+                      <Input label={"Contact"}  placeholder={"Contact"} type={"text"} isRequired/>
                       <Input label={"Mon adresse géographique"}  placeholder={"Mon adresse"} type={"search"}/>
             <Input label={"Email"}  placeholder={"Email"} type={"email"} isRequired/>
+
          <Input label={"Mot de passe"}  placeholder={"Mot de passe"} type={"password"} isRequired/>
           <div><a className="link link-hover">Mot de passe oublié?</a></div>
           <button className="btn border-0 text-black p-5 mt-5 rounded-xl 
       font-semibold text-xl" 
       style={{background:COLORS.light_green}}
-      >Enregsitrer</button>
+      >Enregistrer</button>
         </fieldset>
       </div>
     )

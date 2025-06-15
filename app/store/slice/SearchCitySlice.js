@@ -8,13 +8,9 @@ const SearchCitySlice = createSlice({
     allAdresse:[],
   },
   reducers: {
-    changeCode: (state,action) => { state.isCode = action.payload },
-    changeModalOpen: (state,action) => { state.modalOpen = action.payload },
-    changeIsRegisterVisible: (state,action) => { state.isRegisterVisible = action.payload},
-    changeIsArtisanOrClients: (state,action) => { state.isArtisanOrClients = action.payload},
-    changeIsAuth:(state,action)=>{state.isAuth = action.payload}
+    addCityOrAdresse: (state,action) => { state.cityOrAdresse = action.payload }
   },
 })
 
-export const { changeCode, changeIsRegisterVisible,changeIsArtisanOrClients,changeModalOpen,changeIsAuth} = SearchCitySlice.actions
+export const { addCityOrAdresse} = SearchCitySlice.actions
 export default SearchCitySlice.reducer

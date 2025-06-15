@@ -73,7 +73,6 @@ function error(err) {
         <>
         <NavBar />
         <div className='flex justify-end gap-2 p-5 flex-wrap'>
-        
 <div className='mt-20 md:mx-8'>
   <div className='relative'>
 <input type="search" 

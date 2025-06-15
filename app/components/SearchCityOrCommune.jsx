@@ -1,6 +1,8 @@
 import React from 'react'
+import { useDispatch,useSelector } from 'react-redux'
 
 export default function SearchCityOrCommune() {
+
   return (
     <div className='relative'>
 <input type="search" 

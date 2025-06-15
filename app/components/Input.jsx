@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Input({label,placeholder,type,isRequired}) {
+export default function Input({label,placeholder,type,isRequired,onChange,valueInput}) {
   return (
     <>
       <label className="label">{label}
@@ -8,6 +8,9 @@ export default function Input({label,placeholder,type,isRequired}) {
          
          </label>
           <input 
+          value={valueInput}
+          onChange={(e)=>onChange(e.target.value)}
+          required={isRequired}
           type={type}
           className="input border-gray-600 rounded py-4 border-2 mb-8 w-full" 
           placeholder={placeholder} />
