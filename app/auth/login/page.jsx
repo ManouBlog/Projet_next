@@ -5,7 +5,7 @@ import Link from 'next/link'
 function LoginPage() {
     return (
        <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col">
+  <div className="hero-content sm:w-full md:w-150 flex-col">
     <h1 className='text-center text-white text-4xl'>COIFFEURPRO</h1>
     <span className='text-white text-sm'>L'application fait pour les coiffeurs</span>
     <div className="card bg-white w-full shrink-0 shadow-2xl text-black">

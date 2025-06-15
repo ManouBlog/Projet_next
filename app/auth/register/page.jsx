@@ -96,7 +96,6 @@ function CoiffeurPro() {
          valueInput={password}
           onChange={setPassword}
          placeholder={"Mot de passe"} type={"password"} isRequired/>
-          <div><a className="link link-hover">Mot de passe oublié?</a></div>
           <button 
           onClick={registerCoiffeurPro}
           className="btn border-0 text-black p-5 mt-5 rounded-xl 
@@ -114,12 +113,11 @@ function Clients() {
         <fieldset className="fieldset">
             <Input label={"Nom"}  placeholder={"Nom"} type={"text"} isRequired/>
                      <Input label={"Prénoms"}  placeholder={"Prénoms"} type={"text"} isRequired/>
-                      <Input label={"Contact"}  placeholder={"Contact"} type={"text"} isRequired/>
+                      <Input label={"Contact"}  placeholder={"Contact"} type={"number"} isRequired/>
                       <Input label={"Mon adresse géographique"}  placeholder={"Mon adresse"} type={"search"}/>
             <Input label={"Email"}  placeholder={"Email"} type={"email"} isRequired/>
 
          <Input label={"Mot de passe"}  placeholder={"Mot de passe"} type={"password"} isRequired/>
-          <div><a className="link link-hover">Mot de passe oublié?</a></div>
           <button className="btn border-0 text-black p-5 mt-5 rounded-xl 
       font-semibold text-xl" 
       style={{background:COLORS.light_green}}
