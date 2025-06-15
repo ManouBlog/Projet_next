@@ -79,7 +79,7 @@ function CoiffeurPro() {
             <Input label={"Contact de l'entreprise"} 
             valueInput={contact}
           onChange={setContact}
-            placeholder={"Contact"} type={"text"} isRequired/>
+            placeholder={"Contact"} type={"number"} isRequired/>
            <label className="label">Photo de profil
         <span style={{color:'red'}}>*</span>
          </label>
