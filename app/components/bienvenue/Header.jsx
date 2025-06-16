@@ -84,7 +84,7 @@ function error(err) {
   <div className='relative'>
 <input type="search" 
 value={cityOrAdresse}
-className="input border-2 w-full rounded p-6 border-gray-600 bg-white"
+className="input border-2 w-full rounded p-6 border-gray-600 bg-white text-black"
 placeholder="Ville,commune" 
 onChange={(e)=>{
   setCityOrAdresse(e.target.value)

@@ -2,8 +2,10 @@ import React from 'react'
 import { COLORS } from '@/app/__design/colors';
 import Link from 'next/link'
 import HeaderForm from '@/app/components/headerForm'
+import BtnRouter from '@/app/components/BtnRouter';
 
 function LoginPage() {
+   
     return (
        <div className="hero bg-base-200 min-h-screen">
   <div className="hero-content sm:w-full md:w-150 flex-col">
@@ -18,10 +20,16 @@ function LoginPage() {
           <div>
             <Link href={'/auth/passwordforgot'}>Mot de passe oublié?</Link>
             </div>
-          <button className="btn border-0 text-black p-5 mt-5 rounded-xl 
-      font-semibold text-xl" 
-      style={{background:COLORS.light_green}}
-      >Se connecter</button>
+            <BtnRouter 
+            route={'/dashboard'}
+            title={'Se connecter'}
+            />
+          {/* <button 
+           onClick={() => router.push('/dashboard')}
+           className="btn border-0 text-black p-5 mt-5 rounded-xl 
+            font-semibold text-xl" 
+            style={{background:COLORS.light_green}}
+              >Se connecter</button> */}
         </fieldset>
       </div>
     </div>
