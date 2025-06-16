@@ -3,14 +3,14 @@ import * as React from 'react'
 import { COLORS } from '@/app/__design/colors';
 import Link from 'next/link'
 import Input from "@/app/components/Input"
+import HeaderForm from '@/app/components/headerForm'
 
 function RegisterPage() {
     const [btnChosen,setBtnChosen] = React.useState("coiffeur")
     return (
        <div className="hero bg-base-200 min-h-screen">
   <div className="hero-content sm:w-full md:w-150 flex-col">
-    <h1 className='text-center text-white text-4xl'>COIFFEURPRO</h1>
-    <span className='text-white text-sm'>L'application fait pour les coiffeurs</span>
+   <HeaderForm />
     <div className="card bg-white w-full shrink-0 shadow-2xl text-black">
         <div className='flex gap-5 items-center justify-center my-4 flex-wrap'>
             <button className='btn rounded cursor-pointer'
