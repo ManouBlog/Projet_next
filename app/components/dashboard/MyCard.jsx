@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MyCard({title,icons,number}) {
+function MyCard({title,number}) {
     return (
         <section className='card shadow-2xl bg-white p-5 text-black rounded-xl w-96'>
          <div className='my-2'>
