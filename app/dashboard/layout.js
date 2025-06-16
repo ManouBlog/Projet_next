@@ -1,13 +1,15 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
+import HeaderDashboard from "@/app/components/dashboard/HeaderDashboard"
 
 export default function Layout({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full">
         <SidebarTrigger />
-        {children}
+        <HeaderDashboard />
+        <div className="p-5">{children}</div>
       </main>
     </SidebarProvider>
   )

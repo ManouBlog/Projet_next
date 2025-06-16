@@ -1,5 +1,5 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
-
+import { ScissorsLineDashed, Home, Inbox, PersonStanding, Timer } from "lucide-react"
+import Link from 'next/link'
 import {
   Sidebar,
   SidebarContent,
@@ -9,34 +9,43 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter
 } from "@/components/ui/sidebar"
+import {
+  DropdownMenu,
+} from "@/components/ui/dropdown-menu"
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "Accueil",
+    url: "/dashboard",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "Catégories de services",
+    url: "/dashboard/categorie_service",
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Services",
     url: "#",
-    icon: Calendar,
+    icon: ScissorsLineDashed,
   },
   {
-    title: "Search",
+    title: "Clients",
     url: "#",
-    icon: Search,
+    icon: PersonStanding,
   },
   {
-    title: "Settings",
+    title: "Employés",
     url: "#",
-    icon: Settings,
+    icon: PersonStanding,
+  },
+  {
+    title: "Horaire",
+    url: "#",
+    icon: Timer,
   },
 ]
 
@@ -45,11 +54,11 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>CoiffeurPro</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem className='my-2' key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
                       <item.icon />
@@ -62,6 +71,24 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <div className="flex justify-center">
+               <Link href='/'>Déconnexion</Link>
+                </div>
+                {/* <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <User2 /> 
+                    <ChevronUp className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger> */}
+                
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
     </Sidebar>
   )
 }
