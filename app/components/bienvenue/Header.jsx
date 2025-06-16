@@ -38,6 +38,12 @@ function Header() {
       console.error("Aucun résultat trouvé en Afrique.");
     } 
      setIsLoading(false)
+    })
+    .catch(error=>{
+      alert(error)
+    })
+    .finally(()=>{
+     setIsLoading(false)
     });
     },250)
   
@@ -55,6 +61,7 @@ function success(pos) {
   console.log(`More or less ${crd.accuracy} meters.`);
 }
 function error(err) {
+  alert(`ERROR(${err.code}): ${err.message}`)
   console.warn(`ERROR(${err.code}): ${err.message}`);
 }
   function getGeolocationCurrently(){
