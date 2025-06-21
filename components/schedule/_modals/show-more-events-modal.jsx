@@ -1,6 +1,6 @@
 import EventStyled from "@/components/schedule/_components/view/event-component/event-styled";
 import { useModal } from "@/providers/modal-context";
-import { Event } from "@/types";
+// import { Event } from "@/types";
 import React, { useEffect, useState } from "react";
 import { CalendarIcon } from "lucide-react";
 
@@ -9,7 +9,7 @@ export default function ShowMoreEventsModal() {
   console.log(data);
   const dayEvents = data?.default?.dayEvents || [];
 
-  const [events, setEvents] = useState<Event[]>(dayEvents);
+  const [events, setEvents] = useState(dayEvents);
 
   useEffect(() => {
     setEvents(dayEvents);
@@ -18,7 +18,7 @@ export default function ShowMoreEventsModal() {
   return (
     <div className="flex flex-col gap-2">
       {events.length > 0 ? (
-        events.map((event: Event) => (
+        events.map((event) => (
           <EventStyled
             onDelete={(id) => {
               setEvents(events.filter((event) => event.id !== id));

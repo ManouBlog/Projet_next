@@ -8,7 +8,7 @@ import EventStyled from "../event-component/event-styled";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Maximize2, ChevronLeft, Maximize } from "lucide-react";
 import clsx from "clsx";
-import { Event, CustomEventModal } from "@/types";
+// import { Event, CustomEventModal } from "@/types";
 import CustomModal from "@/components/ui/custom-modal";
 
 const hours = Array.from({ length: 24 }, (_, i) => {
@@ -17,14 +17,8 @@ const hours = Array.from({ length: 24 }, (_, i) => {
   return `${hour}:00 ${ampm}`;
 });
 
-interface ChipData {
-  id: number;
-  color: "primary" | "warning" | "danger";
-  title: string;
-  description: string;
-}
 
-const chipData: ChipData[] = [
+const chipData = [
   {
     id: 1,
     color: "primary",
@@ -75,13 +69,13 @@ const itemVariants = {
 };
 
 const pageTransitionVariants = {
-  enter: (direction: number) => ({
+  enter: (direction) => ({
     opacity: 0,
   }),
   center: {
     opacity: 1,
   },
-  exit: (direction: number) => ({
+  exit: (direction) => ({
     opacity: 0,
     transition: {
       opacity: { duration: 0.2, ease: "easeInOut" },
@@ -95,21 +89,15 @@ export default function WeeklyView({
   CustomEventComponent,
   CustomEventModal,
   classNames,
-}: {
-  prevButton?: React.ReactNode;
-  nextButton?: React.ReactNode;
-  CustomEventComponent?: React.FC<Event>;
-  CustomEventModal?: CustomEventModal;
-  classNames?: { prev?: string; next?: string; addEvent?: string };
 }) {
   const { getters, handlers } = useScheduler();
-  const hoursColumnRef = useRef<HTMLDivElement>(null);
-  const [detailedHour, setDetailedHour] = useState<string | null>(null);
-  const [timelinePosition, setTimelinePosition] = useState<number>(0);
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [colWidth, setColWidth] = useState<number[]>(Array(7).fill(1)); // Equal width columns by default
-  const [isResizing, setIsResizing] = useState<boolean>(false);
-  const [direction, setDirection] = useState<number>(0);
+  const hoursColumnRef = useRef(null);
+  const [detailedHour, setDetailedHour] = useState(null);
+  const [timelinePosition, setTimelinePosition] = useState(0);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [colWidth, setColWidth] = useState(Array(7).fill(1)); // Equal width columns by default
+  const [isResizing, setIsResizing] = useState(false);
+  const [direction, setDirection] = useState(0);
   const { setOpen } = useModal();
 
   const daysOfWeek = getters?.getDaysInWeek(
@@ -122,7 +110,7 @@ export default function WeeklyView({
     setColWidth(Array(7).fill(1));
   }, [currentDate]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleMouseMove = useCallback((e) => {
     if (!hoursColumnRef.current) return;
     const rect = hoursColumnRef.current.getBoundingClientRect();
     const y = e.clientY - rect.top;
@@ -145,7 +133,7 @@ export default function WeeklyView({
     setTimelinePosition(position);
   }, []);
 
-  function handleAddEvent(event?: Event) {
+  function handleAddEvent(event) {
     // Create the modal content with the provided event data or defaults
     const startDate = event?.startDate || new Date();
     const endDate = event?.endDate || new Date();
@@ -183,7 +171,7 @@ export default function WeeklyView({
     setCurrentDate(prevWeek);
   }, [currentDate]);
 
-  function handleAddEventWeek(dayIndex: number, detailedHour: string) {
+  function handleAddEventWeek(dayIndex, detailedHour) {
     if (!detailedHour) {
       console.error("Detailed hour not provided.");
       return;
@@ -229,7 +217,7 @@ export default function WeeklyView({
 
 
   // Group events by time period to prevent splitting spaces within same time blocks
-  const groupEventsByTimePeriod = (events: Event[] | undefined) => {
+  const groupEventsByTimePeriod = (events) => {
     if (!events || events.length === 0) return [];
     
     // Sort events by start time
@@ -238,7 +226,7 @@ export default function WeeklyView({
     );
     
     // Precise time overlap checking function
-    const eventsOverlap = (event1: Event, event2: Event) => {
+    const eventsOverlap = (event1, event2) => {
       const start1 = new Date(event1.startDate).getTime();
       const end1 = new Date(event1.endDate).getTime();
       const start2 = new Date(event2.startDate).getTime();
@@ -249,11 +237,11 @@ export default function WeeklyView({
     };
     
     // First, create a graph where events are vertices and edges represent overlaps
-    const graph: Record<string, Set<string>> = {};
+    const graph = {};
     
     // Initialize graph
     for (const event of sortedEvents) {
-      graph[event.id] = new Set<string>();
+      graph[event.id] = new Set();
     }
     
     // Build connections - only connect events that truly overlap in time
@@ -268,19 +256,19 @@ export default function WeeklyView({
     }
     
     // Use DFS to find connected components (groups of overlapping events)
-    const visited = new Set<string>();
-    const groups: Event[][] = [];
+    const visited = new Set();
+    const groups = [];
     
     for (const event of sortedEvents) {
       if (!visited.has(event.id)) {
         // Start a new component/group
-        const group: Event[] = [];
-        const stack: Event[] = [event];
+        const group = [];
+        const stack = [event];
         visited.add(event.id);
         
         // DFS traversal
         while (stack.length > 0) {
-          const current = stack.pop()!;
+          const current = stack?.pop();
           group.push(current);
           
           // Visit neighbors (overlapping events)
@@ -610,7 +598,7 @@ export default function WeeklyView({
                     key={`day-${dayIndex}`}
                     className="col-span-1 border-default-200 z-20 relative transition duration-300 cursor-pointer border-r border-b text-center text-sm text-muted-foreground overflow-hidden"
                     onClick={() => {
-                      handleAddEventWeek(dayIndex, detailedHour as string);
+                      handleAddEventWeek(dayIndex, detailedHour);
                     }}
                   >
                     <AnimatePresence initial={false}>

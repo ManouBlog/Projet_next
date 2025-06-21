@@ -13,17 +13,17 @@ import { useModal } from "@/providers/modal-context";
 import AddEventModal from "@/components/schedule/_modals/add-event-modal";
 import ShowMoreEventsModal from "@/components/schedule/_modals/show-more-events-modal";
 import EventStyled from "../event-component/event-styled";
-import { Event, CustomEventModal } from "@/types";
+// import { Event, CustomEventModal } from "@/types";
 import CustomModal from "@/components/ui/custom-modal";
 
 const pageTransitionVariants = {
-  enter: (direction: number) => ({
+  enter: (direction) => ({
     opacity: 0,
   }),
   center: {
     opacity: 1,
   },
-  exit: (direction: number) => ({
+  exit: (direction) => ({
     opacity: 0,
     transition: {
       opacity: { duration: 0.2, ease: "easeInOut" },
@@ -37,12 +37,6 @@ export default function MonthView({
   CustomEventComponent,
   CustomEventModal,
   classNames,
-}: {
-  prevButton?: React.ReactNode;
-  nextButton?: React.ReactNode;
-  CustomEventComponent?: React.FC<Event>;
-  CustomEventModal?: CustomEventModal;
-  classNames?: { prev?: string; next?: string; addEvent?: string };
 }) {
   const { getters, weekStartsOn } = useScheduler();
   const { setOpen } = useModal();
@@ -75,7 +69,7 @@ export default function MonthView({
     setCurrentDate(newDate);
   }, [currentDate]);
 
-  function handleAddEvent(selectedDay: number) {
+  function handleAddEvent(selectedDay) {
     // Create start date at 12:00 AM on the selected day
     const startDate = new Date(
       currentDate.getFullYear(),
@@ -116,7 +110,7 @@ export default function MonthView({
     );
   }
 
-  function handleShowMoreEvents(dayEvents: Event[]) {
+  function handleShowMoreEvents(dayEvents) {
     setOpen(
       <CustomModal title={dayEvents && dayEvents[0]?.startDate.toDateString()}>
         <ShowMoreEventsModal />

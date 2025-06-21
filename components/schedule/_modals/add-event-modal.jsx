@@ -16,23 +16,21 @@ import { cn } from "@/lib/utils";
 import { useModal } from "@/providers/modal-context";
 import SelectDate from "@/components/schedule/_components/add-event-components/select-date";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { EventFormData, eventSchema, Variant, Event } from "@/types/index";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { EventFormData, eventSchema, Variant, Event } from "@/types/index";
 import { useScheduler } from "@/providers/schedular-provider";
 import { v4 as uuidv4 } from "uuid"; // Use UUID to generate event IDs
 
 export default function AddEventModal({
   CustomAddEventModal,
-}: {
-  CustomAddEventModal?: React.FC<{ register: any; errors: any }>;
 }) {
   const { setClose, data } = useModal();
 
-  const [selectedColor, setSelectedColor] = useState<string>(
+  const [selectedColor, setSelectedColor] = useState(
     getEventColor(data?.variant || "primary")
   );
 
-  const typedData = data as { default: Event };
+  const typedData = data;
 
   const { handlers } = useScheduler();
 
@@ -42,8 +40,8 @@ export default function AddEventModal({
     reset,
     formState: { errors },
     setValue,
-  } = useForm<EventFormData>({
-    resolver: zodResolver(eventSchema),
+  } = useForm({
+    resolver,
     defaultValues: {
       title: "",
       description: "",
@@ -77,7 +75,7 @@ export default function AddEventModal({
     { key: "yellow", name: "Yellow" },
   ];
 
-  function getEventColor(variant: Variant) {
+  function getEventColor(variant) {
     switch (variant) {
       case "primary":
         return "blue";
@@ -92,7 +90,7 @@ export default function AddEventModal({
     }
   }
 
-  function getEventStatus(color: string) {
+  function getEventStatus(color) {
     switch (color) {
       case "blue":
         return "primary";
@@ -107,7 +105,7 @@ export default function AddEventModal({
     }
   }
 
-  const getButtonVariant = (color: string) => {
+  const getButtonVariant = (color) => {
     switch (color) {
       case "blue":
         return "default";
@@ -122,8 +120,8 @@ export default function AddEventModal({
     }
   };
 
-  const onSubmit: SubmitHandler<EventFormData> = (formData) => {
-    const newEvent: Event = {
+  const onSubmit = (formData) => {
+    const newEvent = {
       id: uuidv4(), // Generate a unique ID
       title: formData.title,
       startDate: formData.startDate,
@@ -153,7 +151,7 @@ export default function AddEventModal({
             />
             {errors.title && (
               <p className="text-sm text-red-500">
-                {errors.title.message as string}
+                {errors.title.message}
               </p>
             )}
           </div>

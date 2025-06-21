@@ -64,7 +64,7 @@ const ModalProvider = ({ children }) => {
     }
   };
 
-  const setCanClose = (modalId: string, value: boolean) => {
+  const setCanClose = (modalId,value) => {
     setCanCloseState((prev) => {
       // Only update if the value changes
       if (prev[modalId] === value) return prev;

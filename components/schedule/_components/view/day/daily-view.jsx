@@ -9,7 +9,7 @@ import { useScheduler } from "@/providers/schedular-provider";
 import { useModal } from "@/providers/modal-context";
 import AddEventModal from "@/components/schedule/_modals/add-event-modal";
 import EventStyled from "../event-component/event-styled";
-import { CustomEventModal, Event } from "@/types";
+// import { CustomEventModal, Event } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CustomModal from "@/components/ui/custom-modal";
@@ -38,14 +38,14 @@ const itemVariants = {
 };
 
 const pageTransitionVariants = {
-  enter: (direction: number) => ({
+  enter: (direction) => ({
     opacity: 0,
   }),
   center: {
     x: 0,
     opacity: 1,
   },
-  exit: (direction: number) => ({
+  exit: (direction) => ({
     opacity: 0,
     transition: {
       opacity: { duration: 0.2, ease: "easeInOut" },
@@ -54,7 +54,7 @@ const pageTransitionVariants = {
 };
 
 // Precise time-based event grouping function
-const groupEventsByTimePeriod = (events: Event[] | undefined) => {
+const groupEventsByTimePeriod = (events) => {
   if (!events || events.length === 0) return [];
   
   // Sort events by start time
@@ -63,7 +63,7 @@ const groupEventsByTimePeriod = (events: Event[] | undefined) => {
   );
   
   // Precise time overlap checking function
-  const eventsOverlap = (event1: Event, event2: Event) => {
+  const eventsOverlap = (event1, event2) => {
     const start1 = new Date(event1.startDate).getTime();
     const end1 = new Date(event1.endDate).getTime();
     const start2 = new Date(event2.startDate).getTime();
@@ -74,9 +74,9 @@ const groupEventsByTimePeriod = (events: Event[] | undefined) => {
   };
   
   // Use a graph-based approach to find connected components (overlapping event groups)
-  const buildOverlapGraph = (events: Event[]) => {
+  const buildOverlapGraph = (events) => {
     // Create adjacency list
-    const graph: Record<string, string[]> = {};
+    const graph = {};
     
     // Initialize graph
     events.forEach(event => {
@@ -97,12 +97,12 @@ const groupEventsByTimePeriod = (events: Event[] | undefined) => {
   };
   
   // Find connected components using DFS
-  const findConnectedComponents = (graph: Record<string, string[]>, events: Event[]) => {
-    const visited: Record<string, boolean> = {};
-    const components: Event[][] = [];
+  const findConnectedComponents = (graph, events) => {
+    const visited = {};
+    const components = [];
     
     // DFS function to traverse the graph
-    const dfs = (nodeId: string, component: string[]) => {
+    const dfs = (nodeId, component) => {
       visited[nodeId] = true;
       component.push(nodeId);
       
@@ -116,12 +116,12 @@ const groupEventsByTimePeriod = (events: Event[] | undefined) => {
     // Find all connected components
     for (const event of events) {
       if (!visited[event.id]) {
-        const component: string[] = [];
+        const component = [];
         dfs(event.id, component);
         
         // Map IDs back to events
         const eventGroup = component.map(id => 
-          events.find(e => e.id === id)!
+          events?.find(e => e.id === id)
         );
         
         components.push(eventGroup);
@@ -152,24 +152,17 @@ export default function DailyView({
   CustomEventModal,
   stopDayEventSummary,
   classNames,
-}: {
-  prevButton?: React.ReactNode;
-  nextButton?: React.ReactNode;
-  CustomEventComponent?: React.FC<Event>;
-  CustomEventModal?: CustomEventModal;
-  stopDayEventSummary?: boolean;
-  classNames?: { prev?: string; next?: string; addEvent?: string };
 }) {
-  const hoursColumnRef = useRef<HTMLDivElement>(null);
-  const [detailedHour, setDetailedHour] = useState<string | null>(null);
-  const [timelinePosition, setTimelinePosition] = useState<number>(0);
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [direction, setDirection] = useState<number>(0);
+  const hoursColumnRef = useRef(null);
+  const [detailedHour, setDetailedHour] = useState(null);
+  const [timelinePosition, setTimelinePosition] = useState(0);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [direction, setDirection] = useState(0);
   const { setOpen } = useModal();
   const { getters, handlers } = useScheduler();
 
   const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (e) => {
       if (!hoursColumnRef.current) return;
       const rect = hoursColumnRef.current.getBoundingClientRect();
       const y = e.clientY - rect.top;
@@ -205,7 +198,7 @@ export default function DailyView({
   // Calculate time groups once for all events
   const timeGroups = groupEventsByTimePeriod(dayEvents);
 
-  function handleAddEvent(event?: Event) {
+  function handleAddEvent(event) {
     // Create the modal content with the provided event data or defaults
     const startDate = event?.startDate || new Date();
     const endDate = event?.endDate || new Date();
@@ -230,7 +223,7 @@ export default function DailyView({
     );
   }
 
-  function handleAddEventDay(detailedHour: string) {
+  function handleAddEventDay(detailedHour) {
     if (!detailedHour) {
       console.error("Detailed hour not provided.");
       return;
@@ -391,7 +384,7 @@ export default function DailyView({
                 {Array.from({ length: 24 }).map((_, index) => (
                   <div
                     onClick={() => {
-                      handleAddEventDay(detailedHour as string);
+                      handleAddEventDay(detailedHour);
                     }}
                     key={`hour-${index}`}
                     className="cursor-pointer w-full relative border-b  hover:bg-default-200/50  transition duration-300  p-4 h-[64px] text-left text-sm text-muted-foreground border-default-200"

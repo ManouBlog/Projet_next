@@ -5,15 +5,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/providers/modal-context";
 import AddEventModal from "@/components/schedule/_modals/add-event-modal";
-import { Event, CustomEventModal } from "@/types";
+// import { Event, CustomEventModal } from "@/types";
 import { TrashIcon, CalendarIcon, ClockIcon } from "lucide-react";
 import { useScheduler } from "@/providers/schedular-provider";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import CustomModal from "@/components/ui/custom-modal";
 
 // Function to format date
-const formatDate = (date: Date) => {
+const formatDate = (date) => {
   return date.toLocaleString("en-US", {
     weekday: "short",
     month: "short",
@@ -25,7 +25,7 @@ const formatDate = (date: Date) => {
 };
 
 // Function to format time only
-const formatTime = (date: Date) => {
+const formatTime = (date) => {
   return date.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -57,29 +57,21 @@ const variantColors = {
   },
 };
 
-interface EventStyledProps extends Event {
-  minmized?: boolean;
-  CustomEventComponent?: React.FC<Event>;
-}
 
 export default function EventStyled({
   event,
   onDelete,
   CustomEventModal,
-}: {
-  event: EventStyledProps;
-  CustomEventModal?: CustomEventModal;
-  onDelete?: (id: string) => void;
 }) {
   const { setOpen } = useModal();
   const { handlers } = useScheduler();
 
   // Determine if delete button should be shown
   // Hide it for minimized events to save space, show on hover instead
-  const shouldShowDeleteButton = !event?.minmized;
+  // const shouldShowDeleteButton = !event?.minmized;
 
   // Handler function
-  function handleEditEvent(event: Event) {
+  function handleEditEvent(event) {
     // Open the modal with the content
     setOpen(
       <CustomModal title="Edit Event">
@@ -98,8 +90,8 @@ export default function EventStyled({
   }
 
   // Get background color class based on variant
-  const getBackgroundColor = (variant: string | undefined) => {
-    const variantKey = variant as keyof typeof variantColors || "primary";
+  const getBackgroundColor = (variant) => {
+    const variantKey = variant;
     const colors = variantColors[variantKey] || variantColors.primary;
     return `${colors.bg} ${colors.text} ${colors.border}`;
   };
@@ -114,7 +106,7 @@ export default function EventStyled({
     >
       {/* Delete button - shown by default for non-minimized, or on hover for minimized */}
       <Button
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+        onClick={(e) => {
           e.stopPropagation();
           handlers.handleDeleteEvent(event?.id);
           onDelete?.(event?.id);
@@ -131,7 +123,7 @@ export default function EventStyled({
 
       {event.CustomEventComponent ? (
         <div
-          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          onClick={(e) => {
             e.stopPropagation();
             handleEditEvent({
               id: event?.id,
@@ -147,7 +139,7 @@ export default function EventStyled({
         </div>
       ) : (
         <div
-          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          onClick={(e) => {
             e.stopPropagation();
             handleEditEvent({
               id: event?.id,

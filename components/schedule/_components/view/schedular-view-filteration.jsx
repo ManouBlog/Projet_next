@@ -12,7 +12,7 @@ import DailyView from "./day/daily-view";
 import MonthView from "./month/month-view";
 import WeeklyView from "./week/week-view";
 import { useModal } from "@/providers/modal-context";
-import { ClassNames, CustomComponents, Views } from "@/types/index";
+// import { ClassNames, CustomComponents, Views } from "@/types/index";
 import { cn } from "@/lib/utils";
 import CustomModal from "@/components/ui/custom-modal";
 
@@ -32,14 +32,9 @@ export default function SchedulerViewFilteration({
   stopDayEventSummary = false,
   CustomComponents,
   classNames,
-}: {
-  views?: Views;
-  stopDayEventSummary?: boolean;
-  CustomComponents?: CustomComponents;
-  classNames?: ClassNames;
 }) {
   const { setOpen } = useModal();
-  const [activeView, setActiveView] = useState<string>("day");
+  const [activeView, setActiveView] = useState("day");
   const [clientSide, setClientSide] = useState(false);
 
   console.log("activeView", activeView);
@@ -68,7 +63,7 @@ export default function SchedulerViewFilteration({
     return () => window && window.removeEventListener("resize", handleResize);
   }, [clientSide]);
 
-  function handleAddEvent(selectedDay?: number) {
+  function handleAddEvent(selectedDay) {
     // Create the modal content with proper data
     const startDate = new Date(
       new Date().getFullYear(),

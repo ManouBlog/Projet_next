@@ -1,8 +1,8 @@
 "use client";
 
-import { EventFormData } from "@/types";
+// import { EventFormData } from "@/types";
 import React, { useEffect, useState } from "react";
-import { UseFormSetValue } from "react-hook-form";
+// import { UseFormSetValue } from "react-hook-form";
 import { format, setHours, setMinutes, isBefore, addHours } from "date-fns";
 
 import { cn } from "@/lib/utils";
@@ -26,9 +26,6 @@ import {
 export default function SelectDate({
   data,
   setValue,
-}: {
-  data?: { startDate: Date; endDate: Date };
-  setValue: UseFormSetValue<EventFormData>;
 }) {
 
   console.log("data", data);
@@ -71,17 +68,17 @@ export default function SelectDate({
   const periods = ["AM", "PM"];
 
   // Convert 24-hour format to 12-hour format
-  const get12HourFormat = (hour: number) => {
+  const get12HourFormat = (hour) => {
     return hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
   };
 
   // Get period (AM/PM) from hour
-  const getPeriod = (hour: number) => {
+  const getPeriod = (hour) => {
     return hour >= 12 ? "PM" : "AM";
   };
 
   // Convert 12-hour format to 24-hour format
-  const get24HourFormat = (hour: number, period: string) => {
+  const get24HourFormat = (hour, period) => {
     if (period === "AM") {
       return hour === 12 ? 0 : hour;
     } else {

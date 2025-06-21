@@ -5,26 +5,23 @@ import React, {
   createContext,
   useContext,
   useReducer,
-  ReactNode,
-  Dispatch,
+  // ReactNode,
+  // Dispatch,
   useEffect,
 } from "react";
-import { z } from "zod";
+// import { z } from "zod";:
 
-import {
-  Action,
-  Event,
-  Getters,
-  Handlers,
-  SchedulerContextType,
-  startOfWeek,
-} from "@/types/index";
+// import {
+//   Action,
+//   Event,
+//   Getters,
+//   Handlers,
+//   SchedulerContextType,
+//   startOfWeek,
+// } from "@/types/index";
 import ModalProvider from "./modal-context";
 // Define event and state types
 
-interface SchedulerState {
-  events: Event[];
-}
 
 // Define the variant options
 export const variants = [
@@ -33,18 +30,15 @@ export const variants = [
   "default",
   "warning",
   "danger",
-] as const;
+];
 
 // Initial state
-const initialState: SchedulerState = {
+const initialState = {
   events: [],
 };
 
 // Reducer function
-const schedulerReducer = (
-  state: SchedulerState,
-  action: Action
-): SchedulerState => {
+const schedulerReducer = (state,action) => {
   switch (action.type) {
     case "ADD_EVENT":
       return { ...state, events: [...state.events, action.payload] };
@@ -70,7 +64,7 @@ const schedulerReducer = (
 };
 
 // Create the context with the correct type
-const SchedulerContext = createContext<SchedulerContextType | undefined>(
+const SchedulerContext = createContext(
   undefined
 );
 
@@ -81,15 +75,7 @@ export const SchedulerProvider = ({
   onUpdateEvent,
   onDeleteEvent,
   initialState,
-  weekStartsOn = "sunday",
-}: {
-  onAddEvent?: (event: Event) => void;
-  onUpdateEvent?: (event: Event) => void;
-  onDeleteEvent?: (id: string) => void;
-  weekStartsOn?: startOfWeek;
-  children: ReactNode;
-  initialState?: Event[];
-}) => {
+  weekStartsOn = "sunday"}) => {
   const [state, dispatch] = useReducer(
     schedulerReducer,
     { events: initialState ?? [] } // Sets initialState or an empty array as the default
@@ -102,7 +88,7 @@ export const SchedulerProvider = ({
   }, [initialState]);
 
   // global getters
-  const getDaysInMonth = (month: number, year: number) => {
+  const getDaysInMonth = (month, year) => {
     return Array.from(
       { length: new Date(year, month + 1, 0).getDate() },
       (_, index) => ({
@@ -112,7 +98,7 @@ export const SchedulerProvider = ({
     );
   };
 
-  const getDaysInWeek = (week: number, year: number) => {
+  const getDaysInWeek = (week, year) => {
     // Determine if the week should start on Sunday (0) or Monday (1)
     const startDay = weekStartsOn === "sunday" ? 0 : 1;
 
@@ -141,7 +127,7 @@ export const SchedulerProvider = ({
     return days;
   };
 
-  const getWeekNumber = (date: Date) => {
+  const getWeekNumber = (date) => {
     const d = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
@@ -154,7 +140,7 @@ export const SchedulerProvider = ({
   };
 
   // Helper function to filter events for a specific day
-  const getEventsForDay = (day: number, currentDate: Date) => {
+  const getEventsForDay = (day, currentDate) => {
     return state?.events.filter((event) => {
       const eventStart = new Date(event.startDate);
       const eventEnd = new Date(event.endDate);
@@ -180,12 +166,12 @@ export const SchedulerProvider = ({
     });
   };
 
-  const getDayName = (day: number) => {
+  const getDayName = (day) => {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return days[day];
   };
 
-  const getters: Getters = {
+  const getters = {
     getDaysInMonth,
     getEventsForDay,
     getDaysInWeek,
@@ -195,13 +181,9 @@ export const SchedulerProvider = ({
 
   // handlers
   function handleEventStyling(
-    event: Event, 
-    dayEvents: Event[],
-    periodOptions?: { 
-      eventsInSamePeriod?: number; 
-      periodIndex?: number; 
-      adjustForPeriod?: boolean;
-    }
+    event, 
+    dayEvents,
+    periodOptions
   ) {
     // More precise time-based overlap detection
     const eventsOnHour = dayEvents.filter((e) => {
@@ -233,8 +215,8 @@ export const SchedulerProvider = ({
                            periodOptions.eventsInSamePeriod !== undefined && 
                            periodOptions.periodIndex !== undefined;
                            
-    let numEventsOnHour = useCustomPeriod ? periodOptions!.eventsInSamePeriod! : allEventsInRange.length;
-    let indexOnHour = useCustomPeriod ? periodOptions!.periodIndex! : allEventsInRange.indexOf(event);
+    let numEventsOnHour = useCustomPeriod ? periodOptions?.eventsInSamePeriod : allEventsInRange.length;
+    let indexOnHour = useCustomPeriod ? periodOptions?.periodIndex : allEventsInRange.indexOf(event);
 
     // If there are no overlapping events or using custom grouping failed, give full width
     if (numEventsOnHour === 0 || indexOnHour === -1) {
@@ -307,28 +289,28 @@ export const SchedulerProvider = ({
     };
   }
 
-  function handleAddEvent(event: Event) {
+  function handleAddEvent(event) {
     dispatch({ type: "ADD_EVENT", payload: event });
     if (onAddEvent) {
       onAddEvent(event);
     }
   }
 
-  function handleUpdateEvent(event: Event, id: string) {
+  function handleUpdateEvent(event, id) {
     dispatch({ type: "UPDATE_EVENT", payload: { ...event, id } });
     if (onUpdateEvent) {
       onUpdateEvent(event);
     }
   }
 
-  function handleDeleteEvent(id: string) {
+  function handleDeleteEvent(id) {
     dispatch({ type: "REMOVE_EVENT", payload: { id } });
     if (onDeleteEvent) {
       onDeleteEvent(id);
     }
   }
 
-  const handlers: Handlers = {
+  const handlers = {
     handleEventStyling,
     handleAddEvent,
     handleUpdateEvent,
