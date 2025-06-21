@@ -42,7 +42,7 @@ export default function MonthView({
   const { setOpen } = useModal();
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [direction, setDirection] = useState<number>(0);
+  const [direction, setDirection] = useState(0);
 
   const daysInMonth = getters.getDaysInMonth(
     currentDate.getMonth(),

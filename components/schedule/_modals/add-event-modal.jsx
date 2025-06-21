@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 import { useModal } from "@/providers/modal-context";
 import SelectDate from "@/components/schedule/_components/add-event-components/select-date";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod";
 // import { EventFormData, eventSchema, Variant, Event } from "@/types/index";
 import { useScheduler } from "@/providers/schedular-provider";
@@ -41,7 +41,6 @@ export default function AddEventModal({
     formState: { errors },
     setValue,
   } = useForm({
-    resolver,
     defaultValues: {
       title: "",
       description: "",
@@ -136,13 +135,13 @@ export default function AddEventModal({
   };
 
   return (
-    <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-4 py-4 h-100  overflow-y" >
       {CustomAddEventModal ? (
         <CustomAddEventModal register={register} errors={errors} />
       ) : (
         <>
           <div className="grid gap-2">
-            <Label htmlFor="title">Event Name</Label>
+            <Label htmlFor="title">Nom de l'evenement</Label>
             <Input
               id="title"
               {...register("title")}
@@ -213,9 +212,9 @@ export default function AddEventModal({
 
           <div className="flex justify-end space-x-2 mt-4 pt-2 border-t">
             <Button variant="outline" type="button" onClick={() => setClose()}>
-              Cancel
+              Retour
             </Button>
-            <Button type="submit">Save Event</Button>
+            <Button onClick={handleSubmit(onSubmit)} >Enregistrer</Button>
           </div>
         </>
       )}

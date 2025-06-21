@@ -48,11 +48,13 @@
 }
 
 body {
-  background: black;
+  background: rgb(235, 235, 235);
   font-weight: bold;
-  color:white;
+  color:rgb(0, 0, 0);
 }
-
+#radix-«r57»{
+  overflow-y: auto;
+}
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

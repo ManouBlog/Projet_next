@@ -29,11 +29,11 @@ export default function SelectDate({
 }) {
 
   console.log("data", data);
-  const [startDate, setStartDate] = useState<Date>(
+  const [startDate, setStartDate] = useState(
     data?.startDate instanceof Date ? data.startDate : new Date()
   );
   
-  const [endDate, setEndDate] = useState<Date>(
+  const [endDate, setEndDate] = useState(
     data?.endDate instanceof Date ? data.endDate : new Date()
   );
   
