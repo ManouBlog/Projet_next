@@ -16,9 +16,9 @@ import CustomModal from "@/components/ui/custom-modal";
 
 // Generate hours in 12-hour format
 const hours = Array.from({ length: 24 }, (_, i) => {
-  const hour = i % 12 || 12;
-  const ampm = i < 12 ? "AM" : "PM";
-  return `${hour}:00 ${ampm}`;
+  const hour = i ;
+  // const ampm = i < 12 ? "AM" : "PM";
+  return `${hour}:00`;
 });
 
 // Animation variants
@@ -170,12 +170,11 @@ export default function DailyView({
       const hour = Math.max(0, Math.min(23, Math.floor(y / hourHeight)));
       const minuteFraction = (y % hourHeight) / hourHeight;
       const minutes = Math.floor(minuteFraction * 60);
-
       // Format in 12-hour format
-      const hour12 = hour % 12 || 12;
-      const ampm = hour < 12 ? "AM" : "PM";
+      const hour12 = hour;
+      // const ampm = hour < 12 ? "AM" : "PM";
       setDetailedHour(
-        `${hour12}:${Math.max(0, minutes).toString().padStart(2, "0")} ${ampm}`
+        `${hour12}h:${Math.max(0, minutes).toString().padStart(2, "0")}m`
       );
 
       // Ensure timelinePosition is never negative and is within bounds
