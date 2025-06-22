@@ -39,7 +39,7 @@ const items = [
   },
   {
     title: "Rendez-vous",
-    url: "/dashboard/clients",
+    url: "/dashboard/appointment",
     icon: PersonStanding,
   },
   {
