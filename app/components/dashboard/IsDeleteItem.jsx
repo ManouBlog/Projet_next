@@ -12,7 +12,7 @@ export default function IsDeleteItem({title}) {
   return (
   <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="font-bold">Voulez-vous vraiment supprimer la {title} ?</DialogTitle>
+            <DialogTitle className="font-bold">Voulez-vous vraiment supprimer {title} ?</DialogTitle>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>

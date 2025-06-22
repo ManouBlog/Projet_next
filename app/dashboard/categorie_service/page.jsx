@@ -24,7 +24,7 @@ function CategorieService() {
                <MyForm libelle={rowData.categorie} />
                 </MyDialogCreateModal>
                  <MyDialogCreateModal myBg='red' title={"Supprimer"} >
-               <IsDeleteItem title={"categorie"}/>
+               <IsDeleteItem title={"la catégorie"}/>
                 </MyDialogCreateModal>  
             </div>
         );

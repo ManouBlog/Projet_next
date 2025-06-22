@@ -6,6 +6,7 @@ import MyTitle from '@/app/components/dashboard/MyTitle';
 import MyDatatable from '@/app/components/dashboard/MyDatatable'
 import MyDialogCreateModal from '@/app/components/dashboard/MyDialogCreateModal'
 import IsDeleteItem from '@/app/components/dashboard/IsDeleteItem';
+import { Switch } from "@/components/ui/switch"
 import {
   DialogClose,
   DialogContent,
@@ -20,6 +21,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectGroup,
+  SelectLabel,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,7 +36,7 @@ function AllServices() {
                <MyForm libelle={rowData.categorie} />
                 </MyDialogCreateModal>
                  <MyDialogCreateModal myBg='red' title={"Supprimer"} >
-               <IsDeleteItem title={"categorie"}/>
+               <IsDeleteItem title={"le service"}/>
                 </MyDialogCreateModal>  
             </div>
         );
@@ -67,7 +70,7 @@ function MyForm({libelle}){
     const [categorie,setCategorie]=React.useState(libelle)
     return(
       <form>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] h-100 overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-bold">Ajouter un service</DialogTitle>
           </DialogHeader>
@@ -95,9 +98,9 @@ function MyForm({libelle}){
                 setMyHour(value);
               }}
             >
-              <SelectTrigger className="w-[100px]">
+              <SelectTrigger className="w-full">
                 <Clock className="mr-2 h-4 w-4" />
-                <SelectValue placeholder="Hour" />
+                <SelectValue placeholder="Heure" />
               </SelectTrigger>
               <SelectContent className="h-[200px]">
                 {hours.map((hour) => (
@@ -114,11 +117,10 @@ function MyForm({libelle}){
                <Select
                              value={myMinutes}
                              onValueChange={(value) => {
-                            //    const newDate = setMinutes(startDate, parseInt(value, 10));
                                setMyMinutes(value);
                              }}
                            >
-                             <SelectTrigger className="w-[100px]">
+                             <SelectTrigger className="w-full">
                                <SelectValue placeholder="Minute" />
                              </SelectTrigger>
                              <SelectContent className="h-[200px]">
@@ -133,6 +135,34 @@ function MyForm({libelle}){
               </div>
               
             </div>
+            <div className="grid gap-3">
+              <Label htmlFor="name-prix">Catégorie</Label>
+               <Select>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Selectionne une catégorie" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Catégories</SelectLabel>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="blueberry">Blueberry</SelectItem>
+          <SelectItem value="grapes">Grapes</SelectItem>
+          <SelectItem value="pineapple">Pineapple</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+            </div>
+             <div className="grid gap-3">
+              <Label htmlFor="name-prix">Visibilité</Label>
+               <div className="flex items-center space-x-2">
+      <Switch id="visibility" 
+      checked={true}
+    //   onCheckedChange={field.onChange} 
+      />
+    </div>
+            </div>
+            
           </div>
           <DialogFooter>
             <DialogClose asChild>
