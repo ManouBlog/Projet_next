@@ -4,14 +4,13 @@ import * as React from 'react'
 import MyTitle from '@/app/components/dashboard/MyTitle';
 import MyDatatable from '@/app/components/dashboard/MyDatatable'
 import MyDialogCreateModal from '@/app/components/dashboard/MyDialogCreateModal'
+import IsDeleteItem from '@/app/components/dashboard/IsDeleteItem';
 import {
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,7 +24,7 @@ function CategorieService() {
                <MyForm libelle={rowData.categorie} />
                 </MyDialogCreateModal>
                  <MyDialogCreateModal myBg='red' title={"Supprimer"} >
-               <IsDeleteItme />
+               <IsDeleteItem title={"categorie"}/>
                 </MyDialogCreateModal>  
             </div>
         );
@@ -71,20 +70,5 @@ function MyForm({libelle}){
     )
 }
 
-function IsDeleteItme(){
-    return(
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle className="font-bold">Voulez-vous vraiment supprimer la catégorie ?</DialogTitle>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Annuler</Button>
-            </DialogClose>
-            <Button type="submit" className="bg-red-900 text-white">Enregistrer</Button>
-          </DialogFooter>
-        </DialogContent>
-    )
-}
 
 export default CategorieService
