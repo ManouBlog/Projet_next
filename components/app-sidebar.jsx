@@ -38,6 +38,11 @@ const items = [
     icon: PersonStanding,
   },
   {
+    title: "Rendez-vous",
+    url: "/dashboard/clients",
+    icon: PersonStanding,
+  },
+  {
     title: "Employés",
     url: "/dashboard/employe",
     icon: PersonStanding,
