@@ -1,4 +1,5 @@
 "use client";
+import { Textarea } from "@/components/ui/textarea"
 import * as React from 'react'
 // import MyCalendar from '@/app/components/dashboard/MyCalendar'
 import MyTitle from '@/app/components/dashboard/MyTitle';
@@ -11,7 +12,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { CalendarIcon, Clock } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -41,7 +50,7 @@ function AllServices() {
         <div>
             <MyTitle title="Services" />
             {/* <MyCalendar /> */}
-            <MyDialogCreateModal myBg='black' title={"Ajouter une catégorie"} >
+            <MyDialogCreateModal myBg='black' title={"Ajouter un service"} >
                <MyForm />
                 </MyDialogCreateModal> 
             <MyDatatable items={products}  columns={columns} />
@@ -50,6 +59,11 @@ function AllServices() {
 }
 
 function MyForm({libelle}){
+     const [myHour, setMyHour] = React.useState("");
+     const [myMinutes, setMyMinutes] = React.useState("");
+    const hours = Array.from({ length: 13 }, (_, i) => i);
+  const minutes = Array.from({ length: 60 }, (_, i) => i);
+
     const [categorie,setCategorie]=React.useState(libelle)
     return(
       <form>
@@ -59,8 +73,65 @@ function MyForm({libelle}){
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Le nom de la catégorie</Label>
-              <Input id="name-1" name="name" defaultValue={categorie} />
+              <Label htmlFor="name-1">Nom du service</Label>
+              <Input id="name-1" name="name" placeholder="le nom du service" defaultValue={categorie} />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Description du service</Label>
+              <Textarea placeholder="Type your message here." />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="name-prix">Prix du service</Label>
+              <Input type="number" id="name-prix" name="prix" defaultValue={categorie} />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="name-prix">Durée du service</Label>
+              <div className="flex justify-center gap-5 items-center">
+                <div>
+                   <span className="text-sm font-semibold">Heure</span>
+              <Select
+              value={myHour}
+              onValueChange={(value) => {
+                setMyHour(value);
+              }}
+            >
+              <SelectTrigger className="w-[100px]">
+                <Clock className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Hour" />
+              </SelectTrigger>
+              <SelectContent className="h-[200px]">
+                {hours.map((hour) => (
+                  <SelectItem key={hour} value={hour.toString()}>
+                    {hour.toString().padStart(2, "0")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+                </div>
+             
+              <div>
+                <span className="text-sm font-semibold">Minutes</span>
+               <Select
+                             value={myMinutes}
+                             onValueChange={(value) => {
+                            //    const newDate = setMinutes(startDate, parseInt(value, 10));
+                               setMyMinutes(value);
+                             }}
+                           >
+                             <SelectTrigger className="w-[100px]">
+                               <SelectValue placeholder="Minute" />
+                             </SelectTrigger>
+                             <SelectContent className="h-[200px]">
+                               {minutes.map((minute) => (
+                                 <SelectItem key={minute} value={minute.toString()}>
+                                   {minute.toString().padStart(2, "0")}
+                                 </SelectItem>
+                               ))}
+                             </SelectContent>
+                           </Select>
+                </div>
+              </div>
+              
             </div>
           </div>
           <DialogFooter>
