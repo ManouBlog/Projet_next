@@ -34,16 +34,16 @@ const items = [
   },
   {
     title: "Clients",
-    url: "#",
+    url: "/dashboard/clients",
     icon: PersonStanding,
   },
   {
     title: "Employés",
-    url: "#",
+    url: "/dashboard/employe",
     icon: PersonStanding,
   },
   {
-    title: "Horaire",
+    title: "Heure de travail",
     url: "#",
     icon: Timer,
   },
