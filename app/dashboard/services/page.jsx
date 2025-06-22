@@ -64,7 +64,7 @@ function AllServices() {
 function MyForm({libelle}){
      const [myHour, setMyHour] = React.useState("");
      const [myMinutes, setMyMinutes] = React.useState("");
-    const hours = Array.from({ length: 13 }, (_, i) => i);
+    const hours = Array.from({ length: 25 }, (_, i) => i);
   const minutes = Array.from({ length: 60 }, (_, i) => i);
 
     const [categorie,setCategorie]=React.useState(libelle)

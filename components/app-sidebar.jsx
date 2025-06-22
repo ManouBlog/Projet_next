@@ -44,7 +44,7 @@ const items = [
   },
   {
     title: "Heure de travail",
-    url: "#",
+    url: "/dashboard/horaire",
     icon: Timer,
   },
 ]
