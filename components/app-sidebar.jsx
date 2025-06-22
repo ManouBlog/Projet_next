@@ -29,7 +29,7 @@ const items = [
   },
   {
     title: "Services",
-    url: "#",
+    url: "/dashboard/services",
     icon: ScissorsLineDashed,
   },
   {
