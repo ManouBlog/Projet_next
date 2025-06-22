@@ -8,11 +8,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-export default function MyDialogCreateModal({children,title}) {
+export default function MyDialogCreateModal({children,title,myBg}) {
   return (
     <Dialog>
         <div className='flex justify-end'>
-  <DialogTrigger>{title}</DialogTrigger>
+  <DialogTrigger style={{background:myBg}} className="btn text-white rounded">{title}</DialogTrigger>
         </div>
   {children}
    

@@ -1,44 +1,89 @@
 "use client";
-import React from 'react'
+import * as React from 'react'
 // import MyCalendar from '@/app/components/dashboard/MyCalendar'
+import MyTitle from '@/app/components/dashboard/MyTitle';
 import MyDatatable from '@/app/components/dashboard/MyDatatable'
 import MyDialogCreateModal from '@/app/components/dashboard/MyDialogCreateModal'
 import {
-  Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 function CategorieService() {
-    const products= [{code:1,name:"adjobi",category:"A",quantity:2}];
+    const products= [{categorie:"dread"}];
     const imageBodyTemplate = (rowData) => {
-        return <p className='text-center text-red-500'>{rowData.quantity}</p>;
+        return (
+            <div className='flex gap-5 justify-center'>
+                <MyDialogCreateModal myBg='black' title={"Modifier"} >
+               <MyForm libelle={rowData.categorie} />
+                </MyDialogCreateModal>
+                 <MyDialogCreateModal myBg='red' title={"Supprimer"} >
+               <IsDeleteItme />
+                </MyDialogCreateModal>  
+            </div>
+        );
     }
         const columns = [
-            {field: 'code', header: 'Code'},
-            {field: 'name', header: 'Name'},
-            {field: 'category', header: 'Category'},
-            {field: 'quantity', header: 'Quantity',body:imageBodyTemplate}
+            {field: 'categorie', header: 'Catégorie'},
+            {field: 'quatite', header: 'Actions',body:imageBodyTemplate}
         ];
     return (
         <div>
-            Catégorie de services
+            <MyTitle title="Catégorie de services" />
             {/* <MyCalendar /> */}
-            <MyDialogCreateModal title={"Ajouter une catégorie"} >
-                <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </DialogDescription>
-    </DialogHeader>
-  </DialogContent>
+            <MyDialogCreateModal myBg='black' title={"Ajouter une catégorie"} >
+               <MyForm />
                 </MyDialogCreateModal> 
             <MyDatatable items={products}  columns={columns} />
         </div>
+    )
+}
+
+function MyForm({libelle}){
+    const [categorie,setCategorie]=React.useState(libelle)
+    return(
+      <form>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="font-bold">Ajouter une catégorie</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Le nom de la catégorie</Label>
+              <Input id="name-1" name="name" defaultValue={categorie} />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Annuler</Button>
+            </DialogClose>
+            <Button type="submit">Enregistrer</Button>
+          </DialogFooter>
+        </DialogContent>
+      </form>
+    )
+}
+
+function IsDeleteItme(){
+    return(
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="font-bold">Voulez-vous vraiment supprimer la catégorie ?</DialogTitle>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Annuler</Button>
+            </DialogClose>
+            <Button type="submit" className="bg-red-900 text-white">Enregistrer</Button>
+          </DialogFooter>
+        </DialogContent>
     )
 }
 

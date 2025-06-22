@@ -48,9 +48,9 @@
 }
 
 body {
-  background: rgb(235, 235, 235);
+  background: white;
   font-weight: bold;
-  color:rgb(0, 0, 0);
+  color:rgb(8, 8, 8);
 }
 
 :root {
@@ -120,6 +120,18 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+}
+.p-column-header-content{
+  justify-content: center;
+}
+.p-datatable-thead{
+  border: 1px solid black;
+  background-color: beige;
+}
+td,th{
+    border: 1px solid black;
+    text-align: center;
+    padding: 0.8em;
 }
 
 @layer base {
