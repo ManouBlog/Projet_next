@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback,useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -154,8 +154,13 @@ export default function DailyView({
   classNames,
 }) {
   const hoursColumnRef = useRef(null);
+  const [heure, setHeure] = useState('');
+  const itemRefs = useRef([]);
   const [detailedHour, setDetailedHour] = useState(null);
+  const [hourCurrently,setHourCurrently] = useState(`12h:${Math.max(0,30).toString().padStart(2, "0")}m`);
+  const [hourCurrentlyPosition,setHourCurrentlyPosition] = useState("");
   const [timelinePosition, setTimelinePosition] = useState(0);
+  // const [defineHeureActuelle,setDefineHeureActuelle] = useState('');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [direction, setDirection] = useState(0);
   const { setOpen } = useModal();
@@ -170,6 +175,7 @@ export default function DailyView({
       const hour = Math.max(0, Math.min(23, Math.floor(y / hourHeight)));
       const minuteFraction = (y % hourHeight) / hourHeight;
       const minutes = Math.floor(minuteFraction * 60);
+     
       // Format in 12-hour format
       const hour12 = hour;
       // const ampm = hour < 12 ? "AM" : "PM";
@@ -280,8 +286,44 @@ export default function DailyView({
     setCurrentDate(prevDay);
   }, [currentDate]);
 
+   useEffect(() => {
+    // Fonction pour obtenir et formater l'heure locale
+    const mettreAJourHeure = () => {
+      const maintenant = new Date();
+      const heures = maintenant.getHours().toString().padStart(2, '0');
+      const minutes = maintenant.getMinutes().toString().padStart(2, '0');
+      const heureZero = `${heures}:00`;
+       itemRefs.current.forEach((el, index) => {
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        console.log("heureZero",typeof heureZero);
+        console.log("hours[index]",typeof hours[index]);
+        if(heureZero === hours[index]){
+          console.log("rect.top",Math.round(rect.top))
+          // const position = Math.max(0, Math.min(rect.height, Math.round(rect.top)));
+          // console.log("PSOITION",position)
+          const position = Math.max(0, Math.min(rect.height, Math.round(rect.top)));
+          setHourCurrentlyPosition(position);
+        }
+        console.log(`Élément ${index} (${hours[index]}) - Position Y:`, rect.top);
+      }
+    });
+      setHeure(`${heures}h:${minutes}m`);
+    };
+
+    // Appel initial
+    mettreAJourHeure();
+
+    // Mise à jour toutes les minutes
+    const intervalId = setInterval(mettreAJourHeure, 60000);
+
+    // Nettoyage
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
-    <div className="">
+    <div>
+      
       <div className="flex justify-between gap-3 flex-wrap mb-5">
         <h1 className="text-3xl font-semibold mb-4">
           {getFormattedDayTitle()}
@@ -373,6 +415,7 @@ export default function DailyView({
                   <motion.div
                     key={`hour-${index}`}
                     variants={itemVariants}
+                    ref={(el) => (itemRefs.current[index] = el)}
                     className="cursor-pointer   transition duration-300  p-4 h-[64px] text-left text-sm text-muted-foreground border-default-200"
                   >
                     {hour}
@@ -458,6 +501,17 @@ export default function DailyView({
                 </AnimatePresence>
               </div>
             </motion.div>
+            <div
+                className="absolute left-[50px] w-[calc(100%-53px)] h-[2px] bg-red-500 rounded-full pointer-events-none"
+                style={{ top: `${hourCurrentlyPosition}px` }}
+              >
+                <Badge
+                  variant="outline"
+                  className="absolute -translate-y-1/2 bg-red-500 z-50 left-[-20px] text-xs"
+                >
+                  {heure}
+                </Badge>
+              </div>
 
             {detailedHour && (
               <div
