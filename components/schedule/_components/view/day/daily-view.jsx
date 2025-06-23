@@ -158,9 +158,10 @@ export default function DailyView({
   const itemRefs = useRef([]);
   const [detailedHour, setDetailedHour] = useState(null);
   const [hourCurrently,setHourCurrently] = useState(`12h:${Math.max(0,30).toString().padStart(2, "0")}m`);
-  const [hourCurrentlyPosition,setHourCurrentlyPosition] = useState("");
+  const [hourCurrentlyPosition,setHourCurrentlyPosition] = useState(Math.max(0, Math.min(0, Math.round(100))));
   const [timelinePosition, setTimelinePosition] = useState(0);
-  // const [defineHeureActuelle,setDefineHeureActuelle] = useState('');
+
+  const [defineHeureActuelle,setDefineHeureActuelle] = useState('');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [direction, setDirection] = useState(0);
   const { setOpen } = useModal();
@@ -293,17 +294,19 @@ export default function DailyView({
       const heures = maintenant.getHours().toString().padStart(2, '0');
       const minutes = maintenant.getMinutes().toString().padStart(2, '0');
       const heureZero = `${heures}:00`;
+      // setDefineHeureActuelle(heureZero)
+      // // Ensure timelinePosition is never negative and is within bounds
+      // const position = Math.max(0, Math.min(rect.height, Math.round(minutes)));
+      // setHourCurrentlyPosition(position);
+      //  setDefineHeureActuelle(`${heures}:00`)
        itemRefs.current.forEach((el, index) => {
       if (el) {
         const rect = el.getBoundingClientRect();
-        console.log("heureZero",typeof heureZero);
-        console.log("hours[index]",typeof hours[index]);
+        console.log("heureZero",heureZero);
+        console.log("hours[index]",hours[index]);
         if(heureZero === hours[index]){
-          console.log("rect.top",Math.round(rect.top))
           // const position = Math.max(0, Math.min(rect.height, Math.round(rect.top)));
-          // console.log("PSOITION",position)
-          const position = Math.max(0, Math.min(rect.height, Math.round(rect.top)));
-          setHourCurrentlyPosition(position);
+          setHourCurrentlyPosition(rect.top);
         }
         console.log(`Élément ${index} (${hours[index]}) - Position Y:`, rect.top);
       }
@@ -320,6 +323,20 @@ export default function DailyView({
     // Nettoyage
     return () => clearInterval(intervalId);
   }, []);
+
+  //  useEffect(() => {
+  //   itemRefs.current.forEach((el, index) => {
+  //     if (el) {
+  //       const rect = el.getBoundingClientRect();
+  //       console.log("defineHeureActuelle",defineHeureActuelle)
+  //         if(defineHeureActuelle === hours[index]){
+  //           console.log("rectTOP8548",rect.top)
+  //         setHourCurrentlyPosition(rect.top);
+  //       }
+  //       console.log(`Élément ${index} (${hours[index]}) - Position Y:`, rect.top);
+  //     }
+  //   });
+  // }, [hours]);
 
   return (
     <div>
