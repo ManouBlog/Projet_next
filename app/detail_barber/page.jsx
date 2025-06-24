@@ -126,7 +126,7 @@ const ChooseTime = () => {
 
 const TimeSlotSelector = ({ barberName, service, date, timeSlots }) => {
   return (
-    <div className="py-4 w-full">
+    <div className="p-4 mb-10 w-full">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <img
