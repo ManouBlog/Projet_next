@@ -38,8 +38,23 @@ const items = [
     icon: PersonStanding,
   },
   {
-    title: "Rendez-vous",
+    title: "Réservations",
     url: "/dashboard/appointment",
+    icon: PersonStanding,
+  },
+  // {
+  //   title: "Réservations",
+  //   url: "/dashboard/appointment",
+  //   icon: PersonStanding,
+  // },
+   {
+    title: "Favoris",
+    url: "/dashboard/favoris",
+    icon: PersonStanding,
+  },
+  {
+    title: "Historique de paiement",
+    url: "/dashboard/payment",
     icon: PersonStanding,
   },
   {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { COLORS } from '@/app/__design/colors';
 import Link from 'next/link'
-import HeaderForm from '@/app/components/headerForm'
+import HeaderForm from '@/app/components/headerForm';
 import BtnRouter from '@/app/components/BtnRouter';
 
 function LoginPage() {
