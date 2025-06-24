@@ -52,6 +52,11 @@ const items = [
     url: "/dashboard/horaire",
     icon: Timer,
   },
+  {
+    title: "Profil",
+    url: "/dashboard/profile",
+    icon: Timer,
+  },
 ]
 
 export function AppSidebar() {
