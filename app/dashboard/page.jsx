@@ -11,7 +11,7 @@ function DashboardPage() {
             </div>
             <div>
                 <p>Profit du mois</p>
-            <h1 className='text-xl font-semibold'>35000 Fcfa</h1>
+            <h1 className='text-xl font-semibold'>25000 Fcfa</h1>
             </div>
          </div>
         <div className='flex gap-3 items-center flex-wrap justify-center'>

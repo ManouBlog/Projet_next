@@ -1,11 +1,15 @@
+"use client"
 import React from 'react'
 import { IoIosArrowForward } from "react-icons/io";
 import { BsGeoAlt } from "react-icons/bs";
 import { COLORS } from '../../__design/colors'
-
+import { useRouter } from 'next/navigation'
 function CardVisuel() {
+  const router = useRouter()
     return (
-  <div className="card rounded-3xl text-white image-full w-96 shadow-sm cursor-pointer">
+  <div 
+  onClick={() => router.push("/detail_barber")}
+  className="card rounded-3xl text-white image-full w-96 shadow-sm cursor-pointer">
   <figure>
     <img
       src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
