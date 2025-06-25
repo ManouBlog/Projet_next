@@ -253,8 +253,9 @@ const InfoOrders = ({barberChosen,
       setActifPolicyCancel={setActifPolicyCancel} /> }
       {confirmationReservation && <ConfirmReservation 
       setConfirmationReservation={setConfirmationReservation} />}
-      {(!actifPolicyCancel && !confirmationReservation) && <div>
-     <h1 className='text-2xl'>Commandes</h1>
+      {(!actifPolicyCancel && !confirmationReservation) &&
+       <div>
+     <h1 className='text-2xl underline my-5'>Commandes</h1>
       {
         barberChosen && 
         <>
@@ -287,7 +288,7 @@ const InfoOrders = ({barberChosen,
       }
      </div> }
       
-     
+     {!barberChosen && <p className='text-center font-extralight'>Pas encore choisir de coiffeur ?</p>}
       
     </div>
   )
@@ -297,7 +298,7 @@ function PolicyCancel({setActifPolicyCancel,setConfirmationReservation}){
 <div className='h-90 relative z-100' 
       style={{width:"100%",height:"100%"}}>
         <div className='flex justify-between gap-5 items-center mx-5'>
-         <h1>Politique d'annulation</h1> 
+         <h1 className='text-xl underline'>Politique d'annulation</h1> 
          <span onClick={()=>setActifPolicyCancel(false)} 
          className='cursor-pointer'>Fermer</span>
         </div>
@@ -326,7 +327,7 @@ function ConfirmReservation({setConfirmationReservation}){
 <div className='h-90 relative z-100' 
       style={{width:"100%",height:"100%"}}>
         <div className='flex justify-between gap-5 items-center p-3 mb-3'>
-         <h1>Confirmation</h1> 
+         <h1 className='text-2xl underline'>Confirmation</h1> 
          <span onClick={()=>setConfirmationReservation(false)} 
          className='cursor-pointer'>Fermer</span>
          
