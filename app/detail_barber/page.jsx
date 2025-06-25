@@ -33,7 +33,7 @@ function DetailPage() {
   const [timeChosen,setTimeChosen] = React.useState("");
   const [hourChosen,setHourChosen] = React.useState("");
   return (
-    <div className='p-5'>
+    <div className='p-2'>
       <HeaderDetail />
       <div className='md:flex md:flex-wrap md:gap-5 w-full'>
         <div className='md:flex-2'>
@@ -325,7 +325,7 @@ function ConfirmReservation({setConfirmationReservation}){
   return(
 <div className='h-90 relative z-100' 
       style={{width:"100%",height:"100%"}}>
-        <div className='flex justify-between gap-5 items-center mx-5'>
+        <div className='flex justify-between gap-5 items-center p-3 mb-3'>
          <h1>Confirmation</h1> 
          <span onClick={()=>setConfirmationReservation(false)} 
          className='cursor-pointer'>Fermer</span>
@@ -333,7 +333,7 @@ function ConfirmReservation({setConfirmationReservation}){
         </div>
         <div className='flex justify-between flex-col h-80'>
           <div>
-<p className='text-sm text-gray-300'>Mode de paiement</p>
+        <p className='text-sm text-gray-300 mb-5'>Mode de paiement</p>
            <Select>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="sélectionne un mode de paiement" />
@@ -348,7 +348,7 @@ function ConfirmReservation({setConfirmationReservation}){
     </Select>
           </div>
           <div>
-        <p className='text-sm text-gray-300'>T'es informations</p>
+        <p className='text-sm text-gray-300 mt-9 mb-5'>Informations</p>
            <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-1">Nom</Label>
@@ -370,7 +370,7 @@ function ConfirmReservation({setConfirmationReservation}){
           </div>
           
             <button 
-        className='bg-black py-5 text-white btn w-full'>
+        className='bg-black py-5 my-5 text-white btn w-full'>
          Réserver
           </button>    
          </div>
