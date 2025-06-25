@@ -16,15 +16,16 @@ const services = [
     '11:15am'
   ];
 function DetailPage() {
+  const [barberChosen,setBarberChosen] = React.useState("");
   return (
     <div className='p-5'>
       <HeaderDetail />
       <div className='md:flex md:flex-wrap md:gap-5 w-full'>
         <div className='md:flex-2'>
-         <MainDetail />
+         <MainDetail setBarberChosen={setBarberChosen} barberChosen={barberChosen} />
         </div>
         <div className='md:flex-1 md:relative'>
-          <InfoOrders />
+          <InfoOrders barberChosen={barberChosen} />
         </div>
       
       </div>
@@ -35,13 +36,11 @@ function DetailPage() {
 
 function HeaderDetail(){
   return(
-  //  <div className='h-80 w-full bg-red-500 rounded mx-auto'>
-  //  </div>
     <img className='h-80  w-full rounded' style={{objectFit:'cover'}} src="/Barbershop.jpeg" alt="barbershop" />
   );
 }
 
-function MainDetail(){
+function MainDetail({setBarberChosen,barberChosen}){
   return(
     <>
    <div className='flex gap-5 my-10'>
@@ -51,20 +50,26 @@ function MainDetail(){
      <span className='text-gray-300'>199 Bay St, Toronto, ON, M5L 1G9</span>
     </div>
    </div>
-   <p className='my-10 text-2xl underline'>Coiffeurs</p>
+   <p className='text-2xl underline'>Coiffeurs</p>
+   <p className='text-md my-2 text-gray-300'>Choisir un coiffeur</p>
    <div className="flex gap-5 items-center my-10">
       <BarberCard
         name="Chris M."
         rating="5.0"
         available="Today"
         imageUrl="/barber.jpeg"
+        setBarberChosen={setBarberChosen}
+        barberChosen={barberChosen}
       />
     </div>
-    <p className='text-2xl underline my-10'>Services</p>
+    <p className='text-2xl underline'>Services</p>
+    <p className='text-md my-2 text-gray-300'>Choisir un service</p>
     <Services />
-    <p className='text-2xl underline my-10'>Choisis le jour</p>
+    <p className='text-2xl underline'>Choisis le jour</p>
+    <p className='text-md my-2 text-gray-300'>Choisir un jour</p>
     <ChooseTime />
     <p className='text-2xl underline my-10'>Horaires</p>
+    <p className='text-md my-2 text-gray-300'>Choisir une heure</p>
      <TimeSlotSelector
       barberName="Rene M."
       service="Beard Trim"
@@ -76,9 +81,15 @@ function MainDetail(){
 }
 
 
-const BarberCard = ({ name, rating, available, imageUrl }) => {
+const BarberCard = ({ 
+  name, rating, 
+  available, imageUrl , 
+  setBarberChosen,barberChosen}) => {
+  
   return (
-    <div className="max-w-xs bg-white rounded-xl shadow-md overflow-hidden">
+    <div 
+    onClick={()=>setBarberChosen(name)}
+    className="max-w-xs bg-white cursor-pointer rounded-xl shadow-md overflow-hidden">
       <div className="relative">
         <img
           className="w-full h-25"
@@ -93,7 +104,11 @@ const BarberCard = ({ name, rating, available, imageUrl }) => {
           </svg>
         </div>
       </div>
-      <div className="p-4 text-center">
+      <div className="p-4 text-center"
+      style={{background:barberChosen === name ? 'black':'white'
+        ,
+        color:barberChosen === name ? 'white':'black'}}
+      >
         <h3 className="text-xl font-bold">{name}</h3>
         <p className="text-gray-600">Available {available}</p>
       </div>
@@ -104,10 +119,10 @@ const BarberCard = ({ name, rating, available, imageUrl }) => {
 const Services = () => {
   return (
     <div>
-      <div className="flex justify-end items-center mb-4">
+      <div className="flex justify-end items-center mb-4 mt-10">
         <button className="text-blue-500">Show all 12 services</button>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="flex gap-5 flex-wrap  items-center">
         {services.map((service, index) => (
           <div key={index} className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="font-bold">{service.name}</h3>
@@ -167,10 +182,14 @@ const TimeSlotSelector = ({ barberName, service, date, timeSlots }) => {
   );
 };
 
-const InfoOrders = ()=>{
+const InfoOrders = ({barberChosen})=>{
   return(
     <div className='p-5 rounded bg-white overflow-auto shadow-xl/30 border border-black h-90 mx-auto md:w-100 sm:w-full md:fixed mb-20'>
       <h1 className='text-2xl'>Commandes</h1>
+      {
+        barberChosen && 
+        <>
+         <p>Coiffeur : {barberChosen}</p>
       <div className='flex gap-5 justify-between w-full p-5'>
         <p>Service</p>
         <h5>50 fcfa</h5>
@@ -178,6 +197,9 @@ const InfoOrders = ()=>{
       <div>
         <button className='bg-black py-5 text-white btn w-full'>Enregistrer</button>
       </div>
+        </>
+      }
+     
     </div>
   )
 }
