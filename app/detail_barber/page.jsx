@@ -1,6 +1,8 @@
 "use client";
 import * as React from 'react'
 // import { Calendar } from "@/components/ui/calendar"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { DatePicker } from 'antd';
 import {
   Select,
@@ -330,7 +332,8 @@ function ConfirmReservation({setConfirmationReservation}){
          
         </div>
         <div className='flex justify-between flex-col h-80'>
-          <p className='text-sm text-gray-300'>Mode de paiement</p>
+          <div>
+<p className='text-sm text-gray-300'>Mode de paiement</p>
            <Select>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="sélectionne un mode de paiement" />
@@ -343,6 +346,29 @@ function ConfirmReservation({setConfirmationReservation}){
         </SelectGroup>
       </SelectContent>
     </Select>
+          </div>
+          <div>
+        <p className='text-sm text-gray-300'>T'es informations</p>
+           <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Nom</Label>
+              <Input id="name-1" name="name-1" defaultValue={'adjobi'} />
+            </div>
+             <div className="grid gap-3">
+              <Label htmlFor="name-4">Prénoms</Label>
+              <Input id="name-4" name="name-4" defaultValue={'pierre'} />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="name-2">Email</Label>
+              <Input id="name-2" type='email' name="email" defaultValue={'pierre@gmail.com'} />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="name-3">Contact</Label>
+              <Input id="name-3" type='number' name="contact"  />
+            </div>
+          </div>
+          </div>
+          
             <button 
         className='bg-black py-5 text-white btn w-full'>
          Réserver
