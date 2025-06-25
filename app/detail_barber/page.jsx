@@ -20,7 +20,7 @@ function DetailPage() {
     <div className='p-5'>
       <HeaderDetail />
       <div className='md:flex md:flex-wrap md:gap-5 w-full'>
-        <div className='md:flex-1'>
+        <div className='md:flex-2'>
          <MainDetail />
         </div>
         <div className='md:flex-1 md:relative'>
