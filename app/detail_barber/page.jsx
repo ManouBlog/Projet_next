@@ -17,15 +17,31 @@ const services = [
   ];
 function DetailPage() {
   const [barberChosen,setBarberChosen] = React.useState("");
+  const [serviceChosen,setServiceChosen] = React.useState("");
+  const [servicePriceChosen,setServicePriceChosen] = React.useState("");
+  const [timeChosen,setTimeChosen] = React.useState("");
   return (
     <div className='p-5'>
       <HeaderDetail />
       <div className='md:flex md:flex-wrap md:gap-5 w-full'>
         <div className='md:flex-2'>
-         <MainDetail setBarberChosen={setBarberChosen} barberChosen={barberChosen} />
+         <MainDetail
+         setServiceChosen={setServiceChosen}
+         serviceChosen={serviceChosen}
+         setBarberChosen={setBarberChosen} 
+         barberChosen={barberChosen} 
+         setServicePriceChosen={setServicePriceChosen}
+         setTimeChosen={setTimeChosen}
+         timeChosen={timeChosen}
+         />
         </div>
         <div className='md:flex-1 md:relative'>
-          <InfoOrders barberChosen={barberChosen} />
+          <InfoOrders 
+          timeChosen={timeChosen}
+          serviceChosen={serviceChosen}
+          barberChosen={barberChosen}
+          servicePriceChosen={servicePriceChosen}
+          />
         </div>
       
       </div>
@@ -40,7 +56,14 @@ function HeaderDetail(){
   );
 }
 
-function MainDetail({setBarberChosen,barberChosen}){
+function MainDetail({
+  setBarberChosen,
+  barberChosen,
+  setServiceChosen,
+  serviceChosen,
+  setServicePriceChosen,
+  setTimeChosen
+}){
   return(
     <>
    <div className='flex gap-5 my-10'>
@@ -64,10 +87,17 @@ function MainDetail({setBarberChosen,barberChosen}){
     </div>
     <p className='text-2xl underline'>Services</p>
     <p className='text-md my-2 text-gray-300'>Choisir un service</p>
-    <Services />
+    <Services 
+    setServiceChosen={setServiceChosen}
+         serviceChosen={serviceChosen}
+         setServicePriceChosen={setServicePriceChosen}
+    />
     <p className='text-2xl underline'>Choisis le jour</p>
     <p className='text-md my-2 text-gray-300'>Choisir un jour</p>
-    <ChooseTime />
+    <ChooseTime 
+    setTimeChosen={setTimeChosen}
+         
+    />
     <p className='text-2xl underline my-10'>Horaires</p>
     <p className='text-md my-2 text-gray-300'>Choisir une heure</p>
      <TimeSlotSelector
@@ -116,7 +146,8 @@ const BarberCard = ({
   );
 };
 
-const Services = () => {
+const Services = ({setServiceChosen,
+  serviceChosen,setServicePriceChosen}) => {
   return (
     <div>
       <div className="flex justify-end items-center mb-4 mt-10">
@@ -124,7 +155,17 @@ const Services = () => {
       </div>
       <div className="flex gap-5 flex-wrap  items-center">
         {services.map((service, index) => (
-          <div key={index} className="bg-white p-4 rounded-lg shadow-md">
+          <div 
+          key={index} 
+          onClick={()=>{
+            setServiceChosen(service.name)
+            setServicePriceChosen(service.price)
+          }}
+          style={{
+            background:serviceChosen === service.name ? 'black':'white'
+            ,color:serviceChosen === service.name ? 'white':'black'}}
+          className="bg-white 
+          cursor-pointer p-4 rounded-lg shadow-md">
             <h3 className="font-bold">{service.name}</h3>
             <div className='flex justify-between gap-2'>
             <p className="text-gray-600">{service.duration}</p>
@@ -138,9 +179,10 @@ const Services = () => {
   );
 };
 
-const ChooseTime = () => {
+const ChooseTime = ({setTimeChosen}) => {
   const onChange = (date, dateString) => {
   console.log(date, dateString);
+  setTimeChosen(dateString)
 };
   return (
   <div className='my-5'>
@@ -182,19 +224,32 @@ const TimeSlotSelector = ({ barberName, service, date, timeSlots }) => {
   );
 };
 
-const InfoOrders = ({barberChosen})=>{
+const InfoOrders = ({barberChosen,serviceChosen,servicePriceChosen,timeChosen})=>{
   return(
-    <div className='p-5 rounded bg-white overflow-auto shadow-xl/30 border border-black h-90 mx-auto md:w-100 sm:w-full md:fixed mb-20'>
+    <div className='p-5 rounded bg-white overflow-auto shadow-xl/30 border border-black h-90 mx-auto md:w-90 sm:w-full md:fixed mb-20'>
       <h1 className='text-2xl'>Commandes</h1>
       {
         barberChosen && 
         <>
          <p>Coiffeur : {barberChosen}</p>
-      <div className='flex gap-5 justify-between w-full p-5'>
-        <p>Service</p>
-        <h5>50 fcfa</h5>
+      <div className='flex gap-5 justify-between w-full'>
+        {serviceChosen &&
+        <>
+        <p>{serviceChosen}</p>
+        <h5>{servicePriceChosen}</h5>
+        </>
+         }
       </div>
+      {timeChosen && <p>
+        Prévu  le : {timeChosen}
+      </p> }
+      
       <div>
+        {servicePriceChosen && 
+          <p className='flex justify-between items-center my-5'> 
+          <span>Total:</span> <span>{servicePriceChosen}</span>
+          </p> }
+        
         <button className='bg-black py-5 text-white btn w-full'>Enregistrer</button>
       </div>
         </>
