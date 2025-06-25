@@ -19,7 +19,16 @@ function DetailPage() {
   return (
     <div className='p-5'>
       <HeaderDetail />
-      <MainDetail />
+      <div className='md:flex md:flex-wrap md:gap-5 w-full'>
+        <div className='md:flex-1'>
+         <MainDetail />
+        </div>
+        <div className='md:flex-1 md:relative'>
+          <InfoOrders />
+        </div>
+      
+      </div>
+      
     </div>
   );
 }
@@ -156,4 +165,12 @@ const TimeSlotSelector = ({ barberName, service, date, timeSlots }) => {
     </div>
   );
 };
+
+const InfoOrders = ()=>{
+  return(
+    <div className='rounded bg-white overflow-auto shadow-xl/30 border border-black h-100 mx-auto md:w-100 sm:w-full md:fixed mb-20'>
+      <h1 className='p-5 text-2xl'>Commandes</h1>
+    </div>
+  )
+}
 export default DetailPage
