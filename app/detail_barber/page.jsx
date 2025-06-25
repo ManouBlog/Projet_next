@@ -232,9 +232,13 @@ const InfoOrders = ({barberChosen,
   serviceChosen,servicePriceChosen,
   timeChosen,hourChosen
 })=>{
+  const [actifPolicyCancel,setActifPolicyCancel] = React.useState(false)
   return(
-    <div className='p-5 rounded bg-white overflow-auto shadow-xl/30 border border-black h-90 mx-auto md:w-90 sm:w-full md:fixed mb-20'>
-      <h1 className='text-2xl'>Commandes</h1>
+    <div className='rounded bg-white  overflow-auto shadow-xl/30 border border-black h-90
+     mx-auto md:w-90 sm:w-full md:fixed mb-20'>
+      {actifPolicyCancel && <PolicyCancel setActifPolicyCancel={setActifPolicyCancel} /> }
+      {!actifPolicyCancel && <div>
+     <h1 className='text-2xl'>Commandes</h1>
       {
         barberChosen && 
         <>
@@ -257,14 +261,42 @@ const InfoOrders = ({barberChosen,
           <p className='flex justify-between items-center my-5'> 
           <span>Total:</span> <span>{servicePriceChosen}</span>
           </p> }
-        <button className='bg-black py-5 text-white btn w-full'>
+        <button 
+        onClick={()=>setActifPolicyCancel(true)}
+        className='bg-black py-5 text-white btn w-full'>
          Continuer
           </button>
       </div>
         </>
       }
+     </div> }
+      
      
+      
     </div>
+  )
+}
+function PolicyCancel({setActifPolicyCancel}){
+  return (
+<div className='h-90 relative z-100' 
+      style={{width:"100%",height:"100%"}}>
+        <div className='flex justify-between gap-5 items-center mx-5'>
+         <h1>Politique d'annulation</h1> 
+         <span onClick={()=>setActifPolicyCancel(false)} 
+         className='cursor-pointer'>Fermer</span>
+         
+        </div>
+        <div>
+          <p>You have time until 11:00AM UTC−4 on 
+          July 1, 2025 to cancel this appointment without being charged.</p>
+            <button 
+        onClick={()=>setActifPolicyCancel(true)}
+        className='bg-black py-5 text-white btn w-full'>
+         Je suis d'accord
+          </button>    
+         </div>
+         
+     </div>
   )
 }
 export default DetailPage
