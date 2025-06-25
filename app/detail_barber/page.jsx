@@ -168,8 +168,15 @@ const TimeSlotSelector = ({ barberName, service, date, timeSlots }) => {
 
 const InfoOrders = ()=>{
   return(
-    <div className='rounded bg-white overflow-auto shadow-xl/30 border border-black h-100 mx-auto md:w-100 sm:w-full md:fixed mb-20'>
-      <h1 className='p-5 text-2xl'>Commandes</h1>
+    <div className='p-5 rounded bg-white overflow-auto shadow-xl/30 border border-black h-90 mx-auto md:w-100 sm:w-full md:fixed mb-20'>
+      <h1 className='text-2xl'>Commandes</h1>
+      <div className='flex gap-5 justify-between w-full p-5'>
+        <p>Service</p>
+        <h5>50 fcfa</h5>
+      </div>
+      <div>
+        <button className='bg-black py-5 text-white btn w-full'>Enregistrer</button>
+      </div>
     </div>
   )
 }
