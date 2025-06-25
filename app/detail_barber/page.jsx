@@ -62,7 +62,8 @@ function MainDetail({
   setServiceChosen,
   serviceChosen,
   setServicePriceChosen,
-  setTimeChosen
+  setTimeChosen,
+  timeChosen
 }){
   return(
     <>
@@ -100,12 +101,16 @@ function MainDetail({
     />
     <p className='text-2xl underline my-10'>Horaires</p>
     <p className='text-md my-2 text-gray-300'>Choisir une heure</p>
-     <TimeSlotSelector
-      barberName="Rene M."
-      service="Beard Trim"
-      date="JUNE 25, 2025"
+    {timeChosen && <TimeSlotSelector
+      date={new Date(timeChosen).toLocaleString('fr', {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+})}
       timeSlots={timeSlots}
-    />
+    />}
+    
    </>
   );
 }
@@ -191,21 +196,10 @@ const ChooseTime = ({setTimeChosen}) => {
   );
 };
 
-const TimeSlotSelector = ({ barberName, service, date, timeSlots }) => {
+const TimeSlotSelector = ({ date, timeSlots }) => {
   return (
     <div className="p-4 mb-10 w-full">
       <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center">
-          <img
-            src="https://via.placeholder.com/50"
-            alt={barberName}
-            className="w-10 h-10 rounded-full mr-2"
-          />
-          <div>
-            <h2 className="font-bold">{barberName}</h2>
-            <p className="text-gray-600">{service}</p>
-          </div>
-        </div>
         <div className="text-right">
           <p className="font-semibold">{date}</p>
         </div>
@@ -240,7 +234,7 @@ const InfoOrders = ({barberChosen,serviceChosen,servicePriceChosen,timeChosen})=
         </>
          }
       </div>
-      {timeChosen && <p>
+      {timeChosen && <p className='my-5 text-sm'>
         Prévu  le : {timeChosen}
       </p> }
       
