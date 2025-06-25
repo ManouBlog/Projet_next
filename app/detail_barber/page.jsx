@@ -20,6 +20,7 @@ function DetailPage() {
   const [serviceChosen,setServiceChosen] = React.useState("");
   const [servicePriceChosen,setServicePriceChosen] = React.useState("");
   const [timeChosen,setTimeChosen] = React.useState("");
+  const [hourChosen,setHourChosen] = React.useState("");
   return (
     <div className='p-5'>
       <HeaderDetail />
@@ -33,10 +34,13 @@ function DetailPage() {
          setServicePriceChosen={setServicePriceChosen}
          setTimeChosen={setTimeChosen}
          timeChosen={timeChosen}
+         setHourChosen={setHourChosen}
+         hourChosen={hourChosen}
          />
         </div>
         <div className='md:flex-1 md:relative'>
-          <InfoOrders 
+          <InfoOrders
+          hourChosen={hourChosen} 
           timeChosen={timeChosen}
           serviceChosen={serviceChosen}
           barberChosen={barberChosen}
@@ -63,7 +67,9 @@ function MainDetail({
   serviceChosen,
   setServicePriceChosen,
   setTimeChosen,
-  timeChosen
+  timeChosen,
+  setHourChosen,
+    hourChosen
 }){
   return(
     <>
@@ -108,6 +114,8 @@ function MainDetail({
   month: "long",
   day: "numeric",
 })}
+ setHourChosen={setHourChosen}
+         hourChosen={hourChosen}
       timeSlots={timeSlots}
     />}
     
@@ -196,7 +204,7 @@ const ChooseTime = ({setTimeChosen}) => {
   );
 };
 
-const TimeSlotSelector = ({ date, timeSlots }) => {
+const TimeSlotSelector = ({ date, timeSlots ,setHourChosen , hourChosen }) => {
   return (
     <div className="p-4 mb-10 w-full">
       <div className="flex justify-between items-center mb-4">
@@ -207,8 +215,10 @@ const TimeSlotSelector = ({ date, timeSlots }) => {
       <div className="grid grid-cols-3 gap-2">
         {timeSlots.map((slot, index) => (
           <button
+          onClick={()=>setHourChosen(slot)}
+          style={{background:hourChosen === slot ? 'black':'white',color:hourChosen === slot ? 'white':'black'}}
             key={index}
-            className="border border-gray-300 p-2 rounded-lg hover:bg-gray-100"
+            className="border cursor-pointer border-gray-300 p-2 rounded-lg hover:bg-gray-100"
           >
             {slot}
           </button>
@@ -218,7 +228,10 @@ const TimeSlotSelector = ({ date, timeSlots }) => {
   );
 };
 
-const InfoOrders = ({barberChosen,serviceChosen,servicePriceChosen,timeChosen})=>{
+const InfoOrders = ({barberChosen,
+  serviceChosen,servicePriceChosen,
+  timeChosen,hourChosen
+})=>{
   return(
     <div className='p-5 rounded bg-white overflow-auto shadow-xl/30 border border-black h-90 mx-auto md:w-90 sm:w-full md:fixed mb-20'>
       <h1 className='text-2xl'>Commandes</h1>
@@ -234,8 +247,9 @@ const InfoOrders = ({barberChosen,serviceChosen,servicePriceChosen,timeChosen})=
         </>
          }
       </div>
-      {timeChosen && <p className='my-5 text-sm'>
-        Prévu  le : {timeChosen}
+      {timeChosen && <p className='my-5 font-thin text-sm flex justify-between w-full'>
+        <span>Prévu  le : {timeChosen}</span>
+        <span>{hourChosen ? hourChosen:null}</span>
       </p> }
       
       <div>
