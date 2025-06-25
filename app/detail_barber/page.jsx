@@ -1,6 +1,6 @@
 "use client";
 import * as React from 'react'
-import { Calendar } from "@/components/ui/calendar"
+// import { Calendar } from "@/components/ui/calendar"
 import { DatePicker } from 'antd';
 const services = [
   { name: "Men's Haircut", duration: '30min', price: '$47' },
@@ -35,8 +35,9 @@ function DetailPage() {
 
 function HeaderDetail(){
   return(
-   <div className='h-80 w-full bg-red-500 rounded mx-auto'>
-   </div>
+  //  <div className='h-80 w-full bg-red-500 rounded mx-auto'>
+  //  </div>
+    <img className='h-80  w-full rounded' style={{objectFit:'cover'}} src="/Barbershop.jpeg" alt="barbershop" />
   );
 }
 
