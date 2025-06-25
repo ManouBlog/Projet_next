@@ -257,8 +257,9 @@ const InfoOrders = ({barberChosen,
           <p className='flex justify-between items-center my-5'> 
           <span>Total:</span> <span>{servicePriceChosen}</span>
           </p> }
-        
-        <button className='bg-black py-5 text-white btn w-full'>Enregistrer</button>
+        <button className='bg-black py-5 text-white btn w-full'>
+         Continuer
+          </button>
       </div>
         </>
       }
