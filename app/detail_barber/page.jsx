@@ -2,6 +2,15 @@
 import * as React from 'react'
 // import { Calendar } from "@/components/ui/calendar"
 import { DatePicker } from 'antd';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 const services = [
   { name: "Men's Haircut", duration: '30min', price: '$47' },
   { name: "Men's Buzz Cut", duration: '30min', price: '$35' },
@@ -233,11 +242,16 @@ const InfoOrders = ({barberChosen,
   timeChosen,hourChosen
 })=>{
   const [actifPolicyCancel,setActifPolicyCancel] = React.useState(false)
+  const [confirmationReservation,setConfirmationReservation] = React.useState(false)
   return(
-    <div className='rounded bg-white  overflow-auto shadow-xl/30 border border-black h-90
+    <div className='rounded bg-white px-5 overflow-auto shadow-xl/30 border border-black h-90
      mx-auto md:w-90 sm:w-full md:fixed mb-20'>
-      {actifPolicyCancel && <PolicyCancel setActifPolicyCancel={setActifPolicyCancel} /> }
-      {!actifPolicyCancel && <div>
+      {actifPolicyCancel && <PolicyCancel 
+     setConfirmationReservation={setConfirmationReservation}
+      setActifPolicyCancel={setActifPolicyCancel} /> }
+      {confirmationReservation && <ConfirmReservation 
+      setConfirmationReservation={setConfirmationReservation} />}
+      {(!actifPolicyCancel && !confirmationReservation) && <div>
      <h1 className='text-2xl'>Commandes</h1>
       {
         barberChosen && 
@@ -276,7 +290,7 @@ const InfoOrders = ({barberChosen,
     </div>
   )
 }
-function PolicyCancel({setActifPolicyCancel}){
+function PolicyCancel({setActifPolicyCancel,setConfirmationReservation}){
   return (
 <div className='h-90 relative z-100' 
       style={{width:"100%",height:"100%"}}>
@@ -284,13 +298,18 @@ function PolicyCancel({setActifPolicyCancel}){
          <h1>Politique d'annulation</h1> 
          <span onClick={()=>setActifPolicyCancel(false)} 
          className='cursor-pointer'>Fermer</span>
-         
         </div>
-        <div>
-          <p>You have time until 11:00AM UTC−4 on 
-          July 1, 2025 to cancel this appointment without being charged.</p>
+        <div className='flex justify-between flex-col h-80'>
+          <p className='mt-5'>
+            Vous avez 
+            jusqu'au 1er juillet 2025 à 11h00
+             pour annuler ce rendez-vous sans frais.
+          </p>
             <button 
-        onClick={()=>setActifPolicyCancel(true)}
+        onClick={()=>{
+          setConfirmationReservation(true)
+          setActifPolicyCancel(false)
+        }}
         className='bg-black py-5 text-white btn w-full'>
          Je suis d'accord
           </button>    
@@ -298,5 +317,39 @@ function PolicyCancel({setActifPolicyCancel}){
          
      </div>
   )
+}
+
+function ConfirmReservation({setConfirmationReservation}){
+  return(
+<div className='h-90 relative z-100' 
+      style={{width:"100%",height:"100%"}}>
+        <div className='flex justify-between gap-5 items-center mx-5'>
+         <h1>Confirmation</h1> 
+         <span onClick={()=>setConfirmationReservation(false)} 
+         className='cursor-pointer'>Fermer</span>
+         
+        </div>
+        <div className='flex justify-between flex-col h-80'>
+          <p className='text-sm text-gray-300'>Mode de paiement</p>
+           <Select>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="sélectionne un mode de paiement" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Mode de paiement</SelectLabel>
+          <SelectItem value="apple">En ligne</SelectItem>
+          <SelectItem value="banana">En boutique</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+            <button 
+        className='bg-black py-5 text-white btn w-full'>
+         Réserver
+          </button>    
+         </div>
+         
+     </div>
+  );
 }
 export default DetailPage
