@@ -3,7 +3,7 @@ import * as React from 'react'
 // import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DatePicker } from 'antd';
+import { DatePicker,Alert } from 'antd';
 import {
   Select,
   SelectContent,
@@ -32,8 +32,20 @@ function DetailPage() {
   const [servicePriceChosen,setServicePriceChosen] = React.useState("");
   const [timeChosen,setTimeChosen] = React.useState("");
   const [hourChosen,setHourChosen] = React.useState("");
+    const [actifPolicyCancel,setActifPolicyCancel] = React.useState(false)
+  const [confirmationReservation,setConfirmationReservation] = React.useState(false)
+  const resetData =()=>{
+setBarberChosen("")
+setServiceChosen("")
+setTimeChosen("")
+setServicePriceChosen("")
+setHourChosen("")
+setActifPolicyCancel(false)
+setConfirmationReservation(false)
+  }
   return (
-    <div className='p-2'>
+    <div className='p-2 relative'>
+      <MyAlert />
       <HeaderDetail />
       <div className='md:flex md:flex-wrap md:gap-5 w-full'>
         <div className='md:flex-2'>
@@ -56,6 +68,11 @@ function DetailPage() {
           serviceChosen={serviceChosen}
           barberChosen={barberChosen}
           servicePriceChosen={servicePriceChosen}
+          resetData={resetData}
+            actifPolicyCancel={actifPolicyCancel}
+  setActifPolicyCancel = {setActifPolicyCancel}
+  confirmationReservation={confirmationReservation}
+  setConfirmationReservation={setConfirmationReservation}
           />
         </div>
       
@@ -175,7 +192,7 @@ const Services = ({setServiceChosen,
   return (
     <div>
       <div className="flex justify-end items-center mb-4 mt-10">
-        <button className="text-blue-500">Show all 12 services</button>
+        {/* <button className="text-blue-500">Show all 12 services</button> */}
       </div>
       <div className="flex gap-5 flex-wrap  items-center">
         {services.map((service, index) => (
@@ -241,10 +258,14 @@ const TimeSlotSelector = ({ date, timeSlots ,setHourChosen , hourChosen }) => {
 
 const InfoOrders = ({barberChosen,
   serviceChosen,servicePriceChosen,
-  timeChosen,hourChosen
+  timeChosen,hourChosen,
+  resetData,
+  actifPolicyCancel,
+  setActifPolicyCancel,
+  confirmationReservation,
+  setConfirmationReservation
 })=>{
-  const [actifPolicyCancel,setActifPolicyCancel] = React.useState(false)
-  const [confirmationReservation,setConfirmationReservation] = React.useState(false)
+
   return(
     <div className='rounded bg-white px-5 overflow-auto shadow-xl/30 border border-black h-90
      mx-auto md:w-90 sm:w-full md:fixed mb-20'>
@@ -252,6 +273,7 @@ const InfoOrders = ({barberChosen,
      setConfirmationReservation={setConfirmationReservation}
       setActifPolicyCancel={setActifPolicyCancel} /> }
       {confirmationReservation && <ConfirmReservation 
+      resetData={resetData}
       setConfirmationReservation={setConfirmationReservation} />}
       {(!actifPolicyCancel && !confirmationReservation) &&
        <div>
@@ -322,7 +344,7 @@ function PolicyCancel({setActifPolicyCancel,setConfirmationReservation}){
   )
 }
 
-function ConfirmReservation({setConfirmationReservation}){
+function ConfirmReservation({setConfirmationReservation,resetData}){
   return(
 <div className='h-90 relative z-100' 
       style={{width:"100%",height:"100%"}}>
@@ -371,6 +393,7 @@ function ConfirmReservation({setConfirmationReservation}){
           </div>
           
             <button 
+            onClick={()=>resetData()}
         className='bg-black py-5 my-5 text-white btn w-full'>
          Réserver
           </button>    
@@ -378,5 +401,13 @@ function ConfirmReservation({setConfirmationReservation}){
          
      </div>
   );
+}
+
+function MyAlert(){
+  return(
+   <div className='fixed top-0 w-full p-10 z-200'>
+    <Alert message="Warning" type="warning" style={{padding:"2em"}} showIcon closable /> 
+   </div>
+  )
 }
 export default DetailPage
