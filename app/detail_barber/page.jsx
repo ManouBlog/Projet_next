@@ -4,7 +4,8 @@ import * as React from 'react'
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DatePicker,Alert } from 'antd';
-import { Check } from "lucide-react";
+import { Check,MoveLeft } from "lucide-react";
+import { useRouter } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -96,15 +97,25 @@ function MainDetail({
   setHourChosen,
     hourChosen
 }){
-
+const router = useRouter();
+ const handleGoBack = () => {
+    router.back();
+  };
  
   return(
+
     <>
-   <div className='flex gap-5 my-10'>
-    <img className='h-25 w-25 rounded' src="/Barbershop.jpeg" alt="barbershop" />
+   <div className='flex justify-center my-10'>
+    <button className='flex gap-3 cursor-pointer' onClick={handleGoBack}>
+         <MoveLeft /> <span>Retour</span>
+    </button>
+  
+    <div className='flex gap-5 my-10'>
+  <img className='h-25 w-25 rounded' src="/Barbershop.jpeg" alt="barbershop" />
     <div>
      <h1 className='text-2xl'>Barber shop n1</h1>
      <span className='text-gray-300'>199 Bay St, Toronto, ON, M5L 1G9</span>
+    </div>
     </div>
    </div>
    <p className='text-2xl underline'>Coiffeurs</p>
@@ -337,7 +348,7 @@ const InfoOrders = ({
           </p> }
         <button 
         onClick={()=>setActifPolicyCancel(true)}
-        className='bg-black py-5 text-white btn w-full'>
+        className='bg-black py-5 mb-10 text-white btn w-full'>
          Continuer
           </button>
       </div>
@@ -357,7 +368,7 @@ function PolicyCancel({setActifPolicyCancel,setConfirmationReservation}){
         <div className='flex justify-between gap-5 items-center mx-5'>
          <h1 className='text-xl underline'>Politique d'annulation</h1> 
          <span onClick={()=>setActifPolicyCancel(false)} 
-         className='cursor-pointer'>Fermer</span>
+         className='cursor-pointer text-red-900'>Fermer</span>
         </div>
         <div className='flex justify-between flex-col h-80'>
           <p className='mt-5'>
@@ -370,7 +381,7 @@ function PolicyCancel({setActifPolicyCancel,setConfirmationReservation}){
           setConfirmationReservation(true)
           setActifPolicyCancel(false)
         }}
-        className='bg-black py-5 text-white btn w-full'>
+        className='bg-black py-5 mb-10 text-white btn w-full'>
          Je suis d'accord
           </button>    
          </div>
@@ -386,18 +397,18 @@ function ConfirmReservation({setConfirmationReservation,resetData}){
         <div className='flex justify-between gap-5 items-center p-3 mb-3'>
          <h1 className='text-2xl underline'>Confirmation</h1> 
          <span onClick={()=>setConfirmationReservation(false)} 
-         className='cursor-pointer'>Fermer</span>
+         className='cursor-pointer text-red-900'>Fermer</span>
          
         </div>
         <div className='flex justify-between flex-col h-80'>
           <div>
         <p className='text-sm text-gray-300 mb-5'>Mode de paiement</p>
-           <Select>
+           <Select className="bg-white">
       <SelectTrigger className="w-full">
         <SelectValue placeholder="sélectionne un mode de paiement" />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup>
+        <SelectGroup className="bg-white">
           <SelectLabel>Mode de paiement</SelectLabel>
           <SelectItem value="apple">En ligne</SelectItem>
           <SelectItem value="banana">En boutique</SelectItem>
@@ -429,7 +440,7 @@ function ConfirmReservation({setConfirmationReservation,resetData}){
           
             <button 
             onClick={()=>resetData()}
-        className='bg-black py-5 my-5 text-white btn w-full'>
+        className='bg-black py-5 my-10 text-white btn w-full'>
          Réserver
           </button>    
          </div>
