@@ -32,6 +32,8 @@ function DetailPage() {
   const [hourChosen,setHourChosen] = React.useState("");
     const [actifPolicyCancel,setActifPolicyCancel] = React.useState(false)
   const [confirmationReservation,setConfirmationReservation] = React.useState(false)
+  const [messageAlert,setMessageAlert] = React.useState("");
+  const [typeAlert,setTypeAlert] = React.useState("");
   const resetData =()=>{
 setBarberChosen("")
 setServiceChosen("")
@@ -43,7 +45,10 @@ setConfirmationReservation(false)
   }
   return (
     <div className='p-2 relative'>
-      <MyAlert />
+      {(messageAlert && typeAlert) && <MyAlert 
+      onClose={()=>setMessageAlert("")}
+      message={messageAlert} typeAlert={typeAlert} /> }
+      
       <HeaderDetail />
       <div className='md:flex md:flex-wrap items-center md:gap-5 w-full'>
         <div className='md:flex-2'>
@@ -71,6 +76,8 @@ setConfirmationReservation(false)
   setActifPolicyCancel = {setActifPolicyCancel}
   confirmationReservation={confirmationReservation}
   setConfirmationReservation={setConfirmationReservation}
+  setMessageAlert={setMessageAlert}
+  setTypeAlert={setTypeAlert}
           />
         </div>
       
@@ -306,7 +313,9 @@ const InfoOrders = ({
   actifPolicyCancel,
   setActifPolicyCancel,
   confirmationReservation,
-  setConfirmationReservation
+  setConfirmationReservation,
+  setMessageAlert,
+  setTypeAlert
 })=>{
 
   return(
@@ -315,9 +324,13 @@ const InfoOrders = ({
       {actifPolicyCancel && <PolicyCancel 
      setConfirmationReservation={setConfirmationReservation}
       setActifPolicyCancel={setActifPolicyCancel} /> }
-      {confirmationReservation && <ConfirmReservation 
+      {confirmationReservation &&
+       <ConfirmReservation 
       resetData={resetData}
-      setConfirmationReservation={setConfirmationReservation} />}
+      setMessageAlert={setMessageAlert}
+     setTypeAlert={setTypeAlert}
+      setConfirmationReservation={setConfirmationReservation} 
+      />}
       {(!actifPolicyCancel && !confirmationReservation) &&
        <div className='py-8'>
         <div className='flex justify-between items-center'>
@@ -390,7 +403,7 @@ function PolicyCancel({setActifPolicyCancel,setConfirmationReservation}){
   )
 }
 
-function ConfirmReservation({setConfirmationReservation,resetData}){
+function ConfirmReservation({setConfirmationReservation,resetData,setMessageAlert,setTypeAlert}){
   return(
 <div className='h-90 relative z-100' 
       style={{width:"100%",height:"100%"}}>
@@ -439,7 +452,11 @@ function ConfirmReservation({setConfirmationReservation,resetData}){
           </div>
           
             <button 
-            onClick={()=>resetData()}
+            onClick={()=>{
+              resetData()
+              setMessageAlert("Super votre rendez-vous est calé, vous allez recevoir un mail.")
+              setTypeAlert('success')
+            }}
         className='bg-black py-5 my-10 text-white btn w-full'>
          Réserver
           </button>    
@@ -449,10 +466,10 @@ function ConfirmReservation({setConfirmationReservation,resetData}){
   );
 }
 
-function MyAlert(){
+function MyAlert({message,type}){
   return(
    <div className='fixed top-0 w-full p-10 z-200'>
-    <Alert message="Warning" type="warning" style={{padding:"2em"}} showIcon closable /> 
+    <Alert message={message} type={type} style={{padding:"2em"}} showIcon closable /> 
    </div>
   )
 }
