@@ -21,12 +21,8 @@ const services = [
   { name: "Men's Haircut &...", duration: '45min', price: '$62' },
   // Ajoutez d'autres services ici
 ];
- const timeSlots = [
-    '9:00am', '9:15am', '9:30am',
-    '9:45am', '10:00am', '10:15am',
-    '10:30am', '10:45am', '11:00am',
-    '11:15am'
-  ];
+ let timeSlots = [];
+
 function DetailPage() {
   const [barberChosen,setBarberChosen] = React.useState("");
   const [serviceChosen,setServiceChosen] = React.useState("");
@@ -100,6 +96,8 @@ function MainDetail({
   setHourChosen,
     hourChosen
 }){
+
+ 
   return(
     <>
    <div className='flex gap-5 my-10'>
@@ -132,6 +130,7 @@ function MainDetail({
     setServiceChosen={setServiceChosen}
          serviceChosen={serviceChosen}
          setServicePriceChosen={setServicePriceChosen}
+         barberChosen={barberChosen}
     />
     <p className='text-2xl underline'>Choisis le jour</p>
 
@@ -140,8 +139,9 @@ function MainDetail({
    </p>
     <ChooseTime 
     setTimeChosen={setTimeChosen}
+    serviceChosen={serviceChosen}
     />
-    <p className='text-2xl underline my-10'>Horaires</p>
+    <p className='text-2xl underline my-10'>Créneaux horaires</p>
      <p className='text-md my-2 text-gray-300 flex gap-3'> <span>Choisir une heure</span> 
    {hourChosen && <span><Check className="text-green-900" /></span>}
    </p>
@@ -198,7 +198,26 @@ const BarberCard = ({
 };
 
 const Services = ({setServiceChosen,
-  serviceChosen,setServicePriceChosen}) => {
+  serviceChosen,setServicePriceChosen,barberChosen}) => {
+    
+     const OPENING_TIME = '09:00';
+     const CLOSING_TIME = '17:00';
+
+  const calculateTimeSlots = (startTime, endTime, intervalMinutes) => {
+    const slots = [];
+     let [startHours, startMins] = startTime.split(':').map(Number);
+     let [minutesLibelle , libelle] = intervalMinutes.split('min').map(Number);
+  let [endHours, endMins] = endTime.split(':').map(Number);
+   console.log({startMins,endMins,libelle,minutesLibelle})
+    for (let time = startHours*60; time + minutesLibelle <= endHours*60; time += minutesLibelle) {
+      const hours = Math.floor(time / 60);
+      const minutes = time % 60;
+      slots.push(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
+    }
+    console.log("slots",slots)
+    timeSlots = slots;
+    // return slots;
+  };
   return (
     <div>
       <div className="flex justify-end items-center mb-4 mt-10">
@@ -206,9 +225,11 @@ const Services = ({setServiceChosen,
       </div>
       <div className="flex gap-5 flex-wrap  items-center">
         {services.map((service, index) => (
-          <div 
+          <button 
+          disabled={!barberChosen}
           key={index} 
           onClick={()=>{
+            calculateTimeSlots(OPENING_TIME,CLOSING_TIME,service.duration)
             setServiceChosen(service.name)
             setServicePriceChosen(service.price)
           }}
@@ -223,21 +244,21 @@ const Services = ({setServiceChosen,
             <p className="font-bold">{service.price}</p>
             </div>
             
-          </div>
+          </button>
         ))}
       </div>
     </div>
   );
 };
 
-const ChooseTime = ({setTimeChosen}) => {
+const ChooseTime = ({setTimeChosen,serviceChosen}) => {
   const onChange = (date, dateString) => {
   console.log(date, dateString);
   setTimeChosen(dateString)
 };
   return (
   <div className='my-5'>
-  <DatePicker onChange={onChange} />
+  <DatePicker disabled={!serviceChosen} onChange={onChange} />
   </div>
   );
 };
