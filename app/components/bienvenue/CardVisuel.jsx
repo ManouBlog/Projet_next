@@ -9,10 +9,10 @@ function CardVisuel() {
     return (
   <div 
   onClick={() => router.push("/detail_barber")}
-  className="card rounded-3xl text-white image-full w-96 shadow-sm cursor-pointer">
+  className="card rounded-3xl text-white image-full w-96 h-50 shadow-sm cursor-pointer">
   <figure>
     <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+      src="/Barbershop.jpeg"
       alt="Shoes"
       className='w-full'
       />
@@ -36,7 +36,7 @@ function ProfilName() {
 <div className='flex items-center gap-3'>
 <div className="avatar">
   <div className="w-18 rounded-full">
-    <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+    <img src="/barber.jpeg" />
   </div>
 </div>
 <div>

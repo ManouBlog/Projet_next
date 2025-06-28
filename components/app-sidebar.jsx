@@ -1,11 +1,11 @@
-import { ScissorsLineDashed, Home, Inbox, PersonStanding, Timer } from "lucide-react"
+import { ScissorsLineDashed, Home, Inbox,UserCircle , User, Timer,CalendarCheck,Heart ,CreditCard } from "lucide-react"
 import Link from 'next/link'
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  // SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -35,12 +35,12 @@ const items = [
   {
     title: "Clients",
     url: "/dashboard/clients",
-    icon: PersonStanding,
+    icon: UserCircle ,
   },
   {
     title: "Réservations",
     url: "/dashboard/appointment",
-    icon: PersonStanding,
+    icon: CalendarCheck,
   },
   // {
   //   title: "Réservations",
@@ -50,17 +50,17 @@ const items = [
    {
     title: "Favoris",
     url: "/dashboard/favoris",
-    icon: PersonStanding,
+    icon: Heart,
   },
   {
     title: "Historique de paiement",
     url: "/dashboard/payment",
-    icon: PersonStanding,
+    icon: CreditCard,
   },
   {
     title: "Employés",
     url: "/dashboard/employe",
-    icon: PersonStanding,
+    icon: UserCircle ,
   },
   {
     title: "Heure de travail",
@@ -70,7 +70,7 @@ const items = [
   {
     title: "Profil",
     url: "/dashboard/profile",
-    icon: Timer,
+    icon: User,
   },
 ]
 
@@ -79,7 +79,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>CoiffeurPro</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>CoiffeurPro</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
