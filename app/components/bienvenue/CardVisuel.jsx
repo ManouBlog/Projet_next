@@ -4,7 +4,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { BsGeoAlt } from "react-icons/bs";
 import { COLORS } from '../../__design/colors'
 import { useRouter } from 'next/navigation'
-function CardVisuel() {
+function CardVisuel({name,specialite,adresse}) {
   const router = useRouter()
     return (
   <div 
@@ -18,10 +18,10 @@ function CardVisuel() {
       />
   </figure>
   <div className="card-body p-2 justify-between">
-    <ProfilName />
+    <ProfilName name={name} specialite={specialite}/>
     <div className="card-actions justify-between items-center">
         <div className='flex gap-1 items-center font-extralight'>
-     <BsGeoAlt size={15} /> Abidjan,Marcory,rue 128
+     <BsGeoAlt size={15} /> {adresse}
         </div>
       <IoIosArrowForward style={{background:COLORS.brown}} className='cursor-pointer py-2 rounded-xl' size={55} />
    </div>
@@ -31,7 +31,7 @@ function CardVisuel() {
     )
 }
 
-function ProfilName() {
+function ProfilName({name,specialite}) {
     return(
 <div className='flex items-center gap-3'>
 <div className="avatar">
@@ -40,12 +40,11 @@ function ProfilName() {
   </div>
 </div>
 <div>
-<h2 className="card-title">Adjobi Pierre</h2>
-<span className='font-extralight'>Spécialité</span>
+<h2 className="card-title">{name}</h2>
+<span className='font-extralight'>{specialite}</span>
 </div>
-
 </div>
-    )
+)
 }
 
 export default CardVisuel
