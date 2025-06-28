@@ -4,6 +4,7 @@ import * as React from 'react'
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DatePicker,Alert } from 'antd';
+import { Check } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -47,7 +48,7 @@ setConfirmationReservation(false)
     <div className='p-2 relative'>
       <MyAlert />
       <HeaderDetail />
-      <div className='md:flex md:flex-wrap md:gap-5 w-full'>
+      <div className='md:flex md:flex-wrap items-center md:gap-5 w-full'>
         <div className='md:flex-2'>
          <MainDetail
          setServiceChosen={setServiceChosen}
@@ -61,7 +62,7 @@ setConfirmationReservation(false)
          hourChosen={hourChosen}
          />
         </div>
-        <div className='md:flex-1 md:relative'>
+        <div className='md:flex-1'>
           <InfoOrders
           hourChosen={hourChosen} 
           timeChosen={timeChosen}
@@ -109,7 +110,9 @@ function MainDetail({
     </div>
    </div>
    <p className='text-2xl underline'>Coiffeurs</p>
-   <p className='text-md my-2 text-gray-300'>Choisir un coiffeur</p>
+   <p className='text-md my-2 text-gray-300 flex gap-3'> <span>Choisir un coiffeur</span> 
+   {barberChosen && <span><Check className="text-green-900" /></span>}
+   </p>
    <div className="flex gap-5 items-center my-10">
       <BarberCard
         name="Chris M."
@@ -121,20 +124,27 @@ function MainDetail({
       />
     </div>
     <p className='text-2xl underline'>Services</p>
-    <p className='text-md my-2 text-gray-300'>Choisir un service</p>
+   
+    <p className='text-md my-2 text-gray-300 flex gap-3'> <span>Choisir un service</span> 
+   {serviceChosen && <span><Check className="text-green-900" /></span>}
+   </p>
     <Services 
     setServiceChosen={setServiceChosen}
          serviceChosen={serviceChosen}
          setServicePriceChosen={setServicePriceChosen}
     />
     <p className='text-2xl underline'>Choisis le jour</p>
-    <p className='text-md my-2 text-gray-300'>Choisir un jour</p>
+
+     <p className='text-md my-2 text-gray-300 flex gap-3'> <span>Choisir un jour</span> 
+   {timeChosen && <span><Check className="text-green-900" /></span>}
+   </p>
     <ChooseTime 
     setTimeChosen={setTimeChosen}
-         
     />
     <p className='text-2xl underline my-10'>Horaires</p>
-    <p className='text-md my-2 text-gray-300'>Choisir une heure</p>
+     <p className='text-md my-2 text-gray-300 flex gap-3'> <span>Choisir une heure</span> 
+   {hourChosen && <span><Check className="text-green-900" /></span>}
+   </p>
     {timeChosen && <TimeSlotSelector
       date={new Date(timeChosen).toLocaleString('fr', {
   weekday: "long",
@@ -256,7 +266,8 @@ const TimeSlotSelector = ({ date, timeSlots ,setHourChosen , hourChosen }) => {
   );
 };
 
-const InfoOrders = ({barberChosen,
+const InfoOrders = ({
+  barberChosen,
   serviceChosen,servicePriceChosen,
   timeChosen,hourChosen,
   resetData,
@@ -267,8 +278,8 @@ const InfoOrders = ({barberChosen,
 })=>{
 
   return(
-    <div className='rounded bg-white px-5 overflow-auto shadow-xl/30 border border-black h-90
-     mx-auto md:w-90 sm:w-full md:fixed mb-20'>
+    <div className='rounded bg-white px-5 overflow-auto shadow-xl/30 border border-black h-full
+     mx-auto md:w-90 sm:w-full mb-20'>
       {actifPolicyCancel && <PolicyCancel 
      setConfirmationReservation={setConfirmationReservation}
       setActifPolicyCancel={setActifPolicyCancel} /> }
@@ -276,16 +287,19 @@ const InfoOrders = ({barberChosen,
       resetData={resetData}
       setConfirmationReservation={setConfirmationReservation} />}
       {(!actifPolicyCancel && !confirmationReservation) &&
-       <div>
-     <h1 className='text-2xl underline my-5'>Commandes</h1>
+       <div className='py-8'>
+        <div className='flex justify-between items-center'>
+        <h1 className='text-2xl underline my-5'>Commandes</h1>
+        {barberChosen && <span className='text-sm cursor-pointer text-red-500' onClick={()=>resetData()}>Annuler</span> }
+        </div>
       {
         barberChosen && 
         <>
-         <p>Coiffeur : {barberChosen}</p>
+         <p className='text-green-500'>{barberChosen}</p>
       <div className='flex gap-5 justify-between w-full'>
         {serviceChosen &&
         <>
-        <p>{serviceChosen}</p>
+        <p className='font-extralight'>{serviceChosen}</p>
         <h5>{servicePriceChosen}</h5>
         </>
          }
