@@ -8,7 +8,7 @@ import HeaderForm from '@/app/components/headerForm'
 function PasswordForgot() {
     const [email,setEmail]=React.useState('');
     return (
-       <div className="hero bg-base-200 min-h-screen">
+       <div className="hero bg-black min-h-screen">
   <div className="hero-content sm:w-full md:w-150 flex-col">
    <HeaderForm />
     <div className="card bg-white w-full shrink-0 shadow-2xl text-black">
