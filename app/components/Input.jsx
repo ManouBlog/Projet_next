@@ -12,7 +12,7 @@ export default function Input({label,placeholder,type,isRequired,onChange,valueI
           onChange={(e)=>onChange(e.target.value)}
           required={isRequired}
           pattern={type === 'number' ? '[0-9]*':null} 
-          inputmode={type === 'number' ? 'numeric':null}
+          inputMode={type === 'number' ? 'numeric':null}
           type={type}
           className="input border-gray-600 rounded py-4 border-2 mb-8 w-full" 
           placeholder={placeholder} />

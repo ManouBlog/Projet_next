@@ -3,6 +3,8 @@ import { COLORS } from '@/app/__design/colors';
 import Link from 'next/link'
 import HeaderForm from '@/app/components/headerForm';
 import BtnRouter from '@/app/components/BtnRouter';
+import { FcGoogle } from "react-icons/fc";
+import { BsFacebook } from "react-icons/bs";
 
 function LoginPage() {
    
@@ -24,6 +26,10 @@ function LoginPage() {
             route={'/dashboard'}
             title={'Se connecter'}
             />
+            <div className='flex justify-center items-center gap-5 my-5'> 
+            <button className='btn bg-black text-white'> <FcGoogle />Google</button>
+            <button  className='btn bg-black text-white'> <BsFacebook /> Facebook</button>
+            </div>
           {/* <button 
            onClick={() => router.push('/dashboard')}
            className="btn border-0 text-black p-5 mt-5 rounded-xl 
