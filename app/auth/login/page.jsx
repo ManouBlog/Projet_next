@@ -26,10 +26,10 @@ function LoginPage() {
             route={'/dashboard'}
             title={'Se connecter'}
             />
-            <div className='flex justify-center items-center gap-5 my-5'> 
+            {/* <div className='flex justify-center items-center gap-5 my-5'> 
             <button className='btn bg-black text-white'> <FcGoogle />Google</button>
             <button  className='btn bg-black text-white'> <BsFacebook /> Facebook</button>
-            </div>
+            </div> */}
           {/* <button 
            onClick={() => router.push('/dashboard')}
            className="btn border-0 text-black p-5 mt-5 rounded-xl 
