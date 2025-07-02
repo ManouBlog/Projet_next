@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Clients;
+use App\Models\Favoris;
+use App\Models\Horaires;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -41,4 +44,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+ public function client()
+{
+    return $this->hasOne(Clients::class);
+}
+public function coiffeur()
+{
+    return $this->hasOne(Coiffeurs::class);
+}
+public function favori()
+{
+    return $this->hasMany(Favoris::class);
+}
+public function horaire()
+{
+    return $this->hasOne(Horaires::class);
+}
 }
