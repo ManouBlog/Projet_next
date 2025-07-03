@@ -72,13 +72,10 @@ if ($validator->fails()) {
     public function registerUser(Request $request){
        $user = new User();
     
-         $validator = Validator::make($request->all(), [
-    'nom' => 'required|min:3',
+          $validator = Validator::make($request->all(), [
     'email' => 'required|email|unique:users',
     'password' => 'required'
 ], [
-    'nom.required' => 'Le nom est obligatoire',
-    'nom.min' => 'Le nom doit contenir au moins 3 caractères',
     'email.required' => 'L\'email est obligatoire',
     'email.email' => 'Veuillez entrer une adresse email valide',
     'email.unique' => 'Cet email est déjà utilisé',
@@ -90,15 +87,15 @@ if ($validator->fails()) {
                 'message' => $validator->errors(),
             ], 400);
 }
-        $user->nom = $request->nom;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
+         
         if($user->id){
            if($request->isClient){
-            $this->saveClients($request, $user->id);
+           return $this->saveClients($request, $user->id);
            }else{
-             $this->saveCoiffeurs($request, $user->id);
+            return $this->saveCoiffeurs($request, $user->id);
            }
         
         }
@@ -140,6 +137,11 @@ if ($validator->fails()) {
 ]);
 
 if ($validator->fails()) {
+    $user = User::find($userIdentifiant);
+        
+        // Supprimer l'utilisateur
+        $user->delete();
+
     return response()->json([
                 'status' => false,
                 'message' => $validator->errors(),
@@ -187,6 +189,10 @@ if ($validator->fails()) {
 ]);
 
 if ($validator->fails()) {
+    $user = User::find($userIdentifiant);
+        
+        // Supprimer l'utilisateur
+        $user->delete();
     return response()->json([
                 'status' => false,
                 'message' => $validator->errors(),
@@ -210,7 +216,6 @@ if ($validator->fails()) {
             "message" =>'Inscription reussie' 
         ], 201);
     }
-
 
 }
 
