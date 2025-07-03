@@ -48,4 +48,16 @@ if ($validator->fails()) {
             "data" => $user
         ], 201);
     }
+
+   // le model contient la facon d'afficher la premiere
+   // lettre en Maj.
+    public function seeAllUser(){
+        $Alluser = new User();
+        $user = $Alluser->get();
+         return response()->json([
+            "status" => true,
+            "data" => $user
+        ], 201);
+    }
 }
+

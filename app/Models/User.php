@@ -45,6 +45,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getNomAttribute($value)
+{
+    return ucfirst(strtoupper($value));
+}
+
  public function client()
 {
     return $this->hasOne(Clients::class);
