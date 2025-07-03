@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function getNomAttribute($value)
 {
-    return ucfirst(strtoupper($value));
+    return ucfirst(strtolower($value));
 }
 
  public function client()
