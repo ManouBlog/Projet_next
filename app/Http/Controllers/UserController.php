@@ -20,35 +20,30 @@ class UserController extends Controller
      */
     public function login(Request $request){
 
-        $user = new User();
+       $request->validate([
+            "email" => "required|email",
+            "password" => "required"
+        ]);
+        $user = User::where("email", "=", $request->email)->first();
     
-         $validator = Validator::make($request->all(), [
-    'nom' => 'required|min:3',
-    'email' => 'required|email|unique:users',
-    'password' => 'required'
-], [
-    'nom.required' => 'Le nom est obligatoire',
-    'nom.min' => 'Le nom doit contenir au moins 3 caractères',
-    'email.required' => 'L\'email est obligatoire',
-    'email.email' => 'Veuillez entrer une adresse email valide',
-    'email.unique' => 'Cet email est déjà utilisé',
-    'password.required' => 'Le mot de passe est obligatoire'
-]);
-if ($validator->fails()) {
-    return response()->json([
-                'status' => false,
-                'message' => $validator->errors(),
+        if (!$user) {
+            return response()->json([
+                "status" => false,
+                "message" => "L'email n'existe pas dans la base de donnée.",
             ], 400);
-}
-        $user->nom = $request->nom;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        
-        $user->save();
-        return response()->json([
-            "status" => true,
-            "data" => $user
-        ], 201);
+        }
+        if (Hash::check($request->password,$user->password)){
+                $token = $user->createToken("auth_token")->plainTextToken;
+            return response()->json([
+                "status" => true,
+                "access_token" => $token,
+            ], 200);
+            }else{
+                return response()->json([
+                "status" => false,
+                "message" => "Le mot de passe est incorrect.",
+            ], 400);
+            }
     }
 
    // le model contient la facon d'afficher la premiere
@@ -216,6 +211,5 @@ if ($validator->fails()) {
             "message" =>'Inscription reussie' 
         ], 201);
     }
-
 }
 
