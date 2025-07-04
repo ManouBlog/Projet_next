@@ -22,6 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth_login', [UserController::class, 'login']);
 Route::get('/allUsers', [UserController::class, 'seeAllUser']);
 Route::post('/register', [UserController::class, 'registerUser']);
-// Route::group(["middleware" => ["auth:sanctum"]], function () {
-     
-// });
+Route::group(["middleware" => ["auth:sanctum"]], function () {
+   Route::get('/seeProfil', [UserController::class, 'seeAllUser']);  
+});
