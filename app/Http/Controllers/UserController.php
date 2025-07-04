@@ -24,7 +24,7 @@ class UserController extends Controller
             "email" => "required|email",
             "password" => "required"
         ]);
-        $user = User::where("email", "=", $request->email)->first();
+        $user = User::where("email", "=", $request->email)->with(['client', 'coiffeur'])->first();
     
         if (!$user) {
             return response()->json([
@@ -37,6 +37,7 @@ class UserController extends Controller
             return response()->json([
                 "status" => true,
                 "access_token" => $token,
+                "data"=>$user
             ], 200);
             }else{
                 return response()->json([
