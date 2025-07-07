@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,11 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::prefix('profil')->group(function () {
     Route::get('/seeProfil', [UserController::class, 'seeProfilUserConnect']);
     Route::post('/updateInfoUser',[UserController::class, 'updateInfoUser']);
+    });
+
+    Route::prefix('role')->middleware('admin')->group(function () {
+    Route::get('/add', [RoleController::class, 'addRole']);
+    Route::post('/update', [RoleController::class, 'updateRole']);
     });
   
 });

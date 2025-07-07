@@ -19,6 +19,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request){
+        // Hacher ton mot de passe avec le terminal et laravel
+        // php artisan tinker
+       // Hash::make('monpassword')
 
        $request->validate([
             "email" => "required|email",
