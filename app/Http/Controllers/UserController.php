@@ -81,11 +81,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
    public function updateInfoUser(Request $request){
-     
+
+     // when use update with method put
+     // use form onto postman: x-www-form-urlencode 
+     // if you want update with method POST : use form-data on postman
+
      $user = auth()->user(); // Récupère l'utilisateur connecté
      $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
       if($userConnect->client){
-
         $ClientConnect = Clients::where("email", "=", $user->email)->with('user')->first();
         $ClientConnect->nom = !empty($request->nom) ? $request->nom : $ClientConnect->nom;
         $ClientConnect->prenoms = !empty($request->prenoms) ? $request->prenoms : $ClientConnect->prenoms;
@@ -96,37 +99,33 @@ class UserController extends Controller
         $ClientConnect->sexe = !empty($request->sexe) ? $request->sexe : $ClientConnect->sexe;
         $ClientConnect->phone = !empty($request->phone) ? $request->phone : $ClientConnect->phone;
         $ClientConnect->save();
-        $userConnect->save();
-        return response()->json([
-            "status" => true,
-            "message" => "mis à jour des informations."
-        ], 200);
      }
      if($userConnect->coiffeur){
      $CoiffeurConnect = Coiffeurs::where("email", "=", $user->email)->with('user')->first();
-     $CoiffeurConnect->nom_entreprise = !empty($request->nom_entreprise) ? $request->nom_entreprise : $CoiffeurConnect->nom_entreprise;
-
+     $Coiffeur = Coiffeurs::findOrFail($CoiffeurConnect->id);
+     $Coiffeur->nom_entreprise = !empty($request->nom_entreprise) ? $request->nom_entreprise : $Coiffeur->nom_entreprise;
+     
      if(!empty($request->email)){
-     $CoiffeurConnect->email = !empty($request->email) ? $request->email : $CoiffeurConnect->email;
+     $Coiffeur->email = !empty($request->email) ? $request->email : $Coiffeur->email;
       $userConnect->email = !empty($request->email) ? $request->email : $userConnect->email;
      }
    
-     $CoiffeurConnect->phone = !empty($request->phone) ? $request->phone : $CoiffeurConnect->phone;
+     $Coiffeur->phone = !empty($request->phone) ? $request->phone : $Coiffeur->phone;
      
-      if (!empty($request->photo_profil) && $request->hasFile('photo_profil')) {
+      if ($request->hasFile('photo_profil')) {
      $image = $request->file('photo_profil');
      $ext = $image->extension();
      $fileName = time() . '.' . $ext;
      $image->storeAs('public/images', $fileName);
-     $CoiffeurConnect->photo_profil = 'images/' . $fileName;
+     $Coiffeur->photo_profil = 'images/' . $fileName;
       }
-     $CoiffeurConnect->save();
-     $userConnect->save();
+     $Coiffeur->save();
+     }
+      $userConnect->save();
      return response()->json([
             "status" => true,
             "message" => "mis à jour des informations."
         ], 200);
-     }
      
    }
 
