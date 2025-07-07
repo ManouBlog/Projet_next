@@ -55,8 +55,58 @@ class UserController extends Controller
          return response()->json([
             "status" => true,
             "data" => $user
-        ], 201);
+        ], 200);
     }
+
+   public function seeProfilUserConnect(){
+    $infoUser=null;
+     $user = auth()->user(); // Récupère l'utilisateur connecté
+     $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
+     if($userConnect->client){
+        $infoUser = $userConnect->client;
+     }
+     if($userConnect->coiffeur){
+     $infoUser = $userConnect->coiffeur;
+     }
+    return response()->json([
+            "status" => true,
+            "data" => $infoUser
+        ], 200);
+   }
+
+   /**
+     * Update user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+   public function updateInfoUser(Request $request){
+     $infoUser=null;
+     $user = auth()->user(); // Récupère l'utilisateur connecté
+     $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
+      if($userConnect->client){
+        $infoUser = $userConnect->client;
+     }
+     if($userConnect->coiffeur){
+        
+     $CoiffeurConnect = Coiffeurs::where("email", "=", $user->email)->with('user')->first();
+     $CoiffeurConnect->nom_entreprise = !empty($request->nom_entreprise) ? $request->nom_entreprise : $CoiffeurConnect->nom_entreprise;
+     $CoiffeurConnect->email = !empty($request->email) ? $request->email : $CoiffeurConnect->email;
+     $CoiffeurConnect->phone = !empty($request->phone) ? $request->phone : $CoiffeurConnect->phone;
+     
+      if (!empty($request->photo_profil) && $request->hasFile('photo_profil')) {
+     $image = $request->file('photo_profil');
+     $ext = $image->extension();
+     $fileName = time() . '.' . $ext;
+     $image->storeAs('public/images', $fileName);
+     $CoiffeurConnect->photo_profil = 'images/' . $fileName;
+      }
+     $CoiffeurConnect->save();
+     }
+     
+   }
+
+   
 
     /**
      * Store a new user.
