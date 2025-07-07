@@ -90,16 +90,20 @@ class UserController extends Controller
      $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
       if($userConnect->client){
         $ClientConnect = Clients::where("email", "=", $user->email)->with('user')->first();
-        $ClientConnect->nom = !empty($request->nom) ? $request->nom : $ClientConnect->nom;
-        $ClientConnect->prenoms = !empty($request->prenoms) ? $request->prenoms : $ClientConnect->prenoms;
+        
+        $Client = Clients::findOrFail($ClientConnect->id);
+
+        $Client->nom = !empty($request->nom) ? $request->nom : $Client->nom;
+        $Client->prenoms = !empty($request->prenoms) ? $request->prenoms : $Client->prenoms;
       if(!empty($request->email)){
-         $ClientConnect->email = !empty($request->email) ? $request->email : $ClientConnect->email;
+         $Client->email = !empty($request->email) ? $request->email : $Client->email;
          $userConnect->email = !empty($request->email) ? $request->email : $userConnect->email;
         }
-        $ClientConnect->sexe = !empty($request->sexe) ? $request->sexe : $ClientConnect->sexe;
-        $ClientConnect->phone = !empty($request->phone) ? $request->phone : $ClientConnect->phone;
-        $ClientConnect->save();
+        $Client->sexe = !empty($request->sexe) ? $request->sexe : $Client->sexe;
+        $Client->phone = !empty($request->phone) ? $request->phone : $Client->phone;
+        $Client->save();
      }
+     
      if($userConnect->coiffeur){
      $CoiffeurConnect = Coiffeurs::where("email", "=", $user->email)->with('user')->first();
      $Coiffeur = Coiffeurs::findOrFail($CoiffeurConnect->id);
