@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Employes;
 use App\Models\Reservations;
 use Illuminate\Database\Eloquent\Model;
@@ -19,4 +20,8 @@ class Coiffeurs extends Model
 {
     return $this->belongsToMany(Reservations::class);
 }
+
+  public function user(){
+    return $this->belongsTo(User::class);
+  }
 }

@@ -24,9 +24,10 @@ Route::get('/allUsers', [UserController::class, 'seeAllUser']);
 Route::post('/register', [UserController::class, 'registerUser']);
 
 Route::group(["middleware" => ["auth:sanctum"]], function () {
-    
+
     Route::prefix('profil')->group(function () {
     Route::get('/seeProfil', [UserController::class, 'seeProfilUserConnect']);
+    Route::put('/updateInfoUser',[UserController::class, 'updateInfoUser']);
     });
   
 });

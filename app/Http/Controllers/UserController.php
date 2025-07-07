@@ -81,11 +81,26 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
    public function updateInfoUser(Request $request){
-     $infoUser=null;
+     
      $user = auth()->user(); // Récupère l'utilisateur connecté
      $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
       if($userConnect->client){
+
         $ClientConnect = Clients::where("email", "=", $user->email)->with('user')->first();
+        $ClientConnect->nom = !empty($request->nom) ? $request->nom : $ClientConnect->nom;
+        $ClientConnect->prenoms = !empty($request->prenoms) ? $request->prenoms : $ClientConnect->prenoms;
+      if(!empty($request->email)){
+         $ClientConnect->email = !empty($request->email) ? $request->email : $ClientConnect->email;
+         $userConnect->email = !empty($request->email) ? $request->email : $userConnect->email;
+        }
+        $ClientConnect->sexe = !empty($request->sexe) ? $request->sexe : $ClientConnect->sexe;
+        $ClientConnect->phone = !empty($request->phone) ? $request->phone : $ClientConnect->phone;
+        $ClientConnect->save();
+        $userConnect->save();
+        return response()->json([
+            "status" => true,
+            "message" => "mis à jour des informations."
+        ], 200);
      }
      if($userConnect->coiffeur){
      $CoiffeurConnect = Coiffeurs::where("email", "=", $user->email)->with('user')->first();
