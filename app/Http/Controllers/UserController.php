@@ -85,13 +85,17 @@ class UserController extends Controller
      $user = auth()->user(); // Récupère l'utilisateur connecté
      $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
       if($userConnect->client){
-        $infoUser = $userConnect->client;
+        $ClientConnect = Clients::where("email", "=", $user->email)->with('user')->first();
      }
      if($userConnect->coiffeur){
-        
      $CoiffeurConnect = Coiffeurs::where("email", "=", $user->email)->with('user')->first();
      $CoiffeurConnect->nom_entreprise = !empty($request->nom_entreprise) ? $request->nom_entreprise : $CoiffeurConnect->nom_entreprise;
+
+     if(!empty($request->email)){
      $CoiffeurConnect->email = !empty($request->email) ? $request->email : $CoiffeurConnect->email;
+      $userConnect->email = !empty($request->email) ? $request->email : $userConnect->email;
+     }
+   
      $CoiffeurConnect->phone = !empty($request->phone) ? $request->phone : $CoiffeurConnect->phone;
      
       if (!empty($request->photo_profil) && $request->hasFile('photo_profil')) {
@@ -102,6 +106,11 @@ class UserController extends Controller
      $CoiffeurConnect->photo_profil = 'images/' . $fileName;
       }
      $CoiffeurConnect->save();
+     $userConnect->save();
+     return response()->json([
+            "status" => true,
+            "message" => "mis à jour des informations."
+        ], 200);
      }
      
    }
