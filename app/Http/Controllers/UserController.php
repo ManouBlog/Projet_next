@@ -89,6 +89,29 @@ class UserController extends Controller
      $user = auth()->user(); // Récupère l'utilisateur connecté
      $userConnect = User::where("email", "=", $user->email)->with(['client', 'coiffeur'])->first();
       if($userConnect->client){
+         $validator = Validator::make($request->all(), [
+    'nom' => 'min:3',
+    'prenoms' => 'min:3',
+    'email' => 'email|unique:clients', // J'ai changé 'users' en 'clients' si c'est votre table
+    'sexe' => 'in:homme,femme', // Supposant que sexe peut être 'homme' ou 'femme'
+    'birthday' => 'date',
+    'phone' => 'min:10|max:10' // Adaptation selon le format de téléphone attendu
+], [
+    'nom.min' => 'Le nom doit contenir au moins 3 caractères',
+    'prenoms.min' => 'Le prénom doit contenir au moins 3 caractères',
+    'email.email' => 'Veuillez entrer une adresse email valide',
+    'email.unique' => 'Cet email est déjà utilisé',
+    'sexe.in' => 'Le sexe doit être homme ou femme',
+    'birthday.date' => 'Veuillez entrer une date valide',
+    'phone.min' => 'Le téléphone doit contenir au moins 8 caractères',
+    'phone.max' => 'Le téléphone ne doit pas dépasser 15 caractères'
+]);
+if ($validator->fails()) {
+    return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 400);
+}
         $ClientConnect = Clients::where("email", "=", $user->email)->with('user')->first();
         
         $Client = Clients::findOrFail($ClientConnect->id);
@@ -103,8 +126,32 @@ class UserController extends Controller
         $Client->phone = !empty($request->phone) ? $request->phone : $Client->phone;
         $Client->save();
      }
-     
+
      if($userConnect->coiffeur){
+         $validator = Validator::make($request->all(), [
+    'nom_entreprise' => 'min:3|max:100',
+    'email' => 'email|unique:coiffeurs,email',
+    'photo_profil' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max
+    'phone' => 'digits:10|regex:/^0[1-9][0-9]{8}$/' // Format français
+], [
+  
+    'nom_entreprise.min' => 'Le nom doit contenir au moins 3 caractères',
+    'nom_entreprise.max' => 'Le nom ne doit pas dépasser 100 caractères',
+    'email.email' => 'Veuillez entrer une adresse email valide',
+    'email.unique' => 'Cet email est déjà utilisé par un autre coiffeur',
+    'photo_profil.image' => 'Le fichier doit être une image',
+    'photo_profil.mimes' => 'Les formats autorisés sont: jpeg, png, jpg, gif',
+    'photo_profil.max' => 'La taille de l\'image ne doit pas dépasser 2MB',
+    'phone.digits' => 'Le téléphone doit contenir exactement 10 chiffres',
+    'phone.regex' => 'Le numéro doit commencer par 0 et contenir 10 chiffres valides'
+]);
+if ($validator->fails()) {
+    return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 400);
+}
+
      $CoiffeurConnect = Coiffeurs::where("email", "=", $user->email)->with('user')->first();
      $Coiffeur = Coiffeurs::findOrFail($CoiffeurConnect->id);
      $Coiffeur->nom_entreprise = !empty($request->nom_entreprise) ? $request->nom_entreprise : $Coiffeur->nom_entreprise;
