@@ -27,7 +27,7 @@ class UserController extends Controller
             "email" => "required|email",
             "password" => "required"
         ]);
-        $user = User::where("email", "=", $request->email)->with(['client', 'coiffeur'])->first();
+        $user = User::where("email", "=", $request->email)->with(['client', 'coiffeur','role'])->first();
     
         if (!$user) {
             return response()->json([

@@ -18,10 +18,12 @@ class RoleController extends Controller
     public function addRole(Request $request){
      $role = new Roles();
      $validator = Validator::make($request->all(), [
-    'libelle' => 'min:3'
-], [
-    'libelle.min' => 'Le nom doit contenir au moins 3 caractères',
-]);
+        'libelle' => 'required|min:3|unique:roles,libelle'
+    ], [
+        'libelle.min' => 'Le nom doit contenir au moins 3 caractères',
+        'libelle.unique' => 'Ce libellé existe déjà dans la base de données',
+        'libelle.required' => 'Le libellé est obligatoire'
+    ]);
 if ($validator->fails()) {
     return response()->json([
                 'status' => false,
@@ -58,11 +60,12 @@ if ($validator->fails()) {
             'message' => 'Rôle non trouvé',
         ], 404);
     }
-     $validator = Validator::make($request->all(), [
-    'libelle' => 'min:3'
-], [
-    'libelle.min' => 'Le nom doit contenir au moins 3 caractères',
-]);
+   $validator = Validator::make($request->all(), [
+        'libelle' => 'required|min:3'
+    ], [
+        'libelle.min' => 'Le nom doit contenir au moins 3 caractères',
+        'libelle.required' => 'Le libellé est obligatoire'
+    ]);
 if ($validator->fails()) {
     return response()->json([
                 'status' => false,

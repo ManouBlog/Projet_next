@@ -32,8 +32,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     });
 
     Route::prefix('role')->middleware('admin')->group(function () {
-    Route::get('/add', [RoleController::class, 'addRole']);
-    Route::post('/update', [RoleController::class, 'updateRole']);
+    Route::post('/add', [RoleController::class, 'addRole']);
+    Route::put('/update/{id}', [RoleController::class, 'updateRole']);
+    Route::get('/list', [RoleController::class, 'getListRole']);
     });
+     
   
 });

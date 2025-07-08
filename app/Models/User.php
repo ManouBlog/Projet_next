@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Roles;
 use App\Models\Clients;
 use App\Models\Favoris;
 use App\Models\Horaires;
@@ -53,6 +54,10 @@ class User extends Authenticatable
  public function client()
 {
     return $this->hasOne(Clients::class);
+}
+public function role()
+{
+    return $this->belongsTo(Roles::class);
 }
 public function coiffeur()
 {
