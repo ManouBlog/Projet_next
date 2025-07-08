@@ -41,7 +41,7 @@ if ($validator->fails()) {
     public function getListRole(){
      $role = Roles::get();
      return response()->json([
-                "status" => false,
+                "status" => true,
                 "data" => $role,
             ], 400);
     }
