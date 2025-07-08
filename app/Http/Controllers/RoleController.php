@@ -77,8 +77,8 @@ if ($validator->fails()) {
      $role->save();
 
      return response()->json([
-                "status" => false,
+                "status" => true,
                 "data" => $role,
-            ], 400);
+            ], 200);
     }
 }

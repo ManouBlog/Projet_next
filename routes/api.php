@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoriesServicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,18 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post('/add', [RoleController::class, 'addRole']);
     Route::put('/update/{id}', [RoleController::class, 'updateRole']);
     Route::get('/list', [RoleController::class, 'getListRole']);
+    });
+
+    Route::prefix('categorie')->middleware('admin')->group(function () {
+    Route::post('/add', [CategoriesServicesController::class, 'addCategorie']);
+    Route::put('/update/{id}', [CategoriesServicesController::class, 'updateCategorie']);
+    Route::get('/list', [CategoriesServicesController::class, 'getListCategorie']);
+    });
+
+    Route::prefix('service')->middleware('admin')->group(function () {
+    Route::post('/add', [CategoriesServicesController::class, 'addservice']);
+    Route::put('/update/{id}', [CategoriesServicesController::class, 'updateService']);
+    Route::get('/list', [CategoriesServicesController::class, 'getListService']);
     });
      
   
