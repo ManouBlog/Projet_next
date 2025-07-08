@@ -50,6 +50,12 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::put('/update/{id}', [ServicesController::class, 'updateService']);
     Route::get('/list', [ServicesController::class, 'getListService']);
     });
+
+     Route::prefix('employe')->middleware('admin')->group(function () {
+    Route::post('/add', [ServicesController::class, 'addservice']);
+    Route::put('/update/{id}', [ServicesController::class, 'updateService']);
+    Route::get('/list', [ServicesController::class, 'getListService']);
+    });
      
   
 });
