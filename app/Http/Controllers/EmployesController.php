@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmployesController extends Controller
 {
@@ -12,16 +14,15 @@ class EmployesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addService(Request $request){
-     $Categorie = new Services();
+    public function addEmploye(Request $request){
+     $Categorie = new Employes();
     $validator = Validator::make($request->all(), [
     'categorie_id' => 'required',
     'coiffeur_id' => 'required',
-    'nom_service' => 'required|min:3|max:50',
-    'description' => 'required|min:5|max:90',
-    'price' => 'required|min:0',
-    'duree' => 'required|min:1',
-    'visibilite' => 'required|in:1,0',
+    'nom' => 'required|min:3|max:50',
+    'prenoms' => 'required|min:5|max:90',
+    'email' => 'required|min:0',
+    'photo_profil' => 'required|min:1',
 ], [
     'categorie_id.required' => 'La catégorie est obligatoire',
     // 'categorie_id.exists' => 'La catégorie sélectionnée est invalide',

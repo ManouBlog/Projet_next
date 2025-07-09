@@ -197,12 +197,14 @@ if ($validator->fails()) {
     
           $validator = Validator::make($request->all(), [
     'email' => 'required|email|unique:users',
-    'password' => 'required'
+    'password' => 'required',
+    'role_id'=> 'required'
 ], [
     'email.required' => 'L\'email est obligatoire',
     'email.email' => 'Veuillez entrer une adresse email valide',
     'email.unique' => 'Cet email est déjà utilisé',
-    'password.required' => 'Le mot de passe est obligatoire'
+    'password.required' => 'Le mot de passe est obligatoire',
+    'role_id.required' => 'le role est requis'
 ]);
 if ($validator->fails()) {
     return response()->json([
