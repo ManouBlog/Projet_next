@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Roles;
 use App\Models\Clients;
+use App\Models\Employes;
 use App\Models\Coiffeurs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -204,7 +206,7 @@ if ($validator->fails()) {
     'email.email' => 'Veuillez entrer une adresse email valide',
     'email.unique' => 'Cet email est déjà utilisé',
     'password.required' => 'Le mot de passe est obligatoire',
-    'role_id.required' => 'le role est requis'
+    'role_id.required' => 'le role_id est requis'
 ]);
 if ($validator->fails()) {
     return response()->json([
@@ -213,14 +215,21 @@ if ($validator->fails()) {
             ], 400);
 }
         $user->email = $request->email;
+        $user->role_id = $request->role_id;
         $user->password = Hash::make($request->password);
         $user->save();
          
         if($user->id){
-           if($request->isClient){
+            $RoleUser = Roles::where("id", "=", $user->role_id)->first();
+    
+           if($RoleUser->libelle === 'Clients'){
            return $this->saveClients($request, $user->id);
-           }else{
+           }
+           if($RoleUser->libelle === 'Coiffeur'){
             return $this->saveCoiffeurs($request, $user->id);
+           }
+           if($RoleUser->libelle === 'Employe'){
+             return $this->saveEmployes($request, $user->id);
            }
         
         }
@@ -243,7 +252,7 @@ if ($validator->fails()) {
     'email' => 'required|email|unique:clients', // J'ai changé 'users' en 'clients' si c'est votre table
     'sexe' => 'required|in:homme,femme', // Supposant que sexe peut être 'homme' ou 'femme'
     'birthday' => 'required|date',
-    'phone' => 'required|min:10|max:10' // Adaptation selon le format de téléphone attendu
+    'phone' => 'required|min:10|max:10',// Adaptation selon le format de téléphone attendu
 ], [
     'nom.required' => 'Le nom est obligatoire',
     'nom.min' => 'Le nom doit contenir au moins 3 caractères',
@@ -336,6 +345,67 @@ if ($validator->fails()) {
         $coiffeurs->phone = $request->phone;
         $coiffeurs->user_id = $userIdentifiant;
         $coiffeurs->save();
+        return response()->json([
+            "status" => true,
+            "message" =>'Inscription reussie' 
+        ], 201);
+    }
+
+    public function saveEmployes(Request $request, $userIdentifiant){
+     $employes = new Employes();
+    
+    $validator = Validator::make($request->all(), [
+    'categorie_id' => 'required',
+    'coiffeur_id' => 'required',
+    'nom' => 'required|min:3|max:50',
+    'prenoms' => 'required|min:5|max:90',
+    'email' => 'required|email|unique:coiffeurs,email',
+    'photo_profil' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max
+    'phone' => 'required|digits:10|regex:/^0[1-9][0-9]{8}$/' // Format français
+], [
+    'categorie_id.required' => 'La catégorie est obligatoire.',
+    'coiffeur_id.required' => 'Le coiffeur est obligatoire.',
+    'nom.required' => 'Le nom est obligatoire.',
+    'nom.min' => 'Le nom doit contenir au moins 3 caractères.',
+    'nom.max' => 'Le nom ne doit pas dépasser 50 caractères.',
+    'prenoms.required' => 'Les prénoms sont obligatoires.',
+    'prenoms.min' => 'Les prénoms doivent contenir au moins 5 caractères.',
+    'prenoms.max' => 'Les prénoms ne doivent pas dépasser 90 caractères.',
+    'email.required' => 'L\'email est obligatoire.',
+    'email.email' => 'Veuillez entrer une adresse email valide.',
+    'email.unique' => 'Cet email est déjà utilisé par un autre coiffeur.',
+    'photo_profil.required' => 'La photo de profil est obligatoire.',
+    'photo_profil.image' => 'Le fichier doit être une image.',
+    'photo_profil.mimes' => 'L\'image doit être de type jpeg, png, jpg ou gif.',
+    'photo_profil.max' => 'La taille de l\'image ne doit pas dépasser 2MB.',
+    'phone.required' => 'Le numéro de téléphone est obligatoire.',
+    'phone.digits' => 'Le numéro de téléphone doit contenir 10 chiffres.',
+    'phone.regex' => 'Le numéro de téléphone doit être au format français valide (0X XX XX XX XX).'
+]);
+if ($validator->fails()) {
+    $user = User::find($userIdentifiant);
+        
+        // Supprimer l'utilisateur
+        $user->delete();
+    return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 400);
+}
+       $employes->user_id = $userIdentifiant;
+        $employes->coiffeur_id = $request->coiffeur_id;
+        $employes->nom = $request->nom;
+        $employes->prenoms = $request->prenoms;
+        $employes->email = $request->email;
+        $employes->phone = $request->phone;
+        if ($request->hasFile('photo_profil')) {
+    $image = $request->file('photo_profil');
+    $ext = $image->extension();
+    $fileName = time() . '.' . $ext;
+    $image->storeAs('public/images', $fileName);
+    $employes->photo_profil = 'images/' . $fileName;
+      }
+        $employes->save();
         return response()->json([
             "status" => true,
             "message" =>'Inscription reussie' 
