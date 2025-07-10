@@ -200,8 +200,9 @@ if ($validator->fails()) {
           $validator = Validator::make($request->all(), [
     'email' => 'required|email|unique:users',
     'password' => 'required',
-    'role_id'=> 'required'
+    'role_id'=> 'required|exists:roles,id'
 ], [
+    'role_id.exists' => 'Le role sélectionnée n\'existe pas.',
     'email.required' => 'L\'email est obligatoire',
     'email.email' => 'Veuillez entrer une adresse email valide',
     'email.unique' => 'Cet email est déjà utilisé',
@@ -355,16 +356,18 @@ if ($validator->fails()) {
      $employes = new Employes();
     
     $validator = Validator::make($request->all(), [
-    'categorie_id' => 'required',
-    'coiffeur_id' => 'required',
+    // 'user_id' => 'required|exists:users,id',
+    'coiffeur_id' => 'required|exists:coiffeurs,id',
     'nom' => 'required|min:3|max:50',
     'prenoms' => 'required|min:5|max:90',
     'email' => 'required|email|unique:coiffeurs,email',
-    'photo_profil' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max
-    'phone' => 'required|digits:10|regex:/^0[1-9][0-9]{8}$/' // Format français
+    'photo_profil' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    'phone' => 'required|digits:10|regex:/^0[1-9][0-9]{8}$/'
 ], [
-    'categorie_id.required' => 'La catégorie est obligatoire.',
+    // 'user_id.required' => 'L\'utilisateur est obligatoire.',
+    // 'user_id.exists' => 'L\' utilisateur sélectionnée n\'existe pas.',
     'coiffeur_id.required' => 'Le coiffeur est obligatoire.',
+    'coiffeur_id.exists' => 'Le coiffeur sélectionné n\'existe pas.',
     'nom.required' => 'Le nom est obligatoire.',
     'nom.min' => 'Le nom doit contenir au moins 3 caractères.',
     'nom.max' => 'Le nom ne doit pas dépasser 50 caractères.',
@@ -392,7 +395,7 @@ if ($validator->fails()) {
                 'message' => $validator->errors(),
             ], 400);
 }
-       $employes->user_id = $userIdentifiant;
+        $employes->user_id = $userIdentifiant;
         $employes->coiffeur_id = $request->coiffeur_id;
         $employes->nom = $request->nom;
         $employes->prenoms = $request->prenoms;
