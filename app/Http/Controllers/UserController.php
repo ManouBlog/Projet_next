@@ -56,7 +56,7 @@ class UserController extends Controller
    // lettre en Maj.
     public function seeAllUser(){
         $Alluser = new User();
-        $user = $Alluser->get();
+        $user = $Alluser::with('role')->get();
          return response()->json([
             "status" => true,
             "data" => $user
