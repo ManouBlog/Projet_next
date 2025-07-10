@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CategoriesServices;
+use App\Models\CategorieService;
 use Illuminate\Support\Facades\Validator;
 
-class CategoriesServicesController extends Controller
+class CategorieServiceController extends Controller
 {
     /**
      * Add categorie.
@@ -15,13 +15,13 @@ class CategoriesServicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addCategorie(Request $request){
-     $Categorie = new CategoriesServices();
+     $Categorie = new CategorieService();
      $validator = Validator::make($request->all(), [
-        'categorie' => 'required|min:3|unique:categorie_service,'
+        'categorie' => 'required|min:3|unique:categorie_service'
     ], [
         'categorie.min' => 'Le nom doit contenir au moins 3 caractères',
         'categorie.unique' => 'Cette categorie existe déjà dans la base de données',
-        'categorie.required' => 'le libellé est obligatoire'
+        'categorie.required' => 'la catégorie est obligatoire'
     ]);
 if ($validator->fails()) {
     return response()->json([
@@ -29,16 +29,16 @@ if ($validator->fails()) {
                 'message' => $validator->errors(),
             ], 400);
 }
-     $Categorie->libelle = $request->libelle;
+     $Categorie->categorie = $request->categorie;
      $Categorie->save();
      return response()->json([
                 "status" => false,
                 "data" => $Categorie,
-            ], 400);
+            ], 200);
     }
 
     public function getListCategorie(){
-     $categorie = CategoriesServices::get();
+     $categorie = CategorieService::get();
      return response()->json([
                 "status" => false,
                 "data" => $categorie,
@@ -52,7 +52,7 @@ if ($validator->fails()) {
      */
     public function updateCategorie(Request $request,$id){
 
-     $categorie = CategoriesServices::find($id);
+     $categorie = CategorieService::find($id);
 
        if (!$categorie) {
         return response()->json([

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\CategoriesServicesController;
+use App\Http\Controllers\CategorieServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,22 +40,22 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     });
 
     Route::prefix('categorie')->middleware('admin')->group(function () {
-    Route::post('/add', [CategoriesServicesController::class, 'addCategorie']);
-    Route::put('/update/{id}', [CategoriesServicesController::class, 'updateCategorie']);
-    Route::get('/list', [CategoriesServicesController::class, 'getListCategorie']);
+    Route::post('/add', [CategorieServiceController::class, 'addCategorie']);
+    Route::put('/update/{id}', [CategorieServiceController::class, 'updateCategorie']);
+    Route::get('/list', [CategorieServiceController::class, 'getListCategorie']);
     });
 
-    Route::prefix('service')->middleware('admin')->group(function () {
-    Route::post('/add', [ServicesController::class, 'addservice']);
-    Route::put('/update/{id}', [ServicesController::class, 'updateService']);
-    Route::get('/list', [ServicesController::class, 'getListService']);
-    });
+    // Route::prefix('service')->middleware('admin')->group(function () {
+    // Route::post('/add', [ServicesController::class, 'addservice']);
+    // Route::put('/update/{id}', [ServicesController::class, 'updateService']);
+    // Route::get('/list', [ServicesController::class, 'getListService']);
+    // });
 
-     Route::prefix('employe')->middleware('admin')->group(function () {
-    Route::post('/add', [ServicesController::class, 'addservice']);
-    Route::put('/update/{id}', [ServicesController::class, 'updateService']);
-    Route::get('/list', [ServicesController::class, 'getListService']);
-    });
+    //  Route::prefix('employe')->middleware('admin')->group(function () {
+    // Route::post('/add', [ServicesController::class, 'addservice']);
+    // Route::put('/update/{id}', [ServicesController::class, 'updateService']);
+    // Route::get('/list', [ServicesController::class, 'getListService']);
+    // });
      
   
 });

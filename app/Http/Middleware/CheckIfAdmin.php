@@ -20,7 +20,7 @@ class CheckIfAdmin
 
          $user = Auth::user();
 
-        if (!$user || $user->role_id !== 1) {
+        if (!$user || $user->role_id !== 6) {
             return response()->json([
                 'status' => false,
                 'message' => 'Accès refusé : vous devez être administrateur.',
