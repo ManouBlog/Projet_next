@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Roles;
 use App\Models\Clients;
 use App\Models\Favoris;
+use App\Models\Employes;
 use App\Models\Horaires;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -62,6 +63,10 @@ public function role()
 public function coiffeur()
 {
     return $this->hasOne(Coiffeurs::class);
+}
+public function employe()
+{
+    return $this->hasOne(Employes::class);
 }
 public function favori()
 {

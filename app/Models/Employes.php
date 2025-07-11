@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employes extends Model
 {
@@ -11,6 +12,9 @@ class Employes extends Model
 
     public function coiffeur()
 {
-    return $this->belongsTo(Coiffeurs::class);
+    return $this->belongsTo(Coiffeurs::class,'coiffeur_id');
 }
+public function user(){
+    return $this->belongsTo(User::class);
+  }
 }

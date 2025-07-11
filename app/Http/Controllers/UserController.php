@@ -356,7 +356,7 @@ if ($validator->fails()) {
      $employes = new Employes();
     
     $validator = Validator::make($request->all(), [
-    // 'user_id' => 'required|exists:users,id',
+    'user_id' => 'required|exists:users,id',
     'coiffeur_id' => 'required|exists:coiffeurs,id',
     'nom' => 'required|min:3|max:50',
     'prenoms' => 'required|min:5|max:90',
@@ -364,8 +364,8 @@ if ($validator->fails()) {
     'photo_profil' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     'phone' => 'required|digits:10|regex:/^0[1-9][0-9]{8}$/'
 ], [
-    // 'user_id.required' => 'L\'utilisateur est obligatoire.',
-    // 'user_id.exists' => 'L\' utilisateur sélectionnée n\'existe pas.',
+    'user_id.required' => 'L\'utilisateur est obligatoire.',
+    'user_id.exists' => 'L\' utilisateur sélectionnée n\'existe pas.',
     'coiffeur_id.required' => 'Le coiffeur est obligatoire.',
     'coiffeur_id.exists' => 'Le coiffeur sélectionné n\'existe pas.',
     'nom.required' => 'Le nom est obligatoire.',
