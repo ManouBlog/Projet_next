@@ -23,4 +23,21 @@ class EmployesController extends Controller
                 "data" => $employes,
             ], 200);
     }
+
+    public function deleteAnEmploye($id){
+        
+      if(Employes::where('id',$id)->exists()){
+         $employe = Employes::find($id);
+         $employe->delete();
+         return response()->json([
+                "status" => true,
+                "message" => "Employe supprimé."
+            ], 200);
+      }else{
+        return response()->json([
+                "status" => false,
+                "message" => "Employe pas trouvé."
+            ], 400);
+      }
+    }
 }

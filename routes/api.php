@@ -56,7 +56,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     });
 
       Route::prefix('employe')->middleware('coiffeur')->group(function () {
-    //   Route::put('/update/{id}', [EmployesController::class, 'getListEmployerCoiffeur']);
+      Route::delete('/supprimer/{id}', [EmployesController::class, 'deleteAnEmploye']);
       Route::get('/list', [EmployesController::class, 'getListEmployerCoiffeur']);
       });
      
