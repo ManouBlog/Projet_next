@@ -6,10 +6,10 @@ use App\Models\Services;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CategorieService extends Model
+class Categories extends Model
 {
     use HasFactory;
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -17,7 +17,7 @@ class CategorieService extends Model
     protected $fillable = [
         'categorie'
     ];
-      public function service()
+     public function services()
    {
     return $this->hasMany(Services::class);
     }

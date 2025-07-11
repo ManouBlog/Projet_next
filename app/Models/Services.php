@@ -2,16 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\CategorieService;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Categories;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Services extends Model
 {
     use HasFactory;
-public function categorie_service()
-{
-    return $this->belongsTo(CategorieService::class);
-}
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'nom_service',
+        'description',
+        'price',
+        'duree',
+        'visibilite'
+    ];
+    public function categorie()
+   {
+    return $this->belongsTo(Categories::class);
+    }
 }

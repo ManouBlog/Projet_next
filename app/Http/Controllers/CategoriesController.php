@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use Illuminate\Http\Request;
-use App\Models\CategorieService;
 use Illuminate\Support\Facades\Validator;
 
-class CategorieServiceController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Add categorie.
@@ -15,9 +15,9 @@ class CategorieServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addCategorie(Request $request){
-     $Categorie = new CategorieService();
+     $Categorie = new Categories();
      $validator = Validator::make($request->all(), [
-        'categorie' => 'required|min:3|unique:categorie_service'
+        'categorie' => 'required|min:3|unique:categories'
     ], [
         'categorie.min' => 'Le nom doit contenir au moins 3 caractères',
         'categorie.unique' => 'Cette categorie existe déjà dans la base de données',
@@ -38,7 +38,7 @@ if ($validator->fails()) {
     }
 
     public function getListCategorie(){
-     $categorie = CategorieService::get();
+     $categorie = Categories::get();
      return response()->json([
                 "status" => false,
                 "data" => $categorie,
@@ -52,7 +52,7 @@ if ($validator->fails()) {
      */
     public function updateCategorie(Request $request,$id){
 
-     $categorie = CategorieService::find($id);
+     $categorie = Categories::find($id);
 
        if (!$categorie) {
         return response()->json([
@@ -61,10 +61,10 @@ if ($validator->fails()) {
         ], 404);
     }
    $validator = Validator::make($request->all(), [
-        'libelle' => 'required|min:3'
+        'categorie' => 'required|min:3'
     ], [
-        'libelle.min' => 'Le nom doit contenir au moins 3 caractères',
-        'libelle.required' => 'Le libellé est obligatoire'
+        'categorie.min' => 'Le nom doit contenir au moins 3 caractères',
+        'categorie.required' => 'Le libellé est obligatoire'
     ]);
 if ($validator->fails()) {
     return response()->json([
@@ -72,7 +72,7 @@ if ($validator->fails()) {
                 'message' => $validator->errors(),
             ], 400);
 }
-     $categorie->libelle = !empty($request->libelle) ? $request->libelle:$categorie->libelle;
+     $categorie->categorie = !empty($request->categorie) ? $request->categorie:$categorie->categorie;
 
      $categorie->save();
 
@@ -82,3 +82,5 @@ if ($validator->fails()) {
             ], 200);
     }
 }
+
+

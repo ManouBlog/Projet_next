@@ -13,7 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::rename('categorie_service', 'categorie_services');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::rename('categorie_services','categorie_service');
+        Schema::dropIfExists('categories');
     }
 };
