@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Employes;
+use App\Models\Services;
 use App\Models\Reservations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,11 @@ class Coiffeurs extends Model
 {
     return $this->belongsToMany(Reservations::class);
 }
+
+ public function services()
+   {
+    return $this->hasMany(Services::class);
+  }
 
   public function user(){
     return $this->belongsTo(User::class);

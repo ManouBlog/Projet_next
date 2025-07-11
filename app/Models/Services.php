@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Coiffeurs;
 use App\Models\Categories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,10 @@ class Services extends Model
     ];
     public function categorie()
    {
-    return $this->belongsTo(Categories::class);
+    return $this->belongsTo(Categories::class,'categories_id');
+    }
+     public function coiffeur()
+   {
+    return $this->belongsTo(Coiffeurs::class,'coiffeurs_id');
     }
 }

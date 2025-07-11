@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Services;
+use App\Models\Coiffeurs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,19 +18,19 @@ class ServicesController extends Controller
     public function addService(Request $request){
      $Categorie = new Services();
     $validator = Validator::make($request->all(), [
-    'categorie_id' => 'required',
-    'coiffeur_id' => 'required',
+    'categories_id' => 'required|exists:categories,id',
+    'coiffeurs_id' => 'required|exists:categories,id',
     'nom_service' => 'required|min:3|max:50',
     'description' => 'required|min:5|max:90',
     'price' => 'required|min:0',
     'duree' => 'required|min:1',
-    'visibilite' => 'required|in:1,0',
+    'visibilite' => 'required|in:1,2',
 ], [
-    'categorie_id.required' => 'La catégorie est obligatoire',
-    // 'categorie_id.exists' => 'La catégorie sélectionnée est invalide',
+    'categories_id.required' => 'La catégorie est obligatoire',
+    'categories_id.exists' => 'La catégorie sélectionnée est invalide',
     
-    'coiffeur_id.required' => 'Le coiffeur est obligatoire',
-    // 'coiffeur_id.exists' => 'Le coiffeur sélectionné est invalide',
+    'coiffeurs_id.required' => 'Le coiffeur est obligatoire',
+    'coiffeurs_id.exists' => 'Le coiffeur sélectionné est invalide',
     
     'nom_service.required' => 'Le nom du service est obligatoire',
     'nom_service.min' => 'Le nom du service doit contenir au moins 3 caractères',
@@ -48,7 +49,7 @@ class ServicesController extends Controller
     'duree.min' => 'La durée doit être d\'au moins 1 minute',
     
     'visibilite.required' => 'La visibilité est obligatoire',
-    'visibilite.in' => 'La visibilité doit être 0 (invisible) ou 1 (visible)',
+    'visibilite.in' => 'La visibilité doit être 1 (invisible) ou 2 (visible)',
 ]);
 if ($validator->fails()) {
     return response()->json([
@@ -56,8 +57,8 @@ if ($validator->fails()) {
                 'message' => $validator->errors(),
             ], 400);
 }
-     $Categorie->categorie_id = $request->categorie_id;
-     $Categorie->coiffeur_id = $request->coiffeur_id;
+     $Categorie->categories_id = $request->categories_id;
+     $Categorie->coiffeurs_id = $request->coiffeurs_id;
      $Categorie->nom_service = $request->nom_service;
      $Categorie->description = $request->description;
      $Categorie->price = $request->price;
@@ -77,57 +78,78 @@ if ($validator->fails()) {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateService(Request $request){
-     $Categorie = new Services();
-    $validator = Validator::make($request->all(), [
-    'nom_service' => 'min:3|max:50',
-    'description' => 'min:5|max:90',
-    'price' => 'min:0',
-    'duree' => 'min:1',
-    'visibilite' => 'in:1,0',
-    ],[
-    'nom_service.min' => 'Le nom du service doit contenir au moins 3 caractères',
-    'nom_service.max' => 'Le nom du service ne doit pas dépasser 50 caractères',
-    
-    'description.min' => 'La description doit contenir au moins 5 caractères',
-    'description.max' => 'La description ne doit pas dépasser 90 caractères',
-    
-    'price.min' => 'Le prix ne peut pas être négatif',
+    public function updateService(Request $request,$id){
 
-    'duree.min' => 'La durée doit être d\'au moins 1 minute',
-    
-    'visibilite.in' => 'La visibilité doit être 0 (invisible) ou 1 (visible)',
-]);
-if ($validator->fails()) {
-    return response()->json([
-                'status' => false,
-                'message' => $validator->errors(),
-            ], 400);
-}
-     $Categorie->categorie_id = !empty($request->categorie_id) ? $request->categorie_id:$Categorie->categorie_id;
-     $Categorie->coiffeur_id = !empty($request->coiffeur_id) ? $request->coiffeur_id:$Categorie->coiffeur_id;
-     $Categorie->nom_service = !empty($request->nom_service) ? $request->nom_service:$Categorie->nom_service ;
-     $Categorie->description = !empty($request->description) ? $request->description:$Categorie->description ;
-     
-     $Categorie->price = !empty($request->price) ? $request->price:$Categorie->price;
-     $Categorie->duree = !empty($request->duree) ? $request->duree:$Categorie->duree;
+       $service = Services::find($id);
 
-     $Categorie->visibilite = !empty($request->visibilite) ? $request->visibilite:$Categorie->visibilite;
+       if (!$service) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Service non trouvée',
+        ], 404);
+    }
+//     $validator = Validator::make($request->all(), [
+//     'nom_service' => 'min:3|max:50',
+//     'description' => 'min:5|max:90',
+//     'price' => 'min:0',
+//     'duree' => 'min:1',
+//     'visibilite' => 'in:1,0',
+//     ],[
+//     'nom_service.min' => 'Le nom du service doit contenir au moins 3 caractères',
+//     'nom_service.max' => 'Le nom du service ne doit pas dépasser 50 caractères',
+    
+//     'description.min' => 'La description doit contenir au moins 5 caractères',
+//     'description.max' => 'La description ne doit pas dépasser 90 caractères',
+    
+//     'price.min' => 'Le prix ne peut pas être négatif',
+
+//     'duree.min' => 'La durée doit être d\'au moins 1 minute',
+    
+//     'visibilite.in' => 'La visibilité doit être 0 (invisible) ou 1 (visible)',
+// ]);
+// if ($validator->fails()) {
+//     return response()->json([
+//                 'status' => false,
+//                 'message' => $validator->errors(),
+//             ], 400);
+// }
+     $service->categories_id = !empty($request->categories_id) ? $request->categories_id:$service->categories_id;
+     $service->coiffeurs_id = !empty($request->coiffeurs_id) ? $request->coiffeurs_id:$service->coiffeurs_id;
+     $service->nom_service = !empty($request->nom_service) ? $request->nom_service:$service->nom_service ;
+     $service->description = !empty($request->description) ? $request->description:$service->description ;
      
-     $Categorie->save();
+     $service->price = !empty($request->price) ? $request->price:$service->price;
+     $service->duree = !empty($request->duree) ? $request->duree:$service->duree;
+
+     $service->visibilite = !empty($request->visibilite) ? $request->visibilite:$service->visibilite;
+     
+     $service->save();
 
      return response()->json([
                 "status" => false,
-                "data" => $Categorie,
+                "data" => $service,
             ], 400);
     }
-    public function getListServices(){
+    public function getListServicesCoiffeur(){
+     $CoiffeurId = auth()->user()->id;
 
-     $service = Services::get();
+     $coiffeur = Coiffeurs::where('user_id',$CoiffeurId)->first();
+
+     $services = Services::where('coiffeurs_id',$coiffeur->id)->get();
 
      return response()->json([
                 "status" => true,
-                "data" => $service,
-            ], 400);
+                "data" => $services,
+            ], 200);
+    }
+
+    public function getListAllServices(){
+   
+      $services = Services::with('coiffeur','categorie')->get();
+
+     return response()->json([
+                "status" => true,
+                "data" => $services,
+            ], 200);
     }
 }

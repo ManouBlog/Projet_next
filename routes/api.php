@@ -48,7 +48,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::prefix('service')->middleware('coiffeur')->group(function () {
     Route::post('/add', [ServicesController::class, 'addservice']);
     Route::put('/update/{id}', [ServicesController::class, 'updateService']);
-    Route::get('/list', [ServicesController::class, 'getListService']);
+    Route::get('/list/coiffeur', [ServicesController::class, 'getListServicesCoiffeur']);
+    });
+    Route::prefix('all_service')->middleware('admin')->group(function () {
+    Route::get('/list', [ServicesController::class, 'getListAllServices']);
     });
 
     //  Route::prefix('employe')->middleware('admin')->group(function () {
