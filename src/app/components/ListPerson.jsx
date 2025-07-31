@@ -13,7 +13,7 @@ import {fectchListUser,addSearchQuery,filterByBtnClickTableau} from '../store/sl
 export default function ListPerson() {
 const [isClick,setIsClick] = React.useState("");
   const allArtisan = useSelector((state)=>state.user.listUser);
-  const myToken = getTokenCookie();
+  // const myToken = getTokenCookie();
   const dispatch = useDispatch();
   const router = useRouter()
 const handleClick = (idArtisan) => {
@@ -22,7 +22,7 @@ const handleClick = (idArtisan) => {
   }
    React.useEffect(()=>{
    dispatch(fectchListUser())
-  },[dispatch,myToken])
+  },[dispatch])
   return (
     <>
     <h1 className='text-right font-semibold my-3'>Nous avons {allArtisan.length} artisans disponibles</h1>
