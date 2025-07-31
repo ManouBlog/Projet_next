@@ -7,11 +7,13 @@ import { useRouter } from 'next/navigation';
 // import {db} from "../lib/firebase";
 import Metiers  from '../metiers.json'
 import { useDispatch, useSelector } from 'react-redux';
+// import {getTokenCookie} from "../lib/auth";
 import {fectchListUser,addSearchQuery,filterByBtnClickTableau} from '../store/slice/userSlice'
 
 export default function ListPerson() {
 const [isClick,setIsClick] = React.useState("");
   const allArtisan = useSelector((state)=>state.user.listUser);
+  const myToken = getTokenCookie();
   const dispatch = useDispatch();
   const router = useRouter()
 const handleClick = (idArtisan) => {
@@ -20,7 +22,7 @@ const handleClick = (idArtisan) => {
   }
    React.useEffect(()=>{
    dispatch(fectchListUser())
-  },[dispatch])
+  },[dispatch,myToken])
   return (
     <>
     <h1 className='text-right font-semibold my-3'>Nous avons {allArtisan.length} artisans disponibles</h1>
