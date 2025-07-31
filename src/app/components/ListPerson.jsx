@@ -74,7 +74,7 @@ function AllBtnPro(){
     : [...element, e.target.value] 
              setChooseBtn(element);
     dispatch(filterByBtnClickTableau(element))
-              console.log("setChooseBtn",element)
+              // console.log("setChooseBtn",element)
               }}
                >{item.nom} {item.icone}</button>
               ))
