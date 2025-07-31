@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 export default function LoadingClient() {
     const isLoading = useSelector(state=>state.loading.isLoading)
-    console.log('isLoading',isLoading)
+    // console.log('isLoading',isLoading)
   return (
     isLoading ? <div className='fixed flex justify-center place-items-center
      place-content-center w-full h-full loading_client z-999999999'>
