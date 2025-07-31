@@ -24,14 +24,14 @@ const router = useRouter();
       const info = await response.json();
       // setInfoUser(info.userId)
       dispatch(changeIsAuth(info.userId))
-      console.log("infoUser",info)
+      // console.log("infoUser",info)
     } catch (error) {
     console.log(error)
     }
   }
 
   async function signWithCookies(myEmail){
-    console.log("COOKIES EMAIL",myEmail)
+    // console.log("COOKIES EMAIL",myEmail)
 try{
 const response = await fetch("https://projet-next-sandy.vercel.app/api/connexion",{
     method:"POST",
@@ -103,9 +103,9 @@ async function checkUserExists(uid) {
       React.useEffect(() => {
         dispatch(changeIsLoading(true))
        const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log("USER", user);
+        // console.log("USER", user);
       if (user) {
-      console.log("ROOTNAVIGATOR_USER", user);
+      // console.log("ROOTNAVIGATOR_USER", user);
         checkUserExists(user.uid).then(exists => {
        if (exists) {
          signWithCookies(user.displayName)
@@ -169,9 +169,9 @@ function SocialeAuth() {
   //  const [password,setPassword] = React.useState("");
  const handleGoogleLogin = async () => {
     const user = await signInWithSocial(googleProvider);
-    if (user) {
-      console.log("Connecté avec Google :", user.reloadUserInfo);
-    }
+    // if (user) {
+    //   console.log("Connecté avec Google :", user.reloadUserInfo);
+    // }
   };
   
   return(
